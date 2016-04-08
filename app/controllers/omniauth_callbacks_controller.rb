@@ -5,13 +5,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 	end
 
 	def all
-		#raise request.env["omniauth.auth"].to_yaml
-
 		email = auth_hash['info']['email']
     	user = User.find_or_create_by(:email => email)
     	
-    	#binding.pry
-
     	authenticated = User.find_by_provider_and_uid(auth_hash['provider'], auth_hash['uid']);
 
     	if !authenticated
@@ -25,19 +21,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     	end
 
     	user.save
-
     	sign_in_and_redirect(:user, user)
-
-  		#binding.pry
-
-		# user = User.from_omniauth(request.env["omniauth.auth"])
-
-		# if user.persisted?
-		# 	sign_in_and_redirect user, notice: "Signed in!"
-		# else
-		# 	redirect_to new_user_registration_url
-		# end
-
 	end
 
 	alias_method :spotify, :all
