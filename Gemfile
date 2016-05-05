@@ -26,8 +26,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 
 gem 'omniauth-oauth2', '~> 1.3.1'
-#gem 'omniauth-spotify', '~> 0.0.9'
-gem 'omniauth-spotify', '~> 0.0.8'
+gem 'rspotify'
+
+
 
 gem "better_errors"
 gem "pry"

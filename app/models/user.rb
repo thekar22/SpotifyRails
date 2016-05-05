@@ -15,5 +15,4 @@ class User < ActiveRecord::Base
   			super
   		end
   	end
-  	
 end

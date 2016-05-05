@@ -6,9 +6,11 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
 	def all
 		email = auth_hash['info']['email']
-    	user = User.find_or_create_by(:email => email)
-    	
+    	user = User.find_or_create_by(:email => email)    	
+		session["spotify_data"] = RSpotify::User.new(request.env['omniauth.auth'])
     	authenticated = User.find_by_provider_and_uid(auth_hash['provider'], auth_hash['uid']);
+
+    	binding.pry
 
     	if !authenticated
       		user.provider = auth_hash['provider']

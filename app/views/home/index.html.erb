@@ -1,1 +1,5 @@
-Welcome To Spotify App
+<% if user_signed_in? %>
+	Welcome To Spotify App 
+	<br>
+	<%= session["devise.spotify_data"] %>
+<% end %>
