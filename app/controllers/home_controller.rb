@@ -8,5 +8,8 @@ class HomeController < ApplicationController
 			session["devise.spotify_data"] = RSpotify::User.new(session["devise.spotify_data"])
 		end
 
+		if session["devise.spotify_data"]
+			@playlists = session["devise.spotify_data"].playlists
+		end
 	end
 end

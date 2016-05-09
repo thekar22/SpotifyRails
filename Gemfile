@@ -28,6 +28,8 @@ gem 'devise'
 gem 'omniauth-oauth2', '~> 1.3.1'
 gem 'rspotify'
 
+gem 'bower-rails'
+
 
 
 gem "better_errors"

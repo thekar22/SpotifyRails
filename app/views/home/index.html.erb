@@ -1,5 +1,21 @@
 <% if user_signed_in? %>
 	Welcome To Spotify App 
 	<br>
-	<%= session["devise.spotify_data"] %>
+	
+	**start
+
+<% if @playlists %>
+	<%= form_tag "/users/edit", method: "PUT"  do |f| %>
+	    <% @playlists.each do |list|%>    
+	            <span> <%= check_box_tag list.name %> </span>
+	            <span> <%= list.name %> </span>           
+	            <br/><hr/>
+	    <% end %>
+	    <%= submit_tag("Search")  %>
+	<% end %>
+<% end %>
+
+
+	**finish
+
 <% end %>
