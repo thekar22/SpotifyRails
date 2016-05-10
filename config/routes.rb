@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     delete 'users' => 'devise/registrations#destroy', :via => :delete, :as => 'cancel_registration'
   end
 
+  get '/playlists', to: 'home#getPlaylists'
   root 'home#index'
   
   # The priority is based upon order of creation: first created -> highest priority.
