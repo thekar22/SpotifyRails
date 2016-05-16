@@ -2,29 +2,34 @@
 	Welcome To Spotify App 
 	<br>
 	
-	<div ng-app="MusicApp" ng-controller="playlistController">
+<div ng-app="MusicApp" ng-controller="playlistController">
 
-		<div>
-			{{loading}}
-		</div>
-
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Playlist Name</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="playlist in playlists">
-					<td> 
-						<input id="{{playlist.name}}" name="{{playlist.name}}" type="checkbox" value="1" />
-						<span> {{playlist.name}} </span>
-					</td>
-
-				</tr>
-			</tbody>
-		</table>
-
+	<div>
+		{{loading}}
 	</div>
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Playlist Name</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="playlist in playlists">
+				<td> 
+					<input id="{{playlist.name}}" name="{{playlist.name}}" type="checkbox" value="1" />
+					<span> {{playlist.name}} </span>
+				</td>
+
+			</tr>
+		</tbody>
+	</table>
+
+
+	<div ng-click="buttonClicked()" id="addPlaylists">
+		Retrieve Playlist songs
+	</div>
+
+</div>
 
 <% end %>

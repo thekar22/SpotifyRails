@@ -8,4 +8,10 @@ app.controller('playlistController', ['$scope', 'playlistService', 'testService'
   	  $scope.playlists = response.data;
   });
 
+
+  $scope.buttonClicked = function(){
+  	alert("TODO:get all songs for given playlists");
+  	//create new services for calls here
+  }
+
 }]);
