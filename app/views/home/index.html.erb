@@ -17,10 +17,9 @@
 		<tbody>
 			<tr ng-repeat="playlist in playlists">
 				<td> 
-					<input id="{{playlist.name}}" name="{{playlist.name}}" type="checkbox" value="1" />
+					<input type="checkbox" ng-model="selected[$index]" ng-true-value="'{{playlist.id}}'" />
 					<span> {{playlist.name}} </span>
 				</td>
-
 			</tr>
 		</tbody>
 	</table>

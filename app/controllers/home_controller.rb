@@ -16,6 +16,19 @@ class HomeController < ApplicationController
 		end
 	end
 
+	def getAllSongsFromPlaylists
+		@tracks = []
+		if session["devise.spotify_data"]
+			userid = session["devise.spotify_data"].id
+			pids = params[:pids]
+			pids.each do |playlistid|
+				@tracks += RSpotify::Playlist.find(userid, playlistid).tracks
+			end
+			@tracks = @tracks.uniq
+			render json: @tracks
+		end
+	end
+
 	# spotify user created from oauth will be saved in current devise session; will be removed when devise next clears session
 	def set_spotify_user
 		if session["spotify_data"]

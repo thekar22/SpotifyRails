@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
 
   get '/playlists', to: 'home#getPlaylists'
+  get '/songs', to: 'home#getAllSongsFromPlaylists'  
   root 'home#index'
   
   # The priority is based upon order of creation: first created -> highest priority.
