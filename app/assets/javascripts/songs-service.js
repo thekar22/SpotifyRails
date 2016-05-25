@@ -6,7 +6,7 @@ angular.module('songsService', [])
     	console.log(JSON.stringify(ids));
     	return $http({
 		method: 'GET',
-		url: '/songs?' + $.param({pids: ids})
+		url: '/songs?' + $.param({playlistids: ids})
 	});
   }
   };

@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+	skip_before_action :verify_authenticity_token, only: [:getSongFeatures]
 	before_action :set_spotify_user
 
 	#main page after oauth log in
@@ -16,16 +17,31 @@ class HomeController < ApplicationController
 		end
 	end
 
+	#return song list given an array of playlist ids in get params
 	def getAllSongsFromPlaylists
 		@tracks = []
 		if session["devise.spotify_data"]
 			userid = session["devise.spotify_data"].id
-			pids = params[:pids]
-			pids.each do |playlistid|
+			playlistids = params[:playlistids]
+			playlistids.each do |playlistid|
 				@tracks += RSpotify::Playlist.find(userid, playlistid).tracks
 			end
 			@tracks = @tracks.uniq
 			render json: @tracks
+		end
+	end
+
+	#return list of songfeatures for each song id
+	def getSongFeatures
+		@songfeatures
+		if session["devise.spotify_data"]
+			userid = session["devise.spotify_data"].id
+			songids = params[:songids]
+			binding.pry
+			# TODO properly fetch all audio features with given song ids
+			# return as rendered JSON
+			
+			# audio_features = RSpotify::AudioFeatures.find(songids);
 		end
 	end
 
@@ -39,4 +55,9 @@ class HomeController < ApplicationController
 			session["devise.spotify_data"] = RSpotify::User.new(session["devise.spotify_data"])
 		end
 	end
+
+	
+
+
+
 end
