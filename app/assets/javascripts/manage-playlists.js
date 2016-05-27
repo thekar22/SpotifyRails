@@ -1,4 +1,4 @@
-var app = angular.module('MusicApp', ['playlistService', 'songsService', 'audioFeaturesService']);
+var app = angular.module('MusicApp', ['playlistService', 'songsService', 'audioFeaturesService', 'ng-rails-csrf']);
 
 app.controller('playlistController', ['$scope', 'playlistService', 'songsService', 'audioFeaturesService', function($scope, playlistService, songsService, audioFeaturesService){
   $scope.loading = 'Loading Playlists...';
@@ -7,7 +7,8 @@ app.controller('playlistController', ['$scope', 'playlistService', 'songsService
   var lookup = {};
   //array containing selected playlists
   $scope.selected = {};
-
+  //songs
+  $scope.songs = {};
 
   playlistService.getUserPlaylists().then(function(response){
   	  $scope.loading = '';
@@ -27,23 +28,27 @@ app.controller('playlistController', ['$scope', 'playlistService', 'songsService
   		chosenPlaylist = $scope.selected[playlist];
   		if(chosenPlaylist)
   		{
-			playlistIds.push(chosenPlaylist);	
+			playlistIds.push(chosenPlaylist);
   		}
   	}
   	if(playlistIds.length != 0)
   	{
   		var songIds = [];
+  		var tempId = '';
   		songsService.getSongsFromPlaylists(playlistIds).then(function(response){  		
   			var allSongs = response.data;
 
   			for(var song in allSongs)
   			{
-  				songIds.push(allSongs[song].id);
+  				tempId = allSongs[song].id;
+  				songIds.push(tempId);
+  				$scope.songs[tempId] = {};
+  				$scope.songs[tempId]['songInfo'] = allSongs[song];
   			}
 
   			var features = [];
   			var i = 0;
-  			console.log("starting get for audio features...");
+  			console.log("Starting retrieval for audio features...");
   			$scope.getAudioFeatures(songIds, i, features);
   		});
 	}
@@ -63,9 +68,14 @@ app.controller('playlistController', ['$scope', 'playlistService', 'songsService
   		audioFeaturesService.getAudioFeaturesFromSongIds(idsForFetching).then(function(response){  			
   			features = features.concat(response.data);
   			
-  			console.log("total features");
-  			console.log(features.length);
+  			var tempFeature = {};
+  			for(var feature in features)
+  			{
+  				tempFeature = features[feature];
+  				$scope.songs[tempFeature.id]['song_features'] = tempFeature;
+  			}
 
+  			console.log("Total features: " + features.length);
   		});
   	}
 
@@ -78,14 +88,10 @@ app.controller('playlistController', ['$scope', 'playlistService', 'songsService
   			features = features.concat(response.data);
   			i = i + maxPerRequest;
 
-  			console.log("recursive call made");
-
+  			console.log("Recursive call made");
   			$scope.getAudioFeatures(songIds, i, features);
   		});
   	}
   }
-
-
-
 
 }]);

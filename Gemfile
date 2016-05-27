@@ -31,7 +31,7 @@ gem 'rspotify'
 gem 'bower-rails'
 
 
-
+gem 'ng-rails-csrf'
 gem "better_errors"
 gem "pry"
 

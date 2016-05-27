@@ -3,7 +3,6 @@ angular.module('audioFeaturesService', [])
 
   var service = {
     getAudioFeaturesFromSongIds: function (ids) {
-      // console.log(JSON.stringify(ids));
     	return $http({
 		method: 'POST',
     data: $.param({songids: ids}),
