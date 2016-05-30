@@ -29,7 +29,7 @@ gem 'omniauth-oauth2', '~> 1.3.1'
 gem 'rspotify'
 
 gem 'bower-rails'
-
+gem 'angular-rails-templates'
 
 gem 'ng-rails-csrf'
 gem "better_errors"

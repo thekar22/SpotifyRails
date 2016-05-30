@@ -1,4 +1,18 @@
-var app = angular.module('MusicApp', ['playlistService', 'songsService', 'audioFeaturesService', 'ng-rails-csrf']);
+var app = angular.module('MusicApp', ['templates', 'ngRoute', 'playlistService', 'songsService', 'audioFeaturesService', 'ng-rails-csrf']);
+
+app.config(function($routeProvider) {
+	//set up routes
+	$routeProvider
+		.when('/', {
+			templateUrl: '_playlists.html'
+	})
+		.when('/songs', {
+			templateUrl: '_songs.html'
+	})
+		.otherwise({
+			redirectTo: '/'
+	});
+});
 
 app.controller('playlistController', ['$scope', 'playlistService', 'songsService', 'audioFeaturesService', function($scope, playlistService, songsService, audioFeaturesService){
   $scope.loading = 'Loading Playlists...';
