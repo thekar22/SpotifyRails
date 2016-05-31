@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get '/playlists', to: 'home#getPlaylists'
   get '/songs', to: 'home#getAllSongsFromPlaylists'  
 
-  match 'getSongFeatures' => 'home#getSongFeatures', via: [:post]
+  match 'getAudioFeatures' => 'home#getAudioFeatures', via: [:post]
   root 'home#index'
   
   # The priority is based upon order of creation: first created -> highest priority.

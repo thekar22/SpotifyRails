@@ -6,7 +6,7 @@ angular.module('audioFeaturesService', [])
     	return $http({
 		method: 'POST',
     data: $.param({songids: ids}),
-		url: '/getSongFeatures?',
+		url: '/getAudioFeatures?',
     headers:{
       'Content-Type': 'application/x-www-form-urlencoded'
     }

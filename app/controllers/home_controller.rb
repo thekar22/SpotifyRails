@@ -31,12 +31,11 @@ class HomeController < ApplicationController
 	end
 
 	#return list of songfeatures for each song id
-	def getSongFeatures
-		@songfeatures
+	def getAudioFeatures
 		if session["devise.spotify_data"]
 			userid = session["devise.spotify_data"].id
 			songids = params[:songids]
-			@audio_features = RSpotify::AudioFeatures.find(songids)			
+			@audio_features = RSpotify::AudioFeatures.find(songids)						
 			render json: @audio_features
 		end
 	end

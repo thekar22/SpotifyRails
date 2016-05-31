@@ -1,0 +1,25 @@
+<div>
+	{{loading}}
+</div>
+
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Feature</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="feature in features">
+			<td> 
+				<input type="checkbox" ng-model="selected[$index]" ng-true-value="'{{feature.id}}'" disabled="disabled"/>
+				<span> {{feature.danceability}} </span>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+<a href="/#/" class="backButton">
+	Return to Choose Playlists
+</a>

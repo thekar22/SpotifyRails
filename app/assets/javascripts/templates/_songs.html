@@ -1,1 +1,29 @@
-Songs template
+<div>
+	{{loading}}
+</div>
+
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Song Name</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="song in allSongs">
+			<td> 
+				<input type="checkbox" ng-model="selected[$index]" ng-true-value="'{{song.id}}'" disabled="disabled"/>
+				<span> {{song.name}} </span>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+
+<a href="/#/audioFeatures" class="forwardButton">
+	Get Song Features
+</a>
+
+<a href="/#/" class="backButton">
+	Return to Choose Playlists
+</a>

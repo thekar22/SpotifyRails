@@ -1,21 +1,23 @@
+<div>
+	{{loading}}
+</div>
 
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>Playlist Name</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="playlist in playlists">
-				<td> 
-					<input type="checkbox" ng-model="selected[$index]" ng-true-value="'{{playlist.id}}'" />
-					<span> {{playlist.name}} </span>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Playlist Name</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="playlist in playlists">
+			<td> 
+				<input type="checkbox" ng-model="selected[$index]" ng-true-value="'{{playlist.id}}'" />
+				<span> {{playlist.name}} </span>
+			</td>
+		</tr>
+	</tbody>
+</table>
 
-
-	<div ng-click="getPlaylistSongs()" id="addPlaylists">
-		Retrieve Playlist songs
-	</div>
+<a href="/#/songs" class="forwardButton">
+	Retrieve Playlist songs
+</a>
