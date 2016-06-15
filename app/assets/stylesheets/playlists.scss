@@ -1,7 +1,7 @@
 .forwardButton 
 	{  
 	border: 1px solid black;
-	position: absolute;
+	position: fixed;
 	top: 10px;
 	right: 10px; 
 	}
@@ -9,7 +9,7 @@
 .backButton
 	{  
 	border: 1px solid black;
-	position: absolute;
+	position: fixed;
 	bottom: 10px;
 	right: 10px; 
 	}

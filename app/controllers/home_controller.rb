@@ -8,11 +8,24 @@ class HomeController < ApplicationController
 
 	#return playlists in json
 	def getPlaylists
+		limit = 50 # Spotify API limit of 50 playlists at a time
 		if session["devise.spotify_data"]
-			if session["devise.spotify_data"].playlists
-				@playlists = session["devise.spotify_data"].playlists
-				render json: @playlists
+			user = session["devise.spotify_data"]	
+			offset = 0		
+
+			list_batch = user.playlists(limit: limit, offset: offset)
+			@playlists = list_batch.count > 0 ? list_batch : []
+			offset += limit
+
+			while list_batch.count > 0
+				list_batch = user.playlists(limit: limit, offset: offset)				
+				if list_batch.count > 0
+					@playlists += list_batch
+					offset += limit
+				end
 			end
+			
+			render json: @playlists
 		end
 	end
 
@@ -22,8 +35,19 @@ class HomeController < ApplicationController
 		if session["devise.spotify_data"]
 			userid = session["devise.spotify_data"].id
 			playlistids = params[:playlistids]
+			counter = 0
 			playlistids.each do |playlistid|
-				@tracks += RSpotify::Playlist.find(userid, playlistid).tracks
+				count = 0
+				begin
+					@tracks += RSpotify::Playlist.find(userid, playlistid).tracks
+				rescue # handle intermittent spotify api call errors 
+					if (count < 3)
+						count += 1
+						retry
+					else
+						raise
+					end
+				end
 			end
 			@tracks = @tracks.uniq
 			render json: @tracks

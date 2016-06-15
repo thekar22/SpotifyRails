@@ -7,5 +7,4 @@ angular.module('playlistService', [])
     }
   };
   return service;
-
 }]);
