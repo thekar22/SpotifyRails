@@ -3,18 +3,11 @@
 </div>
 
 <table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Feature</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="feature in features">
-			<td> 
-				<input type="checkbox" ng-model="selected[$index]" ng-true-value="'{{feature.id}}'" disabled="disabled"/>
-				<span> {{feature.danceability}} </span>
-			</td>
-		</tr>
+		<span> valence: {{valence}} </span><br>
+		<span> tempo: {{tempo}} </span><br>
+		<span> instrumentalness: {{instrumentalness}} </span><br>
+		<span> energy: {{energy}} </span><br>
+		<span> acousticness: {{acousticness}} </span><br>
 	</tbody>
 </table>
 

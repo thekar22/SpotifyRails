@@ -1,7 +1,7 @@
 var app = angular.module('MusicApp', ['templates', 'ngRoute', 'playlistModule', 'songsModule', 'audioFeaturesModule', 'ng-rails-csrf']);
 
 app.config(function($routeProvider) {
-	//set up routes
+	// set up routes
 	$routeProvider
 		.when('/', {
 			templateUrl: 'playlists/playlistsView.html' // playlistController specified in index.html.erb

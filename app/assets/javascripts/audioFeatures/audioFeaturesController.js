@@ -12,7 +12,7 @@ function audioFeaturesController($scope, audioFeaturesService)
 	  	var totalSongs = songIds.length;
 	  	var idsForFetching = [];
 
-	  	//base case
+	  	// base case
 	  	if ( (totalSongs - i) <= maxPerRequest) {
 
 	  		idsForFetching = songIds.slice(i, totalSongs);
@@ -28,11 +28,13 @@ function audioFeaturesController($scope, audioFeaturesService)
 	  				$scope.songs[tempFeature.id]['audio_features'] = tempFeature;
 	  			}
 	  			$scope.features = features;
+	  			audioFeaturesService.initializeAudioFeatureAggregates($scope);
+
 	  			console.log("Total features: " + features.length);
 	  		});
 	  	}
 
-	  	//recursive step
+	  	// recursive step
 	  	else if ( (totalSongs - i) > maxPerRequest) {
 	  		idsForFetching = songIds.slice(i, i + maxPerRequest);
 
