@@ -18,7 +18,6 @@ angular.module('audioFeaturesService', ['sharedUtilService'])
       $scope.valence = getAggregate(features, "valence", "Mean");
       $scope.tempo = getAggregate(features, "tempo", "Mean");
       $scope.instrumentalness = getAggregate(features, "instrumentalness", "Mean");
-      $scope.popularity = getAggregate(features, "popularity", "Mean");
       $scope.energy = getAggregate(features, "energy", "Mean");
       $scope.acousticness = getAggregate(features, "acousticness", "Mean");
     }
@@ -32,6 +31,7 @@ angular.module('audioFeaturesService', ['sharedUtilService'])
       nums.push(features[i][featureName]);
     }
 
+    console.log(featureName);
     return sharedUtilService["get" + aggregateType](nums);
   }
   return service;

@@ -12,7 +12,7 @@
 		<tr ng-repeat="playlist in playlists">
 			<td> 
 				<input type="checkbox" ng-model="selected[$index]" ng-true-value="'{{playlist.id}}'" />
-				<span> {{playlist.name}} </span>
+				<span> {{playlist.name}} {{playlist.total}}</span>
 			</td>
 		</tr>
 	</tbody>

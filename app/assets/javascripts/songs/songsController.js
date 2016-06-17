@@ -20,7 +20,7 @@ function songsController($scope, songsService)
 		{
 			var songIds = [];
 			var tempId = '';
-			songsService.getSongsFromPlaylists(playlistIds).then(function(response){  		
+			songsService.getPlaylistUnion(playlistIds).then(function(response){  		
 				$scope.loading = 'Songs Loaded!';
 				$scope.allSongs = response.data;
 

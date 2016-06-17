@@ -1,13 +1,14 @@
 class HomeController < ApplicationController
 	before_action :set_spotify_user
+	helper_method :getPlaylistSongs
 
 	#main page after oauth log in
 	def index
 		
 	end
 
-	#return playlists in json
-	def getPlaylists
+	#return user playlist metadata
+	def getPlaylistMetadata
 		limit = 50 # Spotify API limit of 50 playlists at a time
 		if session["devise.spotify_data"]
 			user = session["devise.spotify_data"]	
@@ -24,33 +25,46 @@ class HomeController < ApplicationController
 					offset += limit
 				end
 			end
-			
 			render json: @playlists
 		end
 	end
 
-	#return song list given an array of playlist ids in get params
-	def getAllSongsFromPlaylists
+	#return all unique songs from playlists given playlist ids
+	def getPlaylistUnion
+		playlistids = params[:playlistids]
 		@tracks = []
 		if session["devise.spotify_data"]
 			userid = session["devise.spotify_data"].id
-			playlistids = params[:playlistids]
-			counter = 0
 			playlistids.each do |playlistid|
-				count = 0
-				begin
-					@tracks += RSpotify::Playlist.find(userid, playlistid).tracks
-				rescue # handle intermittent spotify api call errors 
-					if (count < 3)
-						count += 1
-						retry
-					else
-						raise
-					end
-				end
+				@tracks += getPlaylistSongs(userid, playlistid)
 			end
 			@tracks = @tracks.uniq
 			render json: @tracks
+		end
+	end
+
+	#return unique songs from single playlist
+	def getPlaylistSongs
+		playlistid = params[:playlistid]
+		if session["devise.spotify_data"]
+			userid = session["devise.spotify_data"].id
+			@tracks = getPlaylistSongs(userid, playlistid)
+			@tracks = @tracks.uniq
+			render json: @tracks
+		end
+	end
+
+	#helper method to retrieve songs given a playlist id
+	def getPlaylistSongs(userid, playlistid)
+		begin
+			return RSpotify::Playlist.find(userid, playlistid).tracks
+		rescue # handle intermittent spotify api call errors 
+			if (count < 3)
+				count += 1
+				retry
+			else
+				raise
+			end
 		end
 	end
 
