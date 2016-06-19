@@ -1,0 +1,37 @@
+<div>
+	{{loading}}
+</div>
+
+<tags-input ng-model="tags" 
+	placeholder="Explore tags"
+	add-from-autocomplete-only="true"
+	on-tag-added="onTagAdded()"
+	on-tag-removed="onTagRemoved()"
+	>
+	<auto-complete source="loadTags($query)"
+		min-length="0"
+		load-on-focus="true"
+		max-results-to-show="64"
+	>
+	</auto-complete>
+</tags-input>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Playlist Name</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="tag in tagCloud">
+			<td> 
+				<input type="checkbox" ng-model="selected[$index]" ng-true-value="'{{tag.id}}'" />
+				<span> {{tag.text}} {{tag.total}}</span>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<a href="/#/songs" class="forwardButton">
+	Retrieve Playlist songs
+</a>

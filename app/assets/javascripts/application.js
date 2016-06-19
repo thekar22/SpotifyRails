@@ -16,4 +16,5 @@
 //= require angular-route
 //= require angular-rails-templates
 //= require ng-rails-csrf
+//= require ng-tags-input
 //= require_tree .

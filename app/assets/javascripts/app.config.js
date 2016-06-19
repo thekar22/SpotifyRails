@@ -4,7 +4,7 @@ app.config(function($routeProvider) {
 	// set up routes
 	$routeProvider
 		.when('/', {
-			templateUrl: 'playlists/playlistsView.html' // playlistController specified in index.html.erb
+			templateUrl: 'tagCloud/tagView.html' // tagController specified in index.html.erb
 	})
 		.when('/songs', {
 			templateUrl: 'songs/songsView.html',

@@ -1,5 +1,5 @@
-angular.module('playlistService', [])
-.service('playlistService', ['$http', function ($http) {
+angular.module('tagService', [])
+.service('tagService', ['$http', function ($http) {
 
   var service = {
     getUserPlaylists: function () {

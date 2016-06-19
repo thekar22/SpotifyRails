@@ -56,6 +56,7 @@ class HomeController < ApplicationController
 
 	#helper method to retrieve songs given a playlist id
 	def getPlaylistSongs(userid, playlistid)
+		count = 0
 		begin
 			return RSpotify::Playlist.find(userid, playlistid).tracks
 		rescue # handle intermittent spotify api call errors 
