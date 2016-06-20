@@ -1,12 +1,8 @@
-<div>
-	{{loading}}
-</div>
-
 <tags-input ng-model="tags" 
 	placeholder="Explore tags"
 	add-from-autocomplete-only="true"
-	on-tag-added="onTagAdded()"
-	on-tag-removed="onTagRemoved()"
+	on-tag-added="onTagAdded($tag)"
+	on-tag-removed="onTagRemoved($tag)"
 	>
 	<auto-complete source="loadTags($query)"
 		min-length="0"
@@ -16,22 +12,26 @@
 	</auto-complete>
 </tags-input>
 
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Playlist Name</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr ng-repeat="tag in tagCloud">
-			<td> 
-				<input type="checkbox" ng-model="selected[$index]" ng-true-value="'{{tag.id}}'" />
-				<span> {{tag.text}} {{tag.total}}</span>
-			</td>
-		</tr>
-	</tbody>
-</table>
+<div ng-switch="tagView">
+	<div>
+		{{loading}}
+	</div>
 
-<a href="/#/songs" class="forwardButton">
-	Retrieve Playlist songs
+	<div class="tagCloud" ng-switch-when="tag-cloud">
+		<div ng-repeat="tag in tagCloud">			
+			<span> {{tag.text}} {{tag.count}}</span>			
+		</div>
+	</div>
+
+	<div class="tagResults" ng-switch-when="tag-results">
+		Tag Results
+		<div ng-repeat="song in allSongs">			
+			<span> {{song.name}} </span>			
+		</div>
+	</div>
+
+</div>
+
+<a href="/#/audioFeatures" class="forwardButton">
+	Get Song Features
 </a>
