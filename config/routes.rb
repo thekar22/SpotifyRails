@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   get '/playlistUnion', to: 'home#getPlaylistUnion'  
   get '/playlistIntersection', to: 'home#getPlaylistIntersection'
   get '/playlistSongs', to: 'home#getPlaylistSongs'
+  get '/currentTags', to: 'home#getCurrentTagsForSong'
 
   match 'getAudioFeatures' => 'home#getAudioFeatures', via: [:post]
   root 'home#index'

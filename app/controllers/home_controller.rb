@@ -117,6 +117,12 @@ class HomeController < ApplicationController
 		end
 	end
 
+	# get all tags to which song belongs
+	def getCurrentTagsForSong
+		tags = []
+		render json: tags
+	end
+
 	# spotify user created from oauth will be saved in current devise session; will be removed when devise next clears session
 	def set_spotify_user
 		if session["spotify_data"]

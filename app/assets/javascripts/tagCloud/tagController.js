@@ -68,10 +68,10 @@ function tagController($scope, tagService, $http)
 		$scope.loading = 'Loading Tags...';
 		tagService.getUserPlaylists().then(function(response){
 			$scope.loading = '';
-			$scope.playlists = response.data;
+			var playlists = response.data;
 
-			for(var i = 0; i < $scope.playlists.length; i++){
-				$scope.tagCloud[i] = { text: $scope.playlists[i].name, count: $scope.playlists[i].total, id: $scope.playlists[i].id};
+			for(var i = 0; i < playlists.length; i++){
+				$scope.tagCloud[i] = { text: playlists[i].name, count: playlists[i].total, id: playlists[i].id};
 			}
 		});
 	}
