@@ -12,6 +12,16 @@
 	</auto-complete>
 </tags-input>
 
+<label>
+	<input type="radio" ng-model="filter.name" value="Union">
+	Union
+</label>
+
+<label>
+	<input type="radio" ng-model="filter.name" value="Intersection">
+	Intersection
+</label><br/>
+
 <div ng-switch="tagView">
 	<div>
 		{{loading}}
@@ -23,10 +33,9 @@
 		</div>
 	</div>
 
-	<div class="tagResults" ng-switch-when="tag-results">
-		Tag Results
-		<div ng-repeat="song in allSongs">			
-			<span> {{song.name}} </span>			
+	<div class="tagResults" ng-switch-when="tag-results">		
+		<div ng-repeat="song in songs">			
+			<span> {{song['songInfo'].name}} </span>			
 		</div>
 	</div>
 

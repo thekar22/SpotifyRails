@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   get '/playlists', to: 'home#getPlaylistMetadata'
   get '/playlistUnion', to: 'home#getPlaylistUnion'  
+  get '/playlistIntersection', to: 'home#getPlaylistIntersection'
   get '/playlistSongs', to: 'home#getPlaylistSongs'
 
   match 'getAudioFeatures' => 'home#getAudioFeatures', via: [:post]

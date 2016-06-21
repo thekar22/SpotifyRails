@@ -49,8 +49,16 @@ function audioFeaturesController($scope, audioFeaturesService)
   	}
 
   	var i = 0;
-  	if ($scope.songIds.length != 0) {
-  		$scope.getAudioFeatures($scope.songIds, i, $scope.features);	
+  	var numSongs = Object.keys($scope.songs).length;
+  	if (numSongs != 0) {		
+  		var songIds = [];
+		for (var key in $scope.songs) {
+  			if ($scope.songs.hasOwnProperty(key)) {
+    			songIds.push($scope.songs[key]['songInfo'].id);
+  			}
+		}
+
+  		$scope.getAudioFeatures(songIds, i, $scope.features);	
   	}
   	else {
   		$scope.loading = 'No Songs selected';
