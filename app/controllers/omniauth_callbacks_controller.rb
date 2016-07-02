@@ -4,7 +4,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
        params.require(:user).permit(:username, :email, :password, :password_confirmation)
 	end
 
-	def all
+	def all 
 		email = auth_hash['info']['email']
     	user = User.find_or_create_by(:email => email)    	
 		session["spotify_data"] = RSpotify::User.new(request.env['omniauth.auth'])

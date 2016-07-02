@@ -1,4 +1,4 @@
-var app = angular.module('MusicApp', ['templates', 'ngRoute', 'playlistModule', 'songModule', 'audioFeaturesModule', 'ng-rails-csrf']);
+var app = angular.module('MusicApp', ['templates', 'ngRoute', 'tagModule', 'songModule', 'audioFeaturesModule', 'searchModule', 'ng-rails-csrf']);
 
 app.config(function($routeProvider) {
 	// set up routes
@@ -6,13 +6,17 @@ app.config(function($routeProvider) {
 		.when('/', {
 			templateUrl: 'tagCloud/tagView.html' // tagController specified in index.html.erb
 	})
-		.when('/song', {
-			templateUrl: 'song/songView.html',
-			controller: 'songController'
-	})
 		.when('/audioFeatures', {
 			templateUrl: 'audioFeatures/audioFeaturesView.html',
 			controller: 'audioFeaturesController'
+	})
+		.when('/search', {
+			templateUrl: 'search/searchView.html',
+			controller: 'searchController'
+	})
+		.when('/song/:id', {
+			templateUrl: 'song/songView.html',
+			controller: 'songController'
 	})
 		.otherwise({
 			redirectTo: '/'

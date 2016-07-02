@@ -23,27 +23,22 @@
 </label><br/>
 
 <div ng-switch="tagView">
-	<div>
-		{{loading}}
-	</div>
-
 	<div class="tagCloud" ng-switch-when="tag-cloud">
 		<div ng-repeat="tag in tagCloud">			
-			<span> {{tag.text}} {{tag.count}}</span>			
+			<span> {{tag.text}} {{tag.count}}</span>
 		</div>
 	</div>
 
-	<div class="tagResults" ng-switch-when="tag-results">		
-		<div ng-repeat="song in songs">			
-			<span> {{song['songInfo'].name}} </span>			
+	<div class="tagResults" ng-switch-when="tag-results">
+		<div ng-repeat="song in songs">
+			<span> {{song['songInfo'].name}} </span>
 		</div>
 	</div>
-
 </div>
 
 <a href="/#/audioFeatures" class="forwardButton">
 	Get Song Features
 </a>
-<a href="/#/song" class="songPanel">
-	Song Panel
+<a href="/#/search" class="songPanel">
+	Search Songs
 </a>

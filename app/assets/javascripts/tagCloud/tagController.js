@@ -1,5 +1,5 @@
 angular
-	.module('playlistModule', ['tagService', 'ngTagsInput', 'ng-rails-csrf'])
+	.module('tagModule', ['tagService', 'ngTagsInput', 'ng-rails-csrf'])
 	.controller('tagController', ['$scope', 'tagService', '$http', tagController]);
 
 function tagController($scope, tagService, $http)
@@ -35,9 +35,9 @@ function tagController($scope, tagService, $http)
 				playlistIds.push($scope.tags[tag].id);
 			}
 
-			$scope.loading = 'Loading...';
+			$scope.loading.text = 'Loading Songs...';
 			tagService["getPlaylist" + filterType](playlistIds).then(function(response){ 
-				$scope.loading = 'Songs Loaded!';			
+				$scope.loading.text = 'Songs Loaded!';			
 				var tempId = '';
 				$scope.songs = {};
 				
@@ -65,9 +65,9 @@ function tagController($scope, tagService, $http)
 		};
 
 		$scope.tagView = "tag-cloud";
-		$scope.loading = 'Loading Tags...';
+		$scope.loading = {text: 'Loading Tags...'};
 		tagService.getUserPlaylists().then(function(response){
-			$scope.loading = '';
+			$scope.loading.text = 'Tags Loaded';
 			var playlists = response.data;
 
 			for(var i = 0; i < playlists.length; i++){

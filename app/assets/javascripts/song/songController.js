@@ -1,8 +1,8 @@
 angular
 	.module('songModule', ['songService', 'tagService', 'ngTagsInput', 'ng-rails-csrf'])
-	.controller('songController', ['$scope', 'songService', 'tagService', '$http', songController]);
+	.controller('songController', ['$scope', 'songService', 'tagService', '$http', '$routeParams', songController]);
 
-function songController($scope, songService, tagService, $http)
+function songController($scope, songService, tagService, $http, $routeParams)
 {
 	initModule();
 
@@ -25,14 +25,24 @@ function songController($scope, songService, tagService, $http)
 		// create new tag/playlist and add song to this playlist
 	}
 
-	function initModule(){
+	function initModule() {
 		// chosen tags
 		$scope.tags = [];
+		$scope.id = $routeParams.id;
 
+		if ($scope.id == 0) {
+			// TODO	current song
+			console.log("current song");
+		}
+		else
+		{	// TODO chosen song
+			console.log($scope.id);
+		}
+		
 		if ($scope.tagCloud.length < 1) {
-			$scope.loading = 'Loading Tags...';
+			$scope.loading.text = 'Loading Tags...';
 			tagService.getUserPlaylists().then(function(response){
-				$scope.loading = '';
+				$scope.loading.text = '';
 				var playlists = response.data;
 
 				for(var i = 0; i < playlists.length; i++){

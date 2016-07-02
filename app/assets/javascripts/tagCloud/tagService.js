@@ -19,5 +19,4 @@ angular.module('tagService', [])
     }
   };
   return service;
-
 }]);

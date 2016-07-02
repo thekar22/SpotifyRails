@@ -7,11 +7,12 @@ Rails.application.routes.draw do
     delete 'users' => 'devise/registrations#destroy', :via => :delete, :as => 'cancel_registration'
   end
 
-  get '/playlists', to: 'home#getPlaylistMetadata'
+  get '/playlists', to: 'home#getPlaylists'
   get '/playlistUnion', to: 'home#getPlaylistUnion'  
   get '/playlistIntersection', to: 'home#getPlaylistIntersection'
   get '/playlistSongs', to: 'home#getPlaylistSongs'
   get '/currentTags', to: 'home#getCurrentTagsForSong'
+  get '/search', to: 'home#getQuery'
 
   match 'getAudioFeatures' => 'home#getAudioFeatures', via: [:post]
   root 'home#index'
