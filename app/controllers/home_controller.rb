@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
 	before_action :set_spotify_user
-	helper_method :getPlaylistSongsFromSpotify, :intersectPlaylists, :getPlaylistMetadataFromSpotify, :getSongFromSpotify
+	helper_method :getPlaylistSongsFromSpotify, :intersectPlaylists, :getPlaylistMetadataFromSpotify, :getSongFromSpotify, :filterPlaylistOwnership
 
 	# stub method main page after oauth log in
 	def index
@@ -30,7 +30,13 @@ class HomeController < ApplicationController
 				offset += limit
 			end
 		end
-		playlists
+		filterPlaylistOwnership(playlists, user.id)
+	end
+
+	def filterPlaylistOwnership(playlists, ownerid)
+		playlists.select { |list|
+			list.owner.id.eql? ownerid
+		}
 	end
 
 	# return to caller json unique song list from playlists given playlist ids
@@ -142,27 +148,23 @@ class HomeController < ApplicationController
 	# return to caller json all tags to which song belongs
 	def getCurrentTagsForSong
 		tags = []
-
+		targetid = params[:songId]
 		#TODO
-
 		##short option
 		#get all tags that have given songid
 
-		##long option
-		#get all playlists
-		#for each playlist
-			#does song belong in playlist?
-			#add playlist to tags
-
-		# playlists = getPlaylistMetadataFromSpotify()
-		# userid = session["devise.spotify_data"].id
-		# playlists.each { |list|
-		# 	songs = getPlaylistSongsFromSpotify(userid, list.id)
-		# 	songs.each { |song|
-		# 		#if song matches, add playlist to tags, break out of loop to proceed to next playlist
-		# 	}
-		# }
-
+		##very long option, should only ever do once
+		playlists = getPlaylistMetadataFromSpotify()
+		userid = session["devise.spotify_data"].id
+		playlists.each { |list|
+			songs = getPlaylistSongsFromSpotify(userid, list.id)
+			songs.each { |song|
+				if targetid == song.id
+					tags.push(list)
+					break
+				end
+			}
+		}
 		render json: tags
 	end
 

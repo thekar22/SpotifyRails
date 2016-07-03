@@ -45,13 +45,6 @@ function songController($scope, songService, tagService, $http, $routeParams)
 				for(var i = 0; i < tags.length; i++) {
 					$scope.tags.push({ text: tags[i].name, count: tags[i].total, id: tags[i].id });
 				}
-
-				$scope.tags = [
-					{ text: 'just' },
-					{ text: 'some' },
-					{ text: 'cool' },
-					{ text: 'tags' }
-				];
 			});
 		}
 		
