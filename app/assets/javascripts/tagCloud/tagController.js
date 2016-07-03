@@ -1,5 +1,5 @@
 angular
-	.module('tagModule', ['tagService', 'ngTagsInput', 'ng-rails-csrf'])
+	.module('tagModule', ['tagService', 'ngTagsInput', 'songCardDirective', 'ng-rails-csrf'])
 	.controller('tagController', ['$scope', 'tagService', '$http', tagController]);
 
 function tagController($scope, tagService, $http)
@@ -14,7 +14,7 @@ function tagController($scope, tagService, $http)
 	};
 
 	$scope.onTagAdded = function($tag) {
-		$scope.queryResults();
+		$scope.queryResults();		
 	}
 
 	$scope.onTagRemoved = function($tag) {

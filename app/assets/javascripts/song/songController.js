@@ -7,8 +7,7 @@ function songController($scope, songService, tagService, $http, $routeParams)
 	initModule();
 
 	$scope.loadTags = function($query) {
-		var tags = $scope.tagCloud;
-		return tags.filter(function(tag) {
+		return $scope.tagCloud.filter(function(tag) {
 			return tag.text.toLowerCase().indexOf($query.toLowerCase()) != -1;
 		});
 	};
@@ -35,18 +34,35 @@ function songController($scope, songService, tagService, $http, $routeParams)
 			console.log("current song");
 		}
 		else
-		{	// TODO chosen song
-			console.log($scope.id);
+		{	
+			songService.getSong($scope.id).then(function(response){
+				$scope.song = response.data;
+			});
+
+			songService.getCurrentTags($scope.id).then(function(response){
+				var tags = response.data;
+
+				for(var i = 0; i < tags.length; i++) {
+					$scope.tags.push({ text: tags[i].name, count: tags[i].total, id: tags[i].id });
+				}
+
+				$scope.tags = [
+					{ text: 'just' },
+					{ text: 'some' },
+					{ text: 'cool' },
+					{ text: 'tags' }
+				];
+			});
 		}
 		
 		if ($scope.tagCloud.length < 1) {
 			$scope.loading.text = 'Loading Tags...';
 			tagService.getUserPlaylists().then(function(response){
 				$scope.loading.text = '';
-				var playlists = response.data;
+				var tags = response.data;
 
-				for(var i = 0; i < playlists.length; i++){
-					$scope.tagCloud[i] = { text: playlists[i].name, count: playlists[i].total, id: playlists[i].id};
+				for(var i = 0; i < tags.length; i++){
+					$scope.tagCloud[i] = { text: tags[i].name, count: tags[i].total, id: tags[i].id};
 				}
 			});
 		}

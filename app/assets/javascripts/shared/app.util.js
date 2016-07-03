@@ -3,7 +3,8 @@ angular
   .service('sharedUtilService', [ function ($http) {
     var service = {
       getMean: getMean,
-      getMedian: getMedian
+      getMedian: getMedian,
+      redirect: redirect
     };
 
     function getMedian(nums) 
@@ -21,7 +22,6 @@ angular
 
     function getMean(nums) 
     {
-      console.log(JSON.stringify(nums));
       var sum = 0;
       for(var i = 0; i < nums.length; i++)
       {
@@ -30,6 +30,10 @@ angular
       return sum / nums.length;
     }
 
-    return service;
+    function redirect($url)
+    {
+      window.location.href = $url;
+    }
 
+    return service;
   }]);

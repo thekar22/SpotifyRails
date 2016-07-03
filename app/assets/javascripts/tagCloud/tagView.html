@@ -31,7 +31,7 @@
 
 	<div class="tagResults" ng-switch-when="tag-results">
 		<div ng-repeat="song in songs">
-			<span> {{song['songInfo'].name}} </span>
+			<song song="song['songInfo']"> </song>
 		</div>
 	</div>
 </div>

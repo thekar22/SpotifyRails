@@ -3,14 +3,12 @@
 		<label>Search:
 			<input type="text" name="input" ng-model="query.text">
 		</label>
-
-		<input type="submit" id="submit" value="Submit" />
-		<code>text = {{query.text}}</code><br/>			
+		<input type="submit" id="submit" value="Submit" />	
 	</form>
 
 	<div class="songSearchResults">
 		<div ng-repeat="result in results">
-			<span> {{result.name}} </span>
+			<song song="result"></song>
 		</div>
 	</div>
 </div>

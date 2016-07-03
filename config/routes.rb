@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get '/playlistSongs', to: 'home#getPlaylistSongs'
   get '/currentTags', to: 'home#getCurrentTagsForSong'
   get '/search', to: 'home#getQuery'
+  get '/song', to: 'home#getSong'
 
   match 'getAudioFeatures' => 'home#getAudioFeatures', via: [:post]
   root 'home#index'

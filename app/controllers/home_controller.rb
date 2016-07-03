@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
 	before_action :set_spotify_user
-	helper_method :getPlaylistSongs, :intersectPlaylists, :getPlaylistMetadata
+	helper_method :getPlaylistSongsFromSpotify, :intersectPlaylists, :getPlaylistMetadataFromSpotify, :getSongFromSpotify
 
 	# stub method main page after oauth log in
 	def index
@@ -9,12 +9,12 @@ class HomeController < ApplicationController
 
 	# return to caller json list of user playlist metadata
 	def getPlaylists
-		playlists = getPlaylistMetadata()
+		playlists = getPlaylistMetadataFromSpotify()
 		render json: playlists
 	end
 
 	# helper method to return all user's playlist metadata
-	def getPlaylistMetadata
+	def getPlaylistMetadataFromSpotify
 		limit = 50 # Spotify API limit of 50 playlists at a time
 		user = session["devise.spotify_data"]	
 		offset = 0		
@@ -39,7 +39,7 @@ class HomeController < ApplicationController
 		tracks = []
 		userid = session["devise.spotify_data"].id
 		playlistids.each do |playlistid|
-			tracks += getPlaylistSongs(userid, playlistid)
+			tracks += getPlaylistSongsFromSpotify(userid, playlistid)
 		end
 		tracks = tracks.uniq { |t| t.id }
 		render json: tracks
@@ -63,13 +63,13 @@ class HomeController < ApplicationController
 	def getPlaylistSongs
 		playlistid = params[:playlistid]
 		userid = session["devise.spotify_data"].id
-		tracks = getPlaylistSongs(userid, playlistid)
+		tracks = getPlaylistSongsFromSpotify(userid, playlistid)
 		tracks = tracks.uniq { |t| t.id }
 		render json: tracks
 	end
 
 	# helper method to retrieve songs given a playlist id
-	def getPlaylistSongs(userid, playlistid)
+	def getPlaylistSongsFromSpotify(userid, playlistid)
 		count = 0
 		begin
 			return RSpotify::Playlist.find(userid, playlistid).tracks
@@ -110,7 +110,7 @@ class HomeController < ApplicationController
 	# return to caller json list of songfeatures for each song id
 	def getAudioFeatures
 		userid = session["devise.spotify_data"].id
-		songids = params[:songids]
+		songids = params[:songIds]
 		audio_features = RSpotify::AudioFeatures.find(songids)						
 		render json: audio_features
 	end
@@ -118,18 +118,32 @@ class HomeController < ApplicationController
 	# return to caller json list of tracks given search query
 	def getQuery
 		query = params[:query]
-		results = querySong(query)
+		results = getQueryFromSpotify(query)
 		render json: results
 	end
 
+	# return to caller json of song
+	def getSong
+		id = params[:songId]
+		result = getSongFromSpotify(id)
+		render json: result
+	end
+
 	# helper method to retrieve Spotify tracks given search query
-	def querySong(query)		
+	def getQueryFromSpotify(query)		
 		tracks = RSpotify::Track.search(query)
+	end
+
+	# helper method to get track for given id
+	def getSongFromSpotify(id)
+		RSpotify::Track.find(id)
 	end
 
 	# return to caller json all tags to which song belongs
 	def getCurrentTagsForSong
 		tags = []
+
+		#TODO
 
 		##short option
 		#get all tags that have given songid
@@ -140,14 +154,14 @@ class HomeController < ApplicationController
 			#does song belong in playlist?
 			#add playlist to tags
 
-		playlists = getPlaylistMetadata()
-		userid = session["devise.spotify_data"].id
-		playlists.each { |list|
-			songs = getPlaylistSongs(userid, list.id)
-			songs.each { |song|
-				#if song matches, add playlist to tags, break out of loop to proceed to next playlist
-			}
-		}
+		# playlists = getPlaylistMetadataFromSpotify()
+		# userid = session["devise.spotify_data"].id
+		# playlists.each { |list|
+		# 	songs = getPlaylistSongsFromSpotify(userid, list.id)
+		# 	songs.each { |song|
+		# 		#if song matches, add playlist to tags, break out of loop to proceed to next playlist
+		# 	}
+		# }
 
 		render json: tags
 	end

@@ -4,7 +4,7 @@ angular.module('audioFeaturesService', ['sharedUtilService'])
     getAudioFeaturesFromSongIds: function (ids) {
     	return $http({
 		    method: 'POST',
-        data: $.param({songids: ids}),
+        data: $.param({songIds: ids}),
 		    url: '/getAudioFeatures?',
         headers:{
           'Content-Type': 'application/x-www-form-urlencoded'
