@@ -11,9 +11,9 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     	authenticated = User.find_by_provider_and_uid(auth_hash['provider'], auth_hash['uid']);
 
     	if !authenticated
-      		user.provider = auth_hash['provider']
-      		user.uid = auth_hash['uid']
-      	end
+    		user.provider = auth_hash['provider']
+    		user.uid = auth_hash['uid']
+      end
     	
     	access_token = auth_hash['credentials']['token']
     	if (auth_hash['provider'] == 'spotify' && user.spotify_token != access_token)

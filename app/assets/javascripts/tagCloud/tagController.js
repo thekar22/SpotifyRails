@@ -22,7 +22,7 @@ function tagController($scope, tagService, $http)
 	}
 
 	$scope.queryResults = function() {
-		$scope.tagView = "tag-results";
+		$scope.tagView = "tag-results";		
 		$scope.getPlaylistSongs($scope.filter.name);
 	}
 
@@ -63,6 +63,10 @@ function tagController($scope, tagService, $http)
 		$scope.filter = {
 			name: 'Union'
 		};
+
+		$scope.$watch('filter.name', function () {
+  			$scope.queryResults();
+		});
 
 		$scope.tagView = "tag-cloud";
 		$scope.loading = {text: 'Loading Tags...'};

@@ -52,13 +52,13 @@ class HomeController < ApplicationController
 	end
 
 	# return to caller json list of songs shared between given playlist ids
-	def getPlaylistIntersection
+	def getPlaylistIntersection		
 		playlistids = params[:playlistids]
 		playlists = []
 
 		userid = session["devise.spotify_data"].id
 		playlistids.each do |playlistid|
-			tracks = getPlaylistSongs(userid, playlistid).uniq { |p| p.id }
+			tracks = getPlaylistSongsFromSpotify(userid, playlistid).uniq { |p| p.id }
 			playlists.push(tracks)
 		end
 		intersection = intersectPlaylists(playlists)
