@@ -30,7 +30,6 @@ gem 'rspotify'
 
 gem 'bower-rails'
 gem 'angular-rails-templates'
-gem 'acts-as-taggable-on', '~> 3.4'
 
 gem 'ng-rails-csrf'
 gem "better_errors"

@@ -8,7 +8,7 @@ class HomeController < ApplicationController
 	end
 
 	# return to caller json list of user playlist metadata
-	def getPlaylists
+	def getPlaylists		
 		playlists = getPlaylistMetadataFromSpotify()
 		render json: playlists
 	end

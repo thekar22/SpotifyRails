@@ -67,16 +67,17 @@ function tagController($scope, tagService, $http)
 		$scope.$watch('filter.name', function () {
   			$scope.queryResults();
 		});
-
-		$scope.tagView = "tag-cloud";
+		
 		$scope.loading = {text: 'Loading Tags...'};
 		tagService.getUserPlaylists().then(function(response){
 			$scope.loading.text = 'Tags Loaded';
 			var playlists = response.data;
+			console.log(JSON.stringify(playlists.length));
 
 			for(var i = 0; i < playlists.length; i++){
 				$scope.tagCloud[i] = { text: playlists[i].name, count: playlists[i].total, id: playlists[i].id};
-			}
+			}			
+			$scope.tagView = "tag-cloud";
 		});
 	}
 }
