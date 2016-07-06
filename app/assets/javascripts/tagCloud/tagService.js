@@ -11,7 +11,7 @@ angular.module('tagService', [])
 		    url: '/playlistUnion?' + $.param({playlistids: ids})
       });
     },
- 	getPlaylistIntersection: function (ids) {
+  	getPlaylistIntersection: function (ids) {
     	return $http({
         	method: 'GET',
         	url: '/playlistIntersection?' + $.param({playlistids: ids})
