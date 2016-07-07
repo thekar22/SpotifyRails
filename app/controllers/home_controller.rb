@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
 	before_action :set_spotify_user
-	helper_method :getPlaylistSongsFromSpotify, :intersectPlaylists, :getPlaylistMetadataFromSpotify, :getSongFromSpotify, :filterPlaylistOwnership
+	helper_method :getPlaylistSongsFromSpotify, :intersectPlaylists, :getPlaylistMetadataFromSpotify, :getSongFromSpotify, 
+					:filterPlaylistOwnership, :syncCachedPlaylists
 
 	# stub method main page after oauth log in
 	def index
@@ -8,9 +9,44 @@ class HomeController < ApplicationController
 	end
 
 	# return to caller json list of user playlist metadata
-	def getPlaylists		
+	def getPlaylists
 		playlists = getPlaylistMetadataFromSpotify()
+		syncCachedPlaylists(playlists)
 		render json: playlists
+	end
+
+	def syncCachedPlaylists(playlists)
+		userid = current_user.uid
+		current_playlists = playlists
+		cache_playlists = UserSongTagging.get_current_user_tags(userid)
+
+		current_playlist_ids = []
+		cache_playlist_ids = []
+
+		current_playlists.each do |playlist|
+			current_playlist_ids.push(playlist.id)
+			cache_result = Playlist.get(playlist.id)
+			if cache_result.length == 0
+				# add playlist info			
+				Playlist.create(playlist_id: playlist.id, name: playlist.name, 
+					owner_id: playlist.owner.id, snapshot_id: playlist.snapshot_id,
+					total: playlist.tracks.length, collaborative: playlist.collaborative,
+					followers:playlist.followers.length, public: playlist.public)
+			end
+		end
+		
+		cache_playlists.each do |playlist|
+			cache_playlist_ids.push(playlist.playlist_id)
+		end
+		removeUnusedTags(cache_playlist_ids - current_playlist_ids, userid)
+
+		current_playlists
+	end
+
+	def removeUnusedTags(playlist_ids_for_removal, userid)
+		playlist_ids_for_removal.each do |id|			
+			UserSongTagging.remove_tag(userid, id)
+		end
 	end
 
 	# helper method to return all user's playlist metadata

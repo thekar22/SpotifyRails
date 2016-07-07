@@ -34,10 +34,17 @@ class UserSongTagging < ActiveRecord::Base
 		end
   	end
 
+  	def self.remove_tag(userid, tagid)
+  		if userid.present? && tagid.present?
+  			where("user_id = ? and playlist_id = ?", userid, tagid).destroy_all  			
+  		else
+  			raise "no arguments can be empty"
+		end
+  	end
+
   	def self.get_current_user_tags(userid)		
   		if userid.present?
-			where("user_id = ?", userid).select(:playlist_id).distinct
-  		end
+			where("user_id = ?", userid).select(:playlist_id).distinct		
   		else
   			raise "no arguments can be empty"
 		end

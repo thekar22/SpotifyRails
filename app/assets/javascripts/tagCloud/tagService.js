@@ -2,8 +2,11 @@ angular.module('tagService', [])
 .service('tagService', ['$http', function ($http) {
 
   var service = {
-    getUserPlaylists: function () {
-      return $http.get('/playlists');
+    getUserPlaylists: function (sync) {      
+      return $http({
+        method: 'GET',
+        url: '/playlists'
+      });
     },
     getPlaylistUnion: function (ids) {
     	return $http({
