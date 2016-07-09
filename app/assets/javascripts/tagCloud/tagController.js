@@ -17,16 +17,17 @@ function tagController($scope, tagService, $http)
 		$scope.queryResults();		
 	}
 
-	$scope.onTagRemoved = function($tag) {
+	$scope.onTagRemoved = function($tag) {	
 		$scope.queryResults();	
 	}
 
 	$scope.queryResults = function() {
-		$scope.tagView = "tag-results";		
+		$scope.tagView = "tag-results";			
 		$scope.getPlaylistSongs($scope.filter.name);
 	}
 
 	$scope.getPlaylistSongs = function(filterType) {
+		$scope.songs = {};
 		if ($scope.tags.length != 0)
 		{
 			playlistIds = [];
@@ -39,12 +40,10 @@ function tagController($scope, tagService, $http)
 			tagService["getPlaylist" + filterType](playlistIds).then(function(response){ 
 				$scope.loading.text = 'Songs Loaded!';			
 				var tempId = '';
-				$scope.songs = {};
-				
 				var allSongs = response.data;
 				for(var song in allSongs)
 				{
-					tempId = allSongs[song].id;
+					tempId = allSongs[song].song_id;
 					$scope.songs[tempId] = {};
 					$scope.songs[tempId]['songInfo'] = allSongs[song];
 				}

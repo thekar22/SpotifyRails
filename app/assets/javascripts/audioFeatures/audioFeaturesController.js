@@ -53,8 +53,8 @@ function audioFeaturesController($scope, audioFeaturesService)
   	if (numSongs != 0) {		
   		var songIds = [];
 		for (var key in $scope.songs) {
-  			if ($scope.songs.hasOwnProperty(key)) {
-    			songIds.push($scope.songs[key]['songInfo'].id);
+  			if ($scope.songs.hasOwnProperty(key)) {  				
+    			songIds.push($scope.songs[key]['songInfo'].song_id);
   			}
 		}
 

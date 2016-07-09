@@ -10,12 +10,13 @@ class HomeController < ApplicationController
 
 	# return to caller json list of user playlist metadata
 	def getPlaylists
+		userid = current_user.uid
 		playlists = getPlaylistMetadataFromSpotify()
-		syncCachedPlaylists(playlists)
+		syncCachedPlaylists(playlists, userid)
 		render json: playlists
 	end
 
-	def syncCachedPlaylists(playlists)
+	def syncCachedPlaylists(playlists, userid)
 		userid = current_user.uid
 		current_playlists = playlists
 		cache_playlists = UserSongTagging.get_current_user_tags(userid)
@@ -26,26 +27,61 @@ class HomeController < ApplicationController
 		current_playlists.each do |playlist|
 			current_playlist_ids.push(playlist.id)
 			cache_result = Playlist.get(playlist.id)
-			if cache_result.length == 0
+			if cache_result.length == 0				
 				# add playlist info			
 				Playlist.create(playlist_id: playlist.id, name: playlist.name, 
 					owner_id: playlist.owner.id, snapshot_id: playlist.snapshot_id,
-					total: playlist.tracks.length, collaborative: playlist.collaborative,
-					followers:playlist.followers.length, public: playlist.public)
+					total: playlist.total, collaborative: playlist.collaborative,
+					followers:playlist.followers, public: playlist.public, stale: true)
+			else
+				# check staleness
+				if !cache_result[0].snapshot_id.eql? playlist.snapshot_id					
+					cache_result[0].stale = true
+					cache_result[0].save
+				end
 			end
 		end
 		
 		cache_playlists.each do |playlist|
 			cache_playlist_ids.push(playlist.playlist_id)
 		end
-		removeUnusedTags(cache_playlist_ids - current_playlist_ids, userid)
-
-		current_playlists
+		UserSongTagging.remove_unused_tags(cache_playlist_ids - current_playlist_ids, userid)
 	end
 
-	def removeUnusedTags(playlist_ids_for_removal, userid)
-		playlist_ids_for_removal.each do |id|			
-			UserSongTagging.remove_tag(userid, id)
+	# return to caller json unique song list given single playlist id
+	def getPlaylistSongs(playlistid, userid)
+		songs = []
+		userid = current_user.uid
+		# check cache
+		cache_result = Playlist.get(playlistid)		
+
+		if cache_result.length == 0
+			# TODO this should not happen in normal workflow, but in this scenario, get playlist 			
+		else
+			if cache_result[0].stale == true
+				syncCachedTaggedTracks(playlistid, userid)
+				cache_result[0].stale = false
+				cache_result[0].save				
+			end 
+		end
+		song_tags = UserSongTagging.get_songs_for_tag(userid, playlistid)
+		song_tags.each do |song_tag|
+			songs.push(song_tag.song)
+		end		
+		songs
+	end
+
+	# remove tag, get songs from spotify, create taggings, store songs, set stale to false 
+	def syncCachedTaggedTracks(playlistid, userid)
+		UserSongTagging.remove_tag(userid, playlistid)
+		spotify_tracks = getPlaylistSongsFromSpotify(userid, playlistid)
+		spotify_tracks = spotify_tracks.uniq { |t| t.id }
+		
+		spotify_tracks.each do |track|
+			# TODO ensure that duplicates are not created
+			Song.create(song_id: track.id, name: track.name, album_id: track.album.id, 
+				duration_ms: track.duration_ms, artist: track.artists[0].name)
+			UserSongTagging.create(song_id: track.id, playlist_id: playlistid, user_id: userid)
 		end
 	end
 
@@ -54,13 +90,12 @@ class HomeController < ApplicationController
 		limit = 50 # Spotify API limit of 50 playlists at a time
 		user = session["devise.spotify_data"]	
 		offset = 0		
-
 		list_batch = user.playlists(limit: limit, offset: offset)
 		playlists = list_batch.count > 0 ? list_batch : []
 		offset += limit
 
 		while list_batch.count > 0
-			list_batch = user.playlists(limit: limit, offset: offset)				
+			list_batch = user.playlists(limit: limit, offset: offset)
 			if list_batch.count > 0
 				playlists += list_batch
 				offset += limit
@@ -79,9 +114,10 @@ class HomeController < ApplicationController
 	def getPlaylistUnion
 		playlistids = params[:playlistids]
 		tracks = []
-		userid = session["devise.spotify_data"].id
+		userid = current_user.uid		
 		playlistids.each do |playlistid|
-			tracks += getPlaylistSongsFromSpotify(userid, playlistid)
+			result = getPlaylistSongs(playlistid, userid)
+			tracks += result
 		end
 		tracks = tracks.uniq { |t| t.id }
 		render json: tracks
@@ -91,29 +127,19 @@ class HomeController < ApplicationController
 	def getPlaylistIntersection		
 		playlistids = params[:playlistids]
 		playlists = []
-
-		userid = session["devise.spotify_data"].id
+		userid = current_user.uid
 		playlistids.each do |playlistid|
-			tracks = getPlaylistSongsFromSpotify(userid, playlistid).uniq { |p| p.id }
+			tracks = getPlaylistSongs(playlistid, userid)
 			playlists.push(tracks)
 		end
 		intersection = intersectPlaylists(playlists)
 		render json: intersection
 	end
 
-	# return to caller json unique song list given single playlist id
-	def getPlaylistSongs
-		playlistid = params[:playlistid]
-		userid = session["devise.spotify_data"].id
-		tracks = getPlaylistSongsFromSpotify(userid, playlistid)
-		tracks = tracks.uniq { |t| t.id }
-		render json: tracks
-	end
-
 	# helper method to retrieve songs given a playlist id
 	def getPlaylistSongsFromSpotify(userid, playlistid)
 		count = 0
-		begin
+		begin			
 			return RSpotify::Playlist.find(userid, playlistid).tracks
 		rescue # handle intermittent spotify api call errors 
 			if (count < 3)
@@ -128,7 +154,6 @@ class HomeController < ApplicationController
 	# helper method to return intersection of songs for given playlists
 	def intersectPlaylists(playlists)
 		song_hash = {}
-
 		playlists.each  { |list|
 		  list.each { |song|
 		  	if song_hash.key?(song.id)
@@ -151,7 +176,7 @@ class HomeController < ApplicationController
 
 	# return to caller json list of songfeatures for each song id
 	def getAudioFeatures
-		userid = session["devise.spotify_data"].id
+		userid = current_user.uid
 		songids = params[:songIds]
 		audio_features = RSpotify::AudioFeatures.find(songids)						
 		render json: audio_features
@@ -191,7 +216,7 @@ class HomeController < ApplicationController
 
 		##very long option, should only ever do once
 		playlists = getPlaylistMetadataFromSpotify()
-		userid = session["devise.spotify_data"].id
+		userid = current_user.uid
 		playlists.each { |list|
 			songs = getPlaylistSongsFromSpotify(userid, list.id)
 			songs.each { |song|
