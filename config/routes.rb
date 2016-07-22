@@ -8,10 +8,12 @@ Rails.application.routes.draw do
   end
 
   get '/playlists', to: 'home#getPlaylists'
-  get '/playlistUnion', to: 'home#getPlaylistUnion'  
-  get '/playlistIntersection', to: 'home#getPlaylistIntersection'
   get '/playlistSongs', to: 'home#getPlaylistSongs'
+  get '/tagUnion', to: 'home#getTagUnion'  
+  get '/tagIntersection', to: 'home#getTagIntersection'
   get '/currentTags', to: 'home#getCurrentTagsForSong'
+  get '/addTag', to: 'home#addTagForSong'
+  get '/removeTag', to: 'home#removeTagForSong'
   get '/search', to: 'home#getQuery'
   get '/song', to: 'home#getSong'
 

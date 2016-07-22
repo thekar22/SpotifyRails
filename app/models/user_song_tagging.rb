@@ -10,7 +10,8 @@ class UserSongTagging < ActiveRecord::Base
 	arguments_error = "no arguments can be empty"
 
   	def self.get_tags_for_song(userid, songid)
-  		if songid.present? && userid.present? 
+  		if songid.present? && userid.present?
+  			UserSongTagging.sync_all_tags(userid)
   			where("user_id = ? and song_id = ?", userid, songid)
   		else
   			raise arguments_error
@@ -26,6 +27,13 @@ class UserSongTagging < ActiveRecord::Base
   	end
 
   	def self.add_tag_to_song(userid, tagid, songid)
+  		# add song to db if it does not exist
+  		if Song.get(songid).length == 0
+  			result = GetSongFromSpotify.build.call(songid)
+  			Song.create(song_id: result.id, name: result.name, album_id: result.album.id, 
+				duration_ms: result.duration_ms, artist: result.artists[0].name)
+  		end	
+
   		if songid.present? && userid.present? && tagid.present?
   			create(user_id: userid, song_id: songid, playlist_id: tagid)
   		else
@@ -49,13 +57,13 @@ class UserSongTagging < ActiveRecord::Base
 		end
   	end
 
-  	def self.remove_unused_tags(playlist_ids_for_removal, userid)
+  	def self.remove_tags(playlist_ids_for_removal, userid)
 		playlist_ids_for_removal.each do |id|			
 			UserSongTagging.remove_tag(userid, id)
 		end
 	end
 
-  	def self.get_current_user_tags(userid)		
+  	def self.get_user_tags(userid)		
   		if userid.present?
 			where("user_id = ?", userid).select(:playlist_id).distinct		
   		else
@@ -63,7 +71,7 @@ class UserSongTagging < ActiveRecord::Base
 		end
   	end
 
-  	def self.update_tags(userid, tagid, new_songid_list)  		
+  	def self.update_tag(userid, tagid, new_songid_list)  		
   		if tagid.present? && userid.present? 
 	  		get_songs_for_tag(userid, tagid).destroy_all
 
@@ -74,4 +82,29 @@ class UserSongTagging < ActiveRecord::Base
 	  		raise arguments_error
 	  	end
   	end
+
+  	def self.sync_all_tags(userid)
+		user_playlists = Playlist.get_playlists_for_user(userid)
+		user_playlists.each do |playlist|			
+			if playlist.stale == true
+				UserSongTagging.sync_tag_with_playlist(playlist.playlist_id, userid)
+				playlist.stale = false
+				playlist.save
+			end
+		end
+	end
+
+  	# remove tag, get songs from spotify, create taggings, store songs, set stale to false 
+	def self.sync_tag_with_playlist(playlistid, userid)
+		UserSongTagging.remove_tag(userid, playlistid)
+		spotify_tracks = GetPlaylistSongsFromSpotify.build.call(userid, playlistid)
+		spotify_tracks = spotify_tracks.uniq { |t| t.id }
+		
+		spotify_tracks.each do |track|
+			# TODO ensure that duplicates are not created
+			Song.create(song_id: track.id, name: track.name, album_id: track.album.id, 
+				duration_ms: track.duration_ms, artist: track.artists[0].name)
+			UserSongTagging.create(song_id: track.id, playlist_id: playlistid, user_id: userid)
+		end
+	end
 end

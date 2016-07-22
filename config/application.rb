@@ -21,8 +21,10 @@ module PlaylistMerge
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
+    # config.autoload_paths += %W(#{config.root}/app)
     config.active_record.raise_in_transactional_callbacks = true
     RSpotify::authenticate("ad56cf9fd12c42b18d258b2246fc8619", "f17381be5a534268a31fc9080d108f4f")
     config.angular_templates.ignore_prefix  = '/' # Default is '/templates'
+
   end
 end

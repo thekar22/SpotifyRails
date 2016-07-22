@@ -12,7 +12,7 @@ function searchController($scope, searchService, $http)
 		$scope.loading = 'Getting Results...';
 		searchService.searchQuery($query).then(function(response){
 			$scope.loading = 'Results Loaded...';
-			var result = response.data;
+			var result = response.data;			
 			$scope.results = response.data;
 		})	
 	}

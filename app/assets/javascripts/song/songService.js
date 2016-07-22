@@ -13,6 +13,18 @@ angular.module('songService', [])
 				method: 'GET',
 				url: '/song?' + $.param({songId: songId})
 			});
+		},
+		addTag: function (tagid, songid) {
+			return $http({
+				method: 'GET',
+				url: '/addTag?' + $.param({tagId: tagid, songId: songId})
+			});
+		},
+		removeTag: function (tagid, songid) {
+			return $http({
+				method: 'GET',
+				url: '/removeTag?' + $.param({tagId: tagid, songId: songId})
+			});
 		}
 	};
 

@@ -11,13 +11,13 @@ angular.module('tagService', [])
     getPlaylistUnion: function (ids) {
     	return $http({
 		    method: 'GET',
-		    url: '/playlistUnion?' + $.param({playlistids: ids})
+		    url: '/tagUnion?' + $.param({playlistids: ids})
       });
     },
   	getPlaylistIntersection: function (ids) {
     	return $http({
         	method: 'GET',
-        	url: '/playlistIntersection?' + $.param({playlistids: ids})
+        	url: '/tagIntersection?' + $.param({playlistids: ids})
       	});
     }
   };
