@@ -1,5 +1,6 @@
 class Playlist < ActiveRecord::Base
 	has_many :user_song_taggings, :foreign_key => "playlist_id", :primary_key => "playlist_id"
+	validates_uniqueness_of :playlist_id
 
 	arguments_error = "no arguments can be empty"
 

@@ -12,12 +12,23 @@ function songController($scope, songService, tagService, $http, $routeParams)
 		});
 	};
 
+
+	$scope.onTagAdding = function($tag) {
+		alert("adding");
+	}
+
+	$scope.onTagRemoving = function($tag) {
+		alert("removing");
+	}
+
 	$scope.onTagAdded = function($tag) {
 		// notify user
+		alert("tagAdded");	
 	}
 
 	$scope.onTagRemoved = function($tag) {
 		// notify user
+		alert("tagRemoved");	
 	}
 
 	$scope.addNewTag = function($tag) {

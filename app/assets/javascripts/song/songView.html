@@ -3,7 +3,9 @@
 	<tags-input ng-model="tags" 
 		placeholder="Edit tags"
 		on-tag-added="onTagAdded($tag)"
+		on-tag-adding="onTagAdding($tag)"
 		on-tag-removed="onTagRemoved($tag)"
+		on-tag-removing="onTagRemoving($tag)"
 		>
 		<auto-complete source="loadTags($query)"
 			min-length="0"
