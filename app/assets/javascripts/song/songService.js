@@ -17,7 +17,7 @@ angular.module('songService', [])
 		addTag: function (tagid, songid) {
 			return $http({
 				method: 'GET',
-				url: '/addTag?' + $.param({tagId: tagid, songId: songId})
+				url: '/addTag?' + $.param({tagId: tagid, songId: songid})
 			});
 		},
 		removeTag: function (tagid, songid) {

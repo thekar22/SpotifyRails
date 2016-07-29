@@ -11,7 +11,7 @@ class UserSongTagging < ActiveRecord::Base
 
 	def self.get_tags_for_song(userid, songid)
 		if songid.present? && userid.present?
-			UserSongTagging.sync_all_tags(userid)
+			UserSongTagging.sync_all_tags(userid)			
 			where("user_id = ? and song_id = ?", userid, songid)
 		else
 			raise arguments_error
@@ -58,31 +58,61 @@ class UserSongTagging < ActiveRecord::Base
 	end
 
 	def self.remove_tags(playlist_ids_for_removal, userid)
-		playlist_ids_for_removal.each do |id|			
+		playlist_ids_for_removal.each do |id|
 			UserSongTagging.remove_tag(userid, id)
 		end
 	end
 
-	def self.get_user_tags(userid)		
+	def self.get_user_tags(userid)
 		if userid.present?
-			where("user_id = ?", userid).select(:playlist_id).distinct		
+			where("user_id = ?", userid).select(:playlist_id).distinct
 		else
 			raise arguments_error
 		end
 	end
 
 	def self.sync_all_tags(userid)
+		
+		song_dictionary = {}
+		song_rows = []
+		tag_rows = Array.new
+
 		user_playlists = Playlist.get_playlists_for_user(userid)
-		user_playlists.each do |playlist|			
+		stale_playlists_ids = []
+		user_playlists.each do |playlist|
 			if playlist.stale == true
-				UserSongTagging.sync_tag_with_playlist(playlist.playlist_id, userid)
-				playlist.stale = false
-				playlist.save
+
+				stale_playlists_ids.push playlist.playlist_id
+				# UserSongTagging.remove_tag(userid, playlist.playlist_id)
+				spotify_tracks = GetPlaylistSongsFromSpotify.build.call(userid, playlist.playlist_id).uniq { |t| t.id }
+				
+				spotify_tracks.each do |track|
+					if !song_dictionary.has_key? track.id
+						song_rows << "('#{track.id}', '#{track.name.gsub("'", "''")}', '#{track.duration_ms}', '#{track.artists[0].name.gsub("'", "''")}', '#{Time.now}', '#{Time.now}')"
+						song_dictionary[track.id] = track
+					end
+
+					tag_rows << "('#{track.id}', '#{playlist.playlist_id}', '#{userid}', '#{Time.now}', '#{Time.now}')"
+				end
 			end
 		end
+
+		UserSongTagging.where(playlist_id: stale_playlists_ids).destroy_all
+
+		if song_rows.length > 0
+			song_sql = "INSERT INTO songs (song_id, name, duration_ms, artist, created_at, updated_at) VALUES #{song_rows.join(", ")}"
+			ActiveRecord::Base.connection.execute(song_sql)
+		end
+		if tag_rows.length > 0
+			tag_sql = "INSERT INTO user_song_taggings (song_id, playlist_id, user_id, created_at, updated_at) VALUES #{tag_rows.join(", ")}"	
+			ActiveRecord::Base.connection.execute(tag_sql)
+		end
+
+		user_playlists.update_all stale: false
+
 	end
 
-  	# remove tag, get songs from spotify, create taggings, store songs, set stale to false 
+  	# remove tag, get songs from spotify, create taggings, store songs, set stale to false
 	def self.sync_tag_with_playlist(playlistid, userid)
 		UserSongTagging.remove_tag(userid, playlistid)
 		spotify_tracks = GetPlaylistSongsFromSpotify.build.call(userid, playlistid)
@@ -94,4 +124,13 @@ class UserSongTagging < ActiveRecord::Base
 			UserSongTagging.create(song_id: track.id, playlist_id: playlistid, user_id: userid)
 		end
 	end
+
+	private
+
+		def self.destroy_all
+			Playlist.all.destroy_all
+			Song.all.destroy_all
+			UserSongTagging.all.destroy_all
+		end
+
 end

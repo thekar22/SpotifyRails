@@ -12,9 +12,17 @@ function songController($scope, songService, tagService, $http, $routeParams)
 		});
 	};
 
-
 	$scope.onTagAdding = function($tag) {
-		alert("adding");
+		if ($scope.tagCloud.some(function(e) { e.text == $tag.text }))
+		{
+			alert("bobby");
+		}
+
+		return $scope.addNewTag($tag);
+		// check if new tag is part of current list
+		// if not
+		// 	confirm with user to add new tag
+		// add tag service
 	}
 
 	$scope.onTagRemoving = function($tag) {
@@ -32,11 +40,10 @@ function songController($scope, songService, tagService, $http, $routeParams)
 	}
 
 	$scope.addNewTag = function($tag) {
-		// create new tag/playlist and add song to this playlist
-		// check if new tag is part of current list
-		// if not
-		// 	confirm with user to add new tag
-		// add tag service
+		return songService.addTag($tag, $scope.id).then(function(response){			
+			//response is added tag
+			return true;
+		});
 	}
 
 	$scope.removeTag = function($tag) {
@@ -73,8 +80,8 @@ function songController($scope, songService, tagService, $http, $routeParams)
 				$scope.loading.text = '';
 				var tags = response.data;
 
-				for(var i = 0; i < tags.length; i++){
-					$scope.tagCloud[i] = { text: tags[i].name, count: tags[i].total, id: tags[i].playlist_id};
+				for(var i = 0; i < tags.length; i++){					
+					$scope.tagCloud[i] = { text: tags[i].name, count: tags[i].total, id: tags[i].id};
 				}
 			});
 		}
