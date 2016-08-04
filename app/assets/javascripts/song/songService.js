@@ -14,10 +14,16 @@ angular.module('songService', [])
 				url: '/song?' + $.param({songId: songId})
 			});
 		},
-		addTag: function (tagid, songid) {
+		addNewTag: function (tagname, songid) {
 			return $http({
 				method: 'GET',
-				url: '/addTag?' + $.param({tagId: tagid, songId: songid})
+				url: '/addNewTag?' + $.param({tagName: tagname, songId: songid})
+			});
+		},
+		addExistingTag: function (tagid, songid) {
+			return $http({
+				method: 'GET',
+				url: '/addExistingTag?' + $.param({tagId: tagid, songId: songid})
 			});
 		},
 		removeTag: function (tagid, songid) {

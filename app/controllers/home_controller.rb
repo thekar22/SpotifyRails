@@ -62,11 +62,25 @@ class HomeController < ApplicationController
 		render json: result
 	end
 
-	def addTagForSong
+	def addNewTagForSong
+		tagname = params[:tagName]
+		songid = params[:songId]
+		userid = current_user.uid
+		#TODO
+		
+
+		result = true
+		
+		render json: result
+	end
+
+	def addExistingTagForSong
 		tagid = params[:tagId]
 		songid = params[:songId]
 		userid = current_user.uid
 		#TODO
+		
+
 		result = true
 		
 		render json: result

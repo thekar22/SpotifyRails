@@ -13,35 +13,46 @@ function songController($scope, songService, tagService, $http, $routeParams)
 	};
 
 	$scope.onTagAdding = function($tag) {
-		if ($scope.tagCloud.some(function(e) { e.text == $tag.text }))
-		{
-			alert("bobby");
-		}
 
-		return $scope.addNewTag($tag);
-		// check if new tag is part of current list
-		// if not
-		// 	confirm with user to add new tag
-		// add tag service
+		$scope.text = "";
+
+		if ($scope.tagCloud.some(function(e) { return e.text == $tag.text }))
+		{
+			console.log("existing tag");
+			return $scope.addExistingTag($tag);
+		}
+		else
+		{
+			console.log("new tag");
+			return $scope.addNewTag($tag);
+		}		
 	}
 
 	$scope.onTagRemoving = function($tag) {
-		alert("removing");
+		// alert("removing");
 	}
 
 	$scope.onTagAdded = function($tag) {
 		// notify user
-		alert("tagAdded");	
+		// alert("tagAdded");	
 	}
 
 	$scope.onTagRemoved = function($tag) {
 		// notify user
-		alert("tagRemoved");	
+		// alert("tagRemoved");	
 	}
 
 	$scope.addNewTag = function($tag) {
-		return songService.addTag($tag, $scope.id).then(function(response){			
-			//response is added tag
+		return songService.addNewTag($tag, $scope.id).then(function(response){						
+			$scope.tags.push({ text: "Jimmy", count: 1, id: 1 });
+			
+			return false;
+		});
+	}
+
+	$scope.addExistingTag = function($tag) {
+		return songService.addExistingTag($tag, $scope.id).then(function(response){						
+
 			return true;
 		});
 	}
