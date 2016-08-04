@@ -23,6 +23,7 @@ class Playlist < ActiveRecord::Base
 				db_playlist = matched_db_playlists_dictionary[spotify_playlist.id]
 				if !db_playlist.snapshot_id.eql? spotify_playlist.snapshot_id
 					db_playlist.stale = true
+					db_playlist.snapshot_id = spotify_playlist.snapshot_id
 					db_playlist.save
 				end
 			end

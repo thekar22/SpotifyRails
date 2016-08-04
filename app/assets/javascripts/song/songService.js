@@ -29,7 +29,7 @@ angular.module('songService', [])
 		removeTag: function (tagid, songid) {
 			return $http({
 				method: 'GET',
-				url: '/removeTag?' + $.param({tagId: tagid, songId: songId})
+				url: '/removeTag?' + $.param({tagId: tagid, songId: songid})
 			});
 		}
 	};

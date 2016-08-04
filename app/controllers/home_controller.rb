@@ -82,7 +82,6 @@ class HomeController < ApplicationController
 
 		AddSongToPlaylistFromSpotify.build.call(song, playlist)
 
-		#null check here
 		db_playlist = Playlist.get(playlistid)[0]
 		db_playlist.stale = true
 		db_playlist.save
@@ -99,7 +98,7 @@ class HomeController < ApplicationController
 		songid = params[:songId]
 		userid = current_user.uid
 
-		UserSongTagging.remove_tag_to_song(userid, tagid, songid)
+		UserSongTagging.remove_tag_for_song(userid, tagid, songid)
 		true
 	end
 

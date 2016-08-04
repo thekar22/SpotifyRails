@@ -95,7 +95,7 @@ class UserSongTagging < ActiveRecord::Base
 				end
 			end
 		end
-
+		
 		UserSongTagging.where(playlist_id: stale_playlists_ids).destroy_all
 
 		if song_rows.length > 0

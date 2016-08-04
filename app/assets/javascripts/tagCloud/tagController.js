@@ -72,7 +72,6 @@ function tagController($scope, tagService, $http)
 			$scope.loading.text = 'Tags Loaded';
 			var playlists = response.data;
 
-
 			for(var i = 0; i < playlists.length; i++){
 				$scope.tagCloud[i] = { text: playlists[i].name, count: playlists[i].total, id: playlists[i].id};
 			}			
