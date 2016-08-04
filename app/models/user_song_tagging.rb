@@ -82,8 +82,7 @@ class UserSongTagging < ActiveRecord::Base
 		user_playlists.each do |playlist|
 			if playlist.stale == true
 
-				stale_playlists_ids.push playlist.playlist_id
-				# UserSongTagging.remove_tag(userid, playlist.playlist_id)
+				stale_playlists_ids.push playlist.playlist_id				
 				spotify_tracks = GetPlaylistSongsFromSpotify.build.call(userid, playlist.playlist_id).uniq { |t| t.id }
 				
 				spotify_tracks.each do |track|
@@ -109,7 +108,6 @@ class UserSongTagging < ActiveRecord::Base
 		end
 
 		user_playlists.update_all stale: false
-
 	end
 
   	# remove tag, get songs from spotify, create taggings, store songs, set stale to false

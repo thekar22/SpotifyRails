@@ -43,16 +43,17 @@ function songController($scope, songService, tagService, $http, $routeParams)
 	}
 
 	$scope.addNewTag = function($tag) {
-		return songService.addNewTag($tag, $scope.id).then(function(response){						
-			$scope.tags.push({ text: "Jimmy", count: 1, id: 1 });
-			
+		
+		// TODO confirm dialog
+
+		return songService.addNewTag($tag.text, $scope.id).then(function(response){						
+			$scope.tags.push({ text: "Jimmy", count: 1, id: 1 });	
 			return false;
 		});
 	}
 
 	$scope.addExistingTag = function($tag) {
-		return songService.addExistingTag($tag, $scope.id).then(function(response){						
-
+		return songService.addExistingTag($tag.id, $scope.id).then(function(response){						
 			return true;
 		});
 	}

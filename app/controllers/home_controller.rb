@@ -67,23 +67,31 @@ class HomeController < ApplicationController
 		songid = params[:songId]
 		userid = current_user.uid
 		#TODO
-		
 
 		result = true
-		
 		render json: result
 	end
 
 	def addExistingTagForSong
-		tagid = params[:tagId]
+		playlistid = params[:tagId]
 		songid = params[:songId]
 		userid = current_user.uid
-		#TODO
-		
 
-		result = true
-		
-		render json: result
+		playlist = GetPlaylistFromSpotifyById.build.call(playlistid, userid)
+		song = GetSongFromSpotify.build.call(songid)
+
+		AddSongToPlaylistFromSpotify.build.call(song, playlist)
+
+		#null check here
+		db_playlist = Playlist.get(playlistid)[0]
+		db_playlist.stale = true
+		db_playlist.save
+
+		Song.create(song_id: song.id, name: song.name, album_id: song.album.id, 
+				duration_ms: song.duration_ms, artist: song.artists[0].name)
+
+		tag = UserSongTagging.create(user_id: userid, song_id: songid, playlist_id: playlistid)
+		render json: tag
 	end
 
 	def removeTagForSong

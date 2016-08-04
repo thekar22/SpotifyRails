@@ -49,7 +49,7 @@ class Playlist < ActiveRecord::Base
 			else
 				playlists_for_creation.push(spotify_playlist)
 			end
-		end
+		end		
 
 		if playlists_for_update.length > 0 
 			Playlist.update_existing_playlists(playlists_for_update, matched_db_playlists_dictionary)
