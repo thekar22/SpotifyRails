@@ -98,8 +98,12 @@ class HomeController < ApplicationController
 		songid = params[:songId]
 		userid = current_user.uid
 
-		UserSongTagging.remove_tag_for_song(userid, tagid, songid)
-		true
+		playlist = GetPlaylistFromSpotifyById.build.call(tagid, userid)
+		song = GetSongFromSpotify.build.call(songid)
+
+		RemoveSongFromPlaylistFromSpotify.build.call(song, playlist)
+		UserSongTagging.remove_tag_from_song(userid, tagid, songid)
+		render json: true
 	end
 
 	# return to caller json all tags to which song belongs
