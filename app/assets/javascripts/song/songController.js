@@ -30,14 +30,6 @@ function songController($scope, songService, tagService, $http, $routeParams)
 		return $scope.removeTag($tag);
 	}
 
-	$scope.onTagAdded = function($tag) {
-		// notify user
-	}
-
-	$scope.onTagRemoved = function($tag) {
-		// notify user
-	}
-
 	$scope.addNewTag = function($tag) {
 		// TODO confirm dialog
 
@@ -62,8 +54,23 @@ function songController($scope, songService, tagService, $http, $routeParams)
 
 	$scope.removeTag = function($tag) {
 		return songService.removeTag($tag.id, $scope.id).then(function(response){						
-			return true;
+			if (response)
+			{
+				return true;
+			}
+			else
+			{
+				return false
+			}
 		});
+	}
+
+	$scope.onTagAdded = function($tag) {
+		// notify user
+	}
+
+	$scope.onTagRemoved = function($tag) {
+		// notify user
 	}
 
 	function initModule() {
