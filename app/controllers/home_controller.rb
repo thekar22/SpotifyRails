@@ -85,7 +85,7 @@ class HomeController < ApplicationController
 		spotify_playlist = GetPlaylistFromSpotifyById.build.call(playlistid, userid)
 		playlist = UserSongTagging.add_tag_to_song(userid, spotify_playlist, songid)
 
-		db_playlist = Playlist.get(playlistid)[0]
+		db_playlist = Playlist.get(playlistid)
 		db_playlist.stale = true
 		db_playlist.save
 

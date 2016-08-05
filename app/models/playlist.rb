@@ -5,7 +5,7 @@ class Playlist < ActiveRecord::Base
 	arguments_error = "no arguments can be empty"
 
 	def self.get(id)
-		where("playlist_id = ?", id)	
+		where("playlist_id = ?", id).first
 	end
 
 	def self.create_new_playlists(spotify_playlists)		
@@ -30,7 +30,7 @@ class Playlist < ActiveRecord::Base
 		end
 	end
 
-	def self.sync_playlists(spotify_playlists, userid)		
+	def self.sync_playlists(spotify_playlists, userid)
 		db_playlists_ids = Playlist.get_playlists_for_user(userid).map {|playlist| playlist.playlist_id}
 		spotify_playlist_ids = spotify_playlists.map {|playlist| playlist.id}
 
@@ -73,15 +73,15 @@ class Playlist < ActiveRecord::Base
 	def self.get_playlist_songs(playlistid, userid)
 		songs = []
 		# check cache
-		cache_result = Playlist.get(playlistid)
+		result = Playlist.get(playlistid)		
 
-		if cache_result.length == 0
+		if !result
 			# TODO this should not happen in normal workflow, but in this scenario, get playlist 			
 		else
-			if cache_result[0].stale == true
+			if result.stale == true
 				UserSongTagging.sync_tag_with_playlist(playlistid, userid)
-				cache_result[0].stale = false
-				cache_result[0].save
+				result.stale = false
+				result.save
 			end
 		end
 		song_tags = UserSongTagging.get_songs_for_tag(userid, playlistid)

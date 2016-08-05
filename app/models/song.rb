@@ -3,6 +3,6 @@ class Song < ActiveRecord::Base
 	validates_uniqueness_of :song_id
 
 	def self.get(id)
-		where("song_id = ?", id)	
+		where("song_id = ?", id).first
 	end
 end

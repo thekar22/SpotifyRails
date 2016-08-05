@@ -110,13 +110,13 @@ class UserSongTagging < ActiveRecord::Base
 	end
 
   	# remove tag, get songs from spotify, create taggings, store songs, set stale to false
-	def self.sync_tag_with_playlist(playlistid, userid)
+	def self.sync_tag_with_playlist(playlistid, userid)		
 		UserSongTagging.remove_tag(userid, playlistid)
 		spotify_tracks = GetPlaylistSongsFromSpotify.build.call(userid, playlistid)
 		spotify_tracks = spotify_tracks.uniq { |t| t.id }
 		
 		spotify_tracks.each do |track|
-			Song.create(song_id: track.id, name: track.name, album_id: track.album.id, 
+			Song.create(song_id: track.id, name: track.name, album_id: track.album.id,
 				duration_ms: track.duration_ms, artist: track.artists[0].name)
 			UserSongTagging.create(song_id: track.id, playlist_id: playlistid, user_id: userid)
 		end
