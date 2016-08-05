@@ -72,6 +72,7 @@ class UserSongTagging < ActiveRecord::Base
 
 	def self.sync_all_tags(userid)
 		
+		all_user_tracks = []
 		song_dictionary = {}
 		song_rows = []
 		tag_rows = Array.new
@@ -86,13 +87,23 @@ class UserSongTagging < ActiveRecord::Base
 				
 				spotify_tracks.each do |track|
 					if !song_dictionary.has_key? track.id
-						song_rows << "('#{track.id}', '#{track.name.gsub("'", "''")}', '#{track.duration_ms}', '#{track.artists[0].name.gsub("'", "''")}', '#{Time.now}', '#{Time.now}')"
 						song_dictionary[track.id] = track
+						all_user_tracks << track
 					end
 
 					tag_rows << "('#{track.id}', '#{playlist.playlist_id}', '#{userid}', '#{Time.now}', '#{Time.now}')"
 				end
 			end
+		end
+
+		user_track_ids = all_user_tracks.map { |track| track.id }
+		all_track_ids = Song.pluck(:song_id)
+
+		song_ids_for_creation = user_track_ids - all_track_ids
+
+		song_ids_for_creation.each do |id|
+			track = song_dictionary[id]
+			song_rows << "('#{track.id}', '#{track.name.gsub("'", "''")}', '#{track.duration_ms}', '#{track.artists[0].name.gsub("'", "''")}', '#{Time.now}', '#{Time.now}')"
 		end
 		
 		UserSongTagging.where(playlist_id: stale_playlists_ids).destroy_all
