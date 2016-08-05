@@ -26,16 +26,15 @@ class UserSongTagging < ActiveRecord::Base
 		end  		
 	end
 
-	def self.add_tag_to_song(userid, tagid, songid)
-		# add song to db if it does not exist
-		if Song.get(songid).length == 0
-			result = GetSongFromSpotify.build.call(songid)
-			Song.create(song_id: result.id, name: result.name, album_id: result.album.id, 
-				duration_ms: result.duration_ms, artist: result.artists[0].name)
-		end	
+	def self.add_tag_to_song(userid, spotify_playlist, songid)
+		spotify_track = GetSongFromSpotify.build.call(songid)
+		Song.create(song_id: spotify_track.id, name: spotify_track.name, album_id: spotify_track.album.id, 
+			duration_ms: spotify_track.duration_ms, artist: spotify_track.artists[0].name)
 
-		if songid.present? && userid.present? && tagid.present?
-			create(user_id: userid, song_id: songid, playlist_id: tagid)
+		if songid.present? && userid.present? && spotify_playlist.id.present?			
+			create(user_id: userid, song_id: songid, playlist_id: spotify_playlist.id)
+			AddSongToPlaylistFromSpotify.build.call(spotify_track, spotify_playlist)
+			return spotify_playlist
 		else
 			raise arguments_error
 		end

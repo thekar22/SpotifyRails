@@ -66,10 +66,15 @@ class HomeController < ApplicationController
 		tagname = params[:tagName]
 		songid = params[:songId]
 		userid = current_user.uid
-		#TODO
+	
+		spotify_playlist = CreateSpotifyPlaylist.build.call(session["devise.spotify_data"], tagname)
+		playlist = UserSongTagging.add_tag_to_song(userid, spotify_playlist, songid)
 
-		result = true
-		render json: result
+		db_playlist = Playlist.create(playlist_id: spotify_playlist.id, name: spotify_playlist.name, 
+			owner_id: spotify_playlist.owner.id, snapshot_id: spotify_playlist.snapshot_id,
+			total: spotify_playlist.total, collaborative: spotify_playlist.collaborative, public: spotify_playlist.public, stale: true)
+
+		render json: playlist
 	end
 
 	def addExistingTagForSong
@@ -77,20 +82,14 @@ class HomeController < ApplicationController
 		songid = params[:songId]
 		userid = current_user.uid
 
-		playlist = GetPlaylistFromSpotifyById.build.call(playlistid, userid)
-		song = GetSongFromSpotify.build.call(songid)
-
-		AddSongToPlaylistFromSpotify.build.call(song, playlist)
+		spotify_playlist = GetPlaylistFromSpotifyById.build.call(playlistid, userid)
+		playlist = UserSongTagging.add_tag_to_song(userid, spotify_playlist, songid)
 
 		db_playlist = Playlist.get(playlistid)[0]
 		db_playlist.stale = true
 		db_playlist.save
 
-		Song.create(song_id: song.id, name: song.name, album_id: song.album.id, 
-				duration_ms: song.duration_ms, artist: song.artists[0].name)
-
-		tag = UserSongTagging.create(user_id: userid, song_id: songid, playlist_id: playlistid)
-		render json: tag
+		render json: playlist
 	end
 
 	def removeTagForSong

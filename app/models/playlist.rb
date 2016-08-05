@@ -58,11 +58,11 @@ class Playlist < ActiveRecord::Base
 		if playlists_for_creation.length > 0 
 			Playlist.create_new_playlists(playlists_for_creation)
 		end
-		UserSongTagging.remove_tags(db_playlists_ids - spotify_playlist_ids, userid)		
+		UserSongTagging.remove_tags(db_playlists_ids - spotify_playlist_ids, userid)
 	end
 
 	def self.get_playlists_for_user(ownerid)
-		if ownerid.present?			
+		if ownerid.present?
 			where(owner_id: ownerid)
 		else
 			raise arguments_error
@@ -73,7 +73,7 @@ class Playlist < ActiveRecord::Base
 	def self.get_playlist_songs(playlistid, userid)
 		songs = []
 		# check cache
-		cache_result = Playlist.get(playlistid)		
+		cache_result = Playlist.get(playlistid)
 
 		if cache_result.length == 0
 			# TODO this should not happen in normal workflow, but in this scenario, get playlist 			
@@ -84,7 +84,7 @@ class Playlist < ActiveRecord::Base
 				cache_result[0].save
 			end
 		end
-		song_tags = UserSongTagging.get_songs_for_tag(userid, playlistid)		
+		song_tags = UserSongTagging.get_songs_for_tag(userid, playlistid)
 		song_tags.each do |song_tag|
 			songs.push(song_tag.song)
 		end		

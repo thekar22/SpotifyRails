@@ -31,10 +31,9 @@ function songController($scope, songService, tagService, $http, $routeParams)
 	}
 
 	$scope.addNewTag = function($tag) {
-		// TODO confirm dialog
-
-		return songService.addNewTag($tag.text, $scope.id).then(function(response){						
-			$scope.tags.push({ text: "Jimmy", count: 1, id: 1 });	
+		return songService.addNewTag($tag.text, $scope.id).then(function(response){		
+			var tag = response.data
+			$scope.tags.push({ text: tag.name, count: tag.total, id: tag.id });	
 			return false;
 		});
 	}
