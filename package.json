@@ -5,7 +5,7 @@
     "dependencies": {
     "bower": "~1.6"
   },
-  "engine": {
+  "engines": {
     "node": "0.10.x",
     "npm": "2.13.x"
   },
