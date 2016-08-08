@@ -25,6 +25,7 @@ module PlaylistMerge
     config.active_record.raise_in_transactional_callbacks = true
     RSpotify::authenticate("ad56cf9fd12c42b18d258b2246fc8619", "f17381be5a534268a31fc9080d108f4f")
     config.angular_templates.ignore_prefix  = '/' # Default is '/templates'
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
 
   end
 end

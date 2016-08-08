@@ -1,0 +1,25 @@
+{
+  "name": "spotify-app",
+  "version": "1.0.0",
+  "description": "tag creation app for spotify",  
+    "dependencies": {
+    "bower": "~1.6"
+  },
+  "engine": {
+    "node": "0.10.x",
+    "npm": "2.13.x"
+  },
+  "scripts": {
+    "postinstall": "./node_modules/bower/bin/bower install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thekar22/SpotifyRails.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thekar22/SpotifyRails/issues"
+  },
+  "homepage": "https://github.com/thekar22/SpotifyRails#readme"
+}
