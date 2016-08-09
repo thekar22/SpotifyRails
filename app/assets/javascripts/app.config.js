@@ -1,24 +1,32 @@
 var app = angular.module('MusicApp', ['templates', 'ngRoute', 'tagModule', 'songModule', 'audioFeaturesModule', 'searchModule', 'ng-rails-csrf'])
-.config(function($routeProvider) {
-	// set up routes
+.config(
+	[
+		'$routeProvider',
 
-	$routeProvider
-		.when('/', {
-			templateUrl: 'tagCloud/tagView.html' // tagController specified in index.html.erb
-	})
-		.when('/audioFeatures', {
-			templateUrl: 'audioFeatures/audioFeaturesView.html',
-			controller: 'audioFeaturesController'
-	})
-		.when('/search', {
-			templateUrl: 'search/searchView.html',
-			controller: 'searchController'
-	})
-		.when('/song/:id', {
-			templateUrl: 'song/songView.html',
-			controller: 'songController'
-	})
-		.otherwise({
-			redirectTo: '/'
-	});
-});
+		function($routeProvider) {
+			// set up routes
+
+			console.log("do we get here");
+
+			$routeProvider
+				.when('/', {
+					templateUrl: 'tagCloud/tagView.html' // tagController specified in index.html.erb
+			})
+				.when('/audioFeatures', {
+					templateUrl: 'audioFeatures/audioFeaturesView.html',
+					controller: 'audioFeaturesController'
+			})
+				.when('/search', {
+					templateUrl: 'search/searchView.html',
+					controller: 'searchController'
+			})
+				.when('/song/:id', {
+					templateUrl: 'song/songView.html',
+					controller: 'songController'
+			})
+				.otherwise({
+					redirectTo: '/'
+			});
+		}
+	]
+);
