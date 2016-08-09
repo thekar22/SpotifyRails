@@ -81,5 +81,5 @@ test:
 production:
   <<: *default
   database: playlistMerge_production
-  username: playlistMerge
+  username: playlistmerge
   password: <%= ENV['PLAYLISTMERGE_DATABASE_PASSWORD'] %>
