@@ -5,9 +5,6 @@ var app = angular.module('MusicApp', ['templates', 'ngRoute', 'tagModule', 'song
 
 		function($routeProvider) {
 			// set up routes
-
-			console.log("do we get here");
-
 			$routeProvider
 				.when('/', {
 					templateUrl: 'tagCloud/tagView.html' // tagController specified in index.html.erb
