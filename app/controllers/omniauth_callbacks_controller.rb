@@ -4,7 +4,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
        params.require(:user).permit(:username, :email, :password, :password_confirmation)
 	end
 
-	def all 
+	def all        
 		email = auth_hash['info']['email']
     	user = User.find_or_create_by(:email => email)    	
 		session["spotify_data"] = RSpotify::User.new(request.env['omniauth.auth'])
@@ -13,7 +13,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     	if !authenticated
     		user.provider = auth_hash['provider']
     		user.uid = auth_hash['uid']
-      end
+        end
     	
     	access_token = auth_hash['credentials']['token']
     	if (auth_hash['provider'] == 'spotify' && user.spotify_token != access_token)
