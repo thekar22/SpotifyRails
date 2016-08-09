@@ -9,6 +9,7 @@ angular
 				return tag.text.toLowerCase().indexOf($query.toLowerCase()) != -1;
 			});
 		};
+		
 
 		$scope.onTagAdded = function($tag) {
 			$scope.queryResults();		

@@ -1,7 +1,7 @@
-var app = angular.module('MusicApp', ['templates', 'ngRoute', 'tagModule', 'songModule', 'audioFeaturesModule', 'searchModule', 'ng-rails-csrf']);
-
-app.config(function($routeProvider) {
+var app = angular.module('MusicApp', ['templates', 'ngRoute', 'tagModule', 'songModule', 'audioFeaturesModule', 'searchModule', 'ng-rails-csrf'])
+.config(function($routeProvider) {
 	// set up routes
+
 	$routeProvider
 		.when('/', {
 			templateUrl: 'tagCloud/tagView.html' // tagController specified in index.html.erb
