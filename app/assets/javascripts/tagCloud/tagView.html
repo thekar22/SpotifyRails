@@ -22,10 +22,10 @@
 	Intersection
 </label><br/>
 
-<div ng-switch="tagView">
+<div ng-switch="tagView" class="tagView">
 	
 	<div class="tagCloud" ng-switch-when="tag-cloud">
-		<jqcloud id="cloud-dynamic" words="tagCloud" auto-resize="true" colors="{{colors}}" steps="7" font-size="{from:0.09, to:0.04}"></jqcloud>
+		<jqcloud id="cloud-dynamic" words="tagCloud" auto-resize="true" colors="{{colors}}" steps="7" font-size="{from:0.08, to:0.03}"></jqcloud>
 	</div>
 
 	<div class="tagResults" ng-switch-when="tag-results">

@@ -1,6 +1,39 @@
+html
+{
+    height: 95%;
+}
+
+body
+{
+	height: 100%;
+}
+
+.mainContainer
+{
+	height: 80%;
+}
+
+.viewContainer
+{
+	height: 100%;
+}
+
+.tagView
+{
+	height: 100%;
+}
+
+.tagCloud
+{
+	height: 100%;
+	position: relative;
+}
+
 #cloud-dynamic 
 { 
-	width: 80%; height: 500px; 
+	position:absolute;
+	height: 100%;
+	width: 100%;
 }
 
 .forwardButton 

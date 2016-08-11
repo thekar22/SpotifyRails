@@ -1,13 +1,13 @@
 <% if user_signed_in? %>
 	<br>
 	
-<div ng-app="MusicApp" ng-controller="tagController">
+<div ng-app="MusicApp" ng-controller="tagController" class="mainContainer">
 
 	<div>
 		{{loading.text}}
 	</div>
 
-	<div ng-view>
+	<div ng-view class="viewContainer">
 		<!-- view content here -->
 	</div>
 
