@@ -51,35 +51,33 @@ angular
 			}
 		}
 
-		function initModule(){			
+		function initModule(){		
 
+			// for tag cloud
 			$scope.colors = ["#111111", "#333333", "#555555", "#777777", "#999999", "#bbbbbb", "#dddddd"];
-
 			// all tags
 			$scope.tagCloud = [];
 			// chosen tags
 			$scope.tags = [];
 			// songs from chosen tags
 			$scope.songs = {};
-
+			// default filter union
 			$scope.filter = {
 				name: 'Union'
 			};
 
+			//watch variables
 			$scope.$watch('filter.name', function () {
 				$scope.queryResults();
 			});
-
-
 			$scope.$watch('tags', function (newVal, oldVal) { 
-			if ($scope.tags.length < 1)
-			{
-				$scope.tagView = "tag-cloud";
-			}
-
+				if ($scope.tags.length < 1)
+				{
+					$scope.tagView = "tag-cloud";
+				}
 			}, true);
 
-			
+			// initial load
 			$scope.loading = {text: 'Loading...'};
 			tagService.getUserPlaylists().then(function(response){
 				$scope.loading.text = '';

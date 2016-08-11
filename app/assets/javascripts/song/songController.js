@@ -80,7 +80,7 @@ angular
 			}
 			else
 			{	
-				songService.getSong($scope.id).then(function(response){
+				songService.getSong($scope.id).then(function(response){					
 					$scope.song = response.data;
 				});
 

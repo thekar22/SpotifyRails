@@ -1,16 +1,39 @@
 <% if user_signed_in? %>
-	<br>
-	
-<div ng-app="MusicApp" ng-controller="tagController" class="mainContainer">
 
-	<div>
-		{{loading.text}}
+	<div ng-app="MusicApp" ng-controller="tagController" class="mainContainer">
+
+		<div ng-controller="navigationController" class="navContainer">
+			<md-sidenav md-component-id="left" class="md-sidenav-left">
+				Logged in as <strong><%= current_user.email %></strong>.
+				<%= link_to 'Edit profile', edit_user_registration_path %> |
+				<%= link_to "Logout", destroy_user_session_path, method: :delete %>
+			</md-sidenav>
+
+			<md-sidenav md-component-id="right" class="md-sidenav-right">
+				<a href="/#/audioFeatures">
+					Get Song Features
+				</a>
+				<a href="/#/search">
+					Search Songs
+				</a>
+			</md-sidenav>
+
+			<md-content>
+				<md-button class="leftButton" ng-click="openLeftMenu()">@.@
+				</md-button>
+				<md-button class="rightButton" ng-click="openRightMenu()">Lizst
+				</md-button>
+			</md-content>
+		</div>
+
+		<div class="loading">
+			{{loading.text}}
+		</div>
+
+		<div ng-view class="viewContainer">
+			<!-- view content here -->
+		</div>
+
 	</div>
-
-	<div ng-view class="viewContainer">
-		<!-- view content here -->
-	</div>
-
-</div>
 
 <% end %>

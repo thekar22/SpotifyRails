@@ -1,5 +1,5 @@
 <tags-input ng-model="tags" 
-	placeholder="Explore tags"
+	placeholder="T A G S"
 	add-from-autocomplete-only="true"
 	on-tag-added="onTagAdded($tag)"
 	on-tag-removed="onTagRemoved($tag)"
@@ -12,15 +12,17 @@
 	</auto-complete>
 </tags-input>
 
-<label>
-	<input type="radio" ng-model="filter.name" value="Union">
-	Union
-</label>
+<div class="tagFilterSection">
+	<label>
+		<input type="radio" ng-model="filter.name" value="Union">
+		Union
+	</label>
 
-<label>
-	<input type="radio" ng-model="filter.name" value="Intersection">
-	Intersection
-</label><br/>
+	<label>
+		<input type="radio" ng-model="filter.name" value="Intersection">
+		Intersection
+	</label><br/>
+</div>
 
 <div ng-switch="tagView" class="tagView">
 	
@@ -35,9 +37,3 @@
 	</div>
 </div>
 
-<a href="/#/audioFeatures" class="forwardButton">
-	Get Song Features
-</a>
-<a href="/#/search" class="songPanel">
-	Search Songs
-</a>

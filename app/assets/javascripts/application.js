@@ -19,4 +19,7 @@
 //= require ng-tags-input
 //= require jqcloud2
 //= require angular-jqcloud
+//= require angular-material
+//= require angular-animate
+//= require angular-aria
 //= require_tree .

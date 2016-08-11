@@ -1,5 +1,7 @@
+<h1> {{song.name}} </h1>
+<h2> {{"by: " + song.artists[0].name}} </h2>
+
 <div class="singleSong">		
-	Single Song View
 	<tags-input ng-model="tags" 
 		text="text"
 		placeholder="-"
@@ -17,7 +19,7 @@
 	</tags-input>
 </div>
 
-Name: {{song.name}}
+<br>
 
 <a href="/#/" class="backButton">
 	Return to Choose Playlists
