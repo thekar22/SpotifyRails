@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
 
-	<div ng-app="MusicApp" ng-controller="tagController" class="mainContainer">
+	<div ng-app="MusicApp" class="mainContainer">
 
 		<div ng-controller="navigationController" class="navContainer">
 			<md-sidenav md-component-id="left" class="md-sidenav-left">
@@ -26,12 +26,14 @@
 			</md-content>
 		</div>
 
-		<div class="loading">
-			{{loading.text}}
-		</div>
+		<div ng-controller="tagController" class="contentContainer">
+			<div class="loading">
+				{{loading.text}}
+			</div>
 
-		<div ng-view class="viewContainer">
-			<!-- view content here -->
+			<div ng-view class="viewContainer">
+				<!-- view content here -->
+			</div>
 		</div>
 
 	</div>
