@@ -1,5 +1,5 @@
 angular
-	.module('tagModule', ['tagService', 'ngTagsInput', 'songCardDirective', 'ng-rails-csrf'])
+	.module('tagModule', ['tagService', 'ngTagsInput', 'songCardDirective', 'ng-rails-csrf', 'angular-jqcloud'])
 	.controller('tagController', ['$scope', 'tagService', '$http', function tagController($scope, tagService, $http) {
 		initModule();
 
@@ -15,12 +15,15 @@ angular
 		}
 
 		$scope.onTagRemoved = function($tag) {	
-			$scope.queryResults();	
+			$scope.queryResults();
 		}
 
 		$scope.queryResults = function() {
-			$scope.tagView = "tag-results";			
-			$scope.getPlaylistSongs($scope.filter.name);
+			if ($scope.tags.length > 0)
+			{
+				$scope.tagView = "tag-results";	
+				$scope.getPlaylistSongs($scope.filter.name);	
+			}
 		}
 
 		$scope.getPlaylistSongs = function(filterType) {
@@ -33,9 +36,9 @@ angular
 					playlistIds.push($scope.tags[tag].id);
 				}
 
-				$scope.loading.text = 'Loading Songs...';
+				$scope.loading.text = 'Loading...';
 				tagService["getPlaylist" + filterType](playlistIds).then(function(response){ 
-					$scope.loading.text = 'Songs Loaded!';			
+					$scope.loading.text = '';			
 					var tempId = '';
 					var allSongs = response.data;
 					for(var song in allSongs)
@@ -48,7 +51,10 @@ angular
 			}
 		}
 
-		function initModule(){
+		function initModule(){			
+
+			$scope.colors = ["#111111", "#333333", "#555555", "#777777", "#999999", "#bbbbbb", "#dddddd"];
+
 			// all tags
 			$scope.tagCloud = [];
 			// chosen tags
@@ -61,16 +67,26 @@ angular
 			};
 
 			$scope.$watch('filter.name', function () {
-	  			$scope.queryResults();
+				$scope.queryResults();
 			});
+
+
+			$scope.$watch('tags', function (newVal, oldVal) { 
+			if ($scope.tags.length < 1)
+			{
+				$scope.tagView = "tag-cloud";
+			}
+
+			}, true);
+
 			
-			$scope.loading = {text: 'Loading Tags...'};
+			$scope.loading = {text: 'Loading...'};
 			tagService.getUserPlaylists().then(function(response){
-				$scope.loading.text = 'Tags Loaded';
+				$scope.loading.text = '';
 				var playlists = response.data;
 
 				for(var i = 0; i < playlists.length; i++){
-					$scope.tagCloud[i] = { text: playlists[i].name, count: playlists[i].total, id: playlists[i].id};
+					$scope.tagCloud[i] = { text: playlists[i].name, weight: playlists[i].total, id: playlists[i].id};
 				}			
 				$scope.tagView = "tag-cloud";
 			});

@@ -30,7 +30,7 @@ angular
 		$scope.addNewTag = function($tag) {
 			return songService.addNewTag($tag.text, $scope.id).then(function(response){		
 				var tag = response.data
-				$scope.tags.push({ text: tag.name, count: tag.total, id: tag.id });	
+				$scope.tags.push({ text: tag.name, weight: tag.total, id: tag.id });	
 				return false;
 			});
 		}
@@ -88,7 +88,7 @@ angular
 					var tags = response.data;
 
 					for(var i = 0; i < tags.length; i++) {
-						$scope.tags.push({ text: tags[i].name, count: tags[i].total, id: tags[i].playlist_id });
+						$scope.tags.push({ text: tags[i].name, weight: tags[i].total, id: tags[i].playlist_id });
 					}
 				});
 			}

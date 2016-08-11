@@ -1,6 +1,10 @@
+#cloud-dynamic 
+{ 
+	width: 80%; height: 500px; 
+}
+
 .forwardButton 
 {  
-	border: 1px solid black;
 	position: fixed;
 	top: 10px;
 	right: 10px; 
@@ -8,7 +12,6 @@
 
 .backButton
 {  
-	border: 1px solid black;
 	position: fixed;
 	bottom: 10px;
 	right: 10px; 
@@ -21,16 +24,8 @@
 	overflow: scroll;
 }
 
-.tagCloud
-{
-	height: 300px;
-	width: 300px;
-	overflow: scroll;
-}
-
 .songPanel
 {
-	border: 1px solid black;
 	position: fixed;
 	bottom: 10px;
 	left: 10px; 

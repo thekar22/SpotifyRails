@@ -17,4 +17,6 @@
 //= require angular-rails-templates
 //= require ng-rails-csrf
 //= require ng-tags-input
+//= require jqcloud2
+//= require angular-jqcloud
 //= require_tree .
