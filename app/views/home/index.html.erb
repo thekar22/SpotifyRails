@@ -4,18 +4,37 @@
 
 		<div ng-controller="navigationController" class="navContainer">
 			<md-sidenav md-component-id="left" class="md-sidenav-left">
-				Logged in as <strong><%= current_user.email %></strong>.
-				<%= link_to 'Edit profile', edit_user_registration_path %> |
-				<%= link_to "Logout", destroy_user_session_path, method: :delete %>
+				
+				<div>
+					Logged in as <strong><%= current_user.email %></strong>.
+					<%= link_to 'Edit profile', edit_user_registration_path %> |
+					<%= link_to "Logout", destroy_user_session_path, method: :delete %>
+				</div>
 			</md-sidenav>
 
 			<md-sidenav md-component-id="right" class="md-sidenav-right">
-				<a href="/#/audioFeatures">
-					Get Song Features
-				</a>
+				
+				<div ng-switch="navView">
+		
+					<div class="tagCloud" ng-switch-when="tag-view">
+						<a href="/#/audioFeatures">
+							Get Song Features
+						</a>
+					</div>
+
+					<div class="tagResults" ng-switch-when="other-view">
+						<a href="/#/">
+							Return to Tags
+						</a>
+					</div>
+
+
+				</div>
+
 				<a href="/#/search">
 					Search Songs
 				</a>
+
 			</md-sidenav>
 
 			<md-content>

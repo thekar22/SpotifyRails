@@ -28,7 +28,7 @@ body
 
 .navContainer
 {
-	height: 20%;
+	height: 12%;
 	width: 100%;
 }
 
@@ -43,15 +43,15 @@ body
 
 html md-content
 {
-	height:100%;
+	height:80%;
 	width:100%;
 	overflow:hidden;	
 }
 
 .md-button
 {
-	height:100%;
-	width:50%;
+	height:50%;
+	width:20%;
 }
 
 body > div > div.navContainer.ng-scope > md-content > button.md-raised.rightButton.md-button.md-ink-ripple
