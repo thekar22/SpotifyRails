@@ -31,9 +31,6 @@
 	</div>
 
 	<div class="tagResults" ng-switch-when="tag-results">
-		<div ng-repeat="song in songs">
-			<song song="song['songInfo']"> </song>
-		</div>
+		<div ui-grid="gridOptions" ui-grid-selection class="grid"></div>
 	</div>
 </div>
-

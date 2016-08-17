@@ -10,7 +10,7 @@ class HomeController < ApplicationController
 	def getPlaylists
 		userid = current_user.uid
 		playlists = GetPlaylistMetadataFromSpotify.build.call(session["devise.spotify_data"])		
-		Playlist.sync_playlists(playlists, userid)		
+		Playlist.sync_playlists(playlists, userid)
 		render json: playlists
 	end
 

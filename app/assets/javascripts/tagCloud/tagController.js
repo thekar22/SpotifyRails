@@ -1,6 +1,6 @@
 angular
-	.module('tagModule', ['tagService', 'ngTagsInput', 'songCardDirective', 'ng-rails-csrf', 'angular-jqcloud'])
-	.controller('tagController', ['$scope', 'tagService', '$http', function tagController($scope, tagService, $http) {
+	.module('tagModule', ['tagService', 'ngTagsInput', 'songCardDirective', 'ng-rails-csrf', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'sharedUtilService'])
+	.controller('tagController', ['$scope', 'tagService', '$http', 'sharedUtilService', function tagController($scope, tagService, $http, sharedUtilService) {
 		initModule();
 
 		$scope.loadTags = function($query) {
@@ -39,19 +39,37 @@ angular
 				$scope.loading.text = 'Loading...';
 				tagService["getPlaylist" + filterType](playlistIds).then(function(response){ 
 					$scope.loading.text = '';			
-					var tempId = '';
 					var allSongs = response.data;
-					for(var song in allSongs)
-					{
-						tempId = allSongs[song].song_id;
-						$scope.songs[tempId] = {};
-						$scope.songs[tempId]['songInfo'] = allSongs[song];
-					}
+					$scope.gridOptions.data = allSongs;
 				});
 			}
 		}
 
+		function setupGrid()
+		{ //TODO share code with search view
+			$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
+			$scope.gridOptions.columnDefs = [
+				{ name: 'name', displayName: 'Title'},
+				{ name: 'artist'},
+				{ name: 'song_id', visible: false}
+			];
+			$scope.gridOptions.multiSelect = false;
+			$scope.gridOptions.modifierKeysToMultiSelect = false;
+			$scope.gridOptions.noUnselect = true;
+			$scope.gridOptions.data = [];
+			$scope.gridOptions.onRegisterApi = function( gridApi ) {
+				$scope.gridApi = gridApi;
+				gridApi.selection.on.rowSelectionChanged($scope, function(row){
+					console.log(row.entity.song_id);
+					sharedUtilService.redirect('#/song/' + row.entity.song_id);
+					//Do something when a row is selected
+				});
+			};
+		}
+
 		function initModule(){		
+
+			setupGrid();
 
 			// for tag cloud
 			$scope.colors = ["#111111", "#333333", "#555555", "#777777", "#999999", "#bbbbbb", "#dddddd"];
