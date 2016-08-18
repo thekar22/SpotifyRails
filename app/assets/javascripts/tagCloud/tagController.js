@@ -1,6 +1,6 @@
 angular
-	.module('tagModule', ['tagService', 'ngTagsInput', 'songCardDirective', 'ng-rails-csrf', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'sharedUtilService'])
-	.controller('tagController', ['$scope', 'tagService', '$http', 'sharedUtilService', function tagController($scope, tagService, $http, sharedUtilService) {
+	.module('tagModule', ['tagService', 'ngTagsInput', 'ng-rails-csrf', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'sharedUtilService', 'uiGridService'])
+	.controller('tagController', ['$scope', 'tagService', '$http', 'sharedUtilService', 'uiGridService', function tagController($scope, tagService, $http, sharedUtilService, uiGridService) {
 		initModule();
 
 		$scope.loadTags = function($query) {
@@ -46,25 +46,13 @@ angular
 		}
 
 		function setupGrid()
-		{ //TODO share code with search view
-			$scope.gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
+		{
+			$scope.gridOptions = uiGridService.createGridOptions($scope, 'song_id');
 			$scope.gridOptions.columnDefs = [
 				{ name: 'name', displayName: 'Title'},
 				{ name: 'artist'},
 				{ name: 'song_id', visible: false}
 			];
-			$scope.gridOptions.multiSelect = false;
-			$scope.gridOptions.modifierKeysToMultiSelect = false;
-			$scope.gridOptions.noUnselect = true;
-			$scope.gridOptions.data = [];
-			$scope.gridOptions.onRegisterApi = function( gridApi ) {
-				$scope.gridApi = gridApi;
-				gridApi.selection.on.rowSelectionChanged($scope, function(row){
-					console.log(row.entity.song_id);
-					sharedUtilService.redirect('#/song/' + row.entity.song_id);
-					//Do something when a row is selected
-				});
-			};
 		}
 
 		function initModule(){		
