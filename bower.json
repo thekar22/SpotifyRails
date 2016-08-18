@@ -21,5 +21,8 @@
     "angular-jqcloud": "latest",
     "angular-material": "latest",
     "angular-ui-grid": "^3.2.1"
+  },
+  "resolutions": {
+    "angular": "^1.4.8"
   }
 }
