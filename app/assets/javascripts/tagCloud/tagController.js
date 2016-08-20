@@ -39,7 +39,7 @@ angular
 				$scope.loading.text = 'Loading...';
 				tagService["getPlaylist" + filterType](playlistIds).then(function(response){ 
 					$scope.loading.text = '';			
-					var allSongs = response.data;
+					var allSongs = response.data;					
 					$scope.gridOptions.data = allSongs;
 				});
 			}
