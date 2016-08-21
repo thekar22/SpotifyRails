@@ -11,7 +11,7 @@ angular
 		};
 
 		$scope.onTagAdded = function($tag) {
-			$scope.queryResults();		
+			$scope.queryResults();	
 		}
 
 		$scope.onTagRemoved = function($tag) {	
@@ -89,8 +89,20 @@ angular
 				$scope.loading.text = '';
 				var playlists = response.data;
 
-				for(var i = 0; i < playlists.length; i++){
-					$scope.tagCloud[i] = { text: playlists[i].name, weight: playlists[i].total, id: playlists[i].id};
+				for(var playlist in playlists){					
+					$scope.tagCloud.push({ 
+						text: playlists[playlist].name, 
+						weight: playlists[playlist].total, 
+						id: playlists[playlist].id, 
+						handlers: { click: function() {							
+								var index = angular.copy(playlist);
+								return function() {									
+									$scope.tags.push({text: playlists[index].name, weight: playlists[index].total, id: playlists[index].id});									
+									$scope.queryResults();									
+								}
+							}()
+						}
+					});
 				}			
 				$scope.tagView = "tag-cloud";
 			});
