@@ -133,6 +133,7 @@ html tags-input .tags .tag-item
 	height: 10%;
 	margin: 0 auto;
 	width: 400px;
+	text-align: center;
 }
 
 .tagView
@@ -140,6 +141,14 @@ html tags-input .tags .tag-item
 	height: 70%;
 }
 
+input[type="radio"]:checked + span
+{
+    font-weight: bold;
+}
+
+[type='radio'] {
+	display: none; 
+}
 
 //// Tag cloud / results
 
