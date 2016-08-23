@@ -1,14 +1,13 @@
 angular
 	.module('searchModule', ['searchService', 'ng-rails-csrf', 'ui.grid', 'ui.grid.selection', 'sharedUtilService', 'uiGridService'])
-	.controller('searchController', ['$scope', 'searchService', '$http', 'sharedUtilService', 'uiGridService', function searchController($scope, searchService, $http, sharedUtilService, uiGridService) {
+	.controller('searchController', ['$scope', 'searchService', '$http', 'sharedUtilService', 'uiGridService', '$rootScope', function searchController($scope, searchService, $http, sharedUtilService, uiGridService, $rootScope) {
 		initModule();
 
 		$scope.searchQuery = function($query) {
 			// perform search against query with spotify service
-
-			$scope.loading = 'Getting Results...';
+			$rootScope.$broadcast('loading.loading', {key:"searchQuery", val: "Loading"});
 			searchService.searchQuery($query).then(function(response){
-				$scope.loading = 'Results Loaded...';
+				$rootScope.$broadcast('loading.loaded', {key:"searchQuery"});
 				var result = response.data;							
 				$scope.gridOptions.data = result;
 
