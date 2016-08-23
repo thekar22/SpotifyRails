@@ -13,6 +13,24 @@ angular
 			}
 		});
 
+		$scope.loadingItems = {};
+		$scope.dataLoading = false;
+
+		$scope.$on('loading.loading', function (event, arg) { 			
+			$scope.loadingItems[arg.key] = arg.val;
+			$scope.dataLoading = true;
+		});
+
+		$scope.$on('loading.loaded', function (event, arg) { 			
+			if ($scope.loadingItems[arg.key])
+			{
+				delete $scope.loadingItems[arg.key]
+			}
+			if (Object.keys($scope.loadingItems).length == 0) {
+				$scope.dataLoading = false;
+			}
+		});
+
 		$scope.openLeftMenu = function() {
 			$mdSidenav('left').toggle();
 		};	

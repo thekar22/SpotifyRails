@@ -1,6 +1,6 @@
 angular
 	.module('tagModule', ['tagService', 'ngTagsInput', 'ng-rails-csrf', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'sharedUtilService', 'uiGridService'])
-	.controller('tagController', ['$scope', 'tagService', '$http', 'sharedUtilService', 'uiGridService', function tagController($scope, tagService, $http, sharedUtilService, uiGridService) {
+	.controller('tagController', ['$scope', 'tagService', '$http', 'sharedUtilService', 'uiGridService', '$rootScope', function tagController($scope, tagService, $http, sharedUtilService, uiGridService, $rootScope) {
 		initModule();
 
 		$scope.loadTags = function($query) {
@@ -36,10 +36,10 @@ angular
 					playlistIds.push($scope.tags[tag].id);
 				}
 
-				$scope.loading.text = 'Loading...';
+				$rootScope.$broadcast('loading.loading', {key:"getPlaylistSongs", val: "Loading"});
 				tagService["getPlaylist" + filterType](playlistIds).then(function(response){ 
-					$scope.loading.text = '';			
-					var allSongs = response.data;					
+					$rootScope.$broadcast('loading.loaded', {key:"getPlaylistSongs"});
+					var allSongs = response.data;
 					$scope.gridOptions.data = allSongs;
 				});
 			}
@@ -84,9 +84,9 @@ angular
 			}, true);
 
 			// initial load
-			$scope.loading = {text: 'Loading...'};
+			$rootScope.$broadcast('loading.loading', {key:"getPlaylists", val: "Loading"});
 			tagService.getUserPlaylists().then(function(response){
-				$scope.loading.text = '';
+				$rootScope.$broadcast('loading.loaded', {key:"getPlaylists"});
 				var playlists = response.data;
 
 				for(var playlist in playlists){					

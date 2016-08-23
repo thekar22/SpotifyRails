@@ -1,7 +1,7 @@
 angular
 	.module('audioFeaturesModule', ['audioFeaturesService', 'ng-rails-csrf'])
-	.controller('audioFeaturesController', ['$scope', 'audioFeaturesService', function audioFeaturesController($scope, audioFeaturesService) {
-		$scope.loading = 'Loading Features...';
+	.controller('audioFeaturesController', ['$scope', 'audioFeaturesService', '$rootScope', function audioFeaturesController($scope, audioFeaturesService, $rootScope) {
+		
 		$scope.features = [];
 		
 		$scope.getAudioFeatures = function(songIds, i, features) {
@@ -15,7 +15,7 @@ angular
 				idsForFetching = songIds.slice(i, totalSongs);
 
 				audioFeaturesService.getAudioFeaturesFromSongIds(idsForFetching).then(function(response){  			
-					$scope.loading = 'Features Loaded!';
+					$rootScope.$broadcast('loading.loaded', {key:"loadingFeatures"});
 					features = features.concat(response.data);
 					
 					var tempFeature = {};
@@ -49,15 +49,15 @@ angular
 		var numSongs = Object.keys($scope.songs).length;
 		if (numSongs != 0) {		
 			var songIds = [];
-		for (var key in $scope.songs) {
+			for (var key in $scope.songs) {
 				if ($scope.songs.hasOwnProperty(key)) {  				
-				songIds.push($scope.songs[key]['songInfo'].song_id);
+					songIds.push($scope.songs[key]['songInfo'].song_id);
 				}
-		}
-
+			}
+			$rootScope.$broadcast('loading.loading', {key:"loadingFeatures", val: "Loading"});
 			$scope.getAudioFeatures(songIds, i, $scope.features);	
 		}
 		else {
-			$scope.loading = 'No Songs selected';
+			$scope.message = 'No Songs selected';
 		}
 }]);

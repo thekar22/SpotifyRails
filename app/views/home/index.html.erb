@@ -3,6 +3,10 @@
 	<div ng-app="MusicApp" class="mainContainer">
 
 		<div ng-controller="navigationController" class="navContainer">
+
+			<div class="loadingContainer" ng-if="dataLoading">
+				Loading...
+			</div>
 			<md-sidenav md-component-id="left" class="md-sidenav-left">
 				
 				<div>
@@ -46,10 +50,6 @@
 		</div>
 
 		<div ng-controller="tagController" class="contentContainer">
-			<div class="loading">
-				{{loading.text}}
-			</div>
-
 			<div ng-view class="viewContainer">
 				<!-- view content here -->
 			</div>

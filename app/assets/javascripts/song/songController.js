@@ -1,6 +1,6 @@
 angular
 	.module('songModule', ['songService', 'tagService', 'ngTagsInput', 'ng-rails-csrf'])
-	.controller('songController', ['$scope', 'songService', 'tagService', '$http', '$routeParams', function songController($scope, songService, tagService, $http, $routeParams) {
+	.controller('songController', ['$scope', 'songService', 'tagService', '$http', '$routeParams', '$rootScope', function songController($scope, songService, tagService, $http, $routeParams, $rootScope) {
 		initModule();
 
 		$scope.loadTags = function($query) {
@@ -28,7 +28,9 @@ angular
 		}
 
 		$scope.addNewTag = function($tag) {
-			return songService.addNewTag($tag.text, $scope.id).then(function(response){		
+			$rootScope.$broadcast('loading.loading', {key:"addNewTag", val: "Loading"});
+			return songService.addNewTag($tag.text, $scope.id).then(function(response){
+				$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
 				var tag = response.data
 				$scope.tags.push({ text: tag.name, weight: tag.total, id: tag.id });	
 				return false;
@@ -36,7 +38,9 @@ angular
 		}
 
 		$scope.addExistingTag = function($tag) {
-			return songService.addExistingTag($tag.id, $scope.id).then(function(response){						
+			$rootScope.$broadcast('loading.loading', {key:"addExistingTag", val: "Loading"});
+			return songService.addExistingTag($tag.id, $scope.id).then(function(response){
+				$rootScope.$broadcast('loading.loaded', {key:"addExistingTag"});
 				if (response)
 				{
 					return true;
@@ -49,7 +53,9 @@ angular
 		}
 
 		$scope.removeTag = function($tag) {
-			return songService.removeTag($tag.id, $scope.id).then(function(response){						
+			$rootScope.$broadcast('loading.loading', {key:"removeTag", val: "Loading"});
+			return songService.removeTag($tag.id, $scope.id).then(function(response){
+				$rootScope.$broadcast('loading.loaded', {key:"removeTag"});			
 				if (response)
 				{
 					return true;
@@ -80,11 +86,15 @@ angular
 			}
 			else
 			{	
+				$rootScope.$broadcast('loading.loading', {key:"getSong", val: "Loading"});
 				songService.getSong($scope.id).then(function(response){					
+					$rootScope.$broadcast('loading.loaded', {key:"getSong"});
 					$scope.song = response.data;
 				});
 
-				songService.getCurrentTags($scope.id).then(function(response){
+				$rootScope.$broadcast('loading.loading', {key:"getCurrentTags", val: "Loading"});
+				songService.getCurrentTags($scope.id).then(function(response) {
+					$rootScope.$broadcast('loading.loaded', {key:"getCurrentTags"});
 					var tags = response.data;
 
 					for(var i = 0; i < tags.length; i++) {

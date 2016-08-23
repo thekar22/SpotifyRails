@@ -34,6 +34,7 @@ angular
     {
       window.location.href = $url;
     }
-
+    
     return service;
   }]);
+
