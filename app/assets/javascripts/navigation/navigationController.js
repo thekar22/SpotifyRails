@@ -2,14 +2,14 @@ angular
 	.module('navigationModule', [])
 	.controller('navigationController', ['$scope', '$mdSidenav', '$location', function tagController($scope, $mdSidenav, $location) {
 		
-		$scope.$on('$locationChangeStart', function(event) {
-			if ($location.path() !== "/")
+		$scope.$on('$locationChangeStart', function(event) {			
+			if (($location.path().substr(0,9) == "/tagCloud") || $location.path() == "/")
 			{
-				$scope.navView = "other-view";
+				$scope.navView = "tag-view";
 			}
 			else
 			{
-				$scope.navView = "tag-view";
+				$scope.navView = "other-view";
 			}
 		});
 
