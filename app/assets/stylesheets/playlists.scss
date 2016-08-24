@@ -45,13 +45,14 @@ html md-content
 {
 	height:80%;
 	width:100%;
-	overflow:hidden;	
+	overflow:hidden;
+	background: black;
 }
 
 .md-button
 {
 	height:50%;
-	width:20%;
+	width:20%;	
 }
 
 body > div > div.navContainer.ng-scope > md-content > button.md-raised.rightButton.md-button.md-ink-ripple
@@ -60,6 +61,8 @@ body > div > div.navContainer.ng-scope > md-content > button.md-raised.rightButt
 	top: 0px;
 	border:black;
 	right: 0px;	
+	background: inherit;
+	color: #FAFAFA;
 }
 
 body > div > div.navContainer.ng-scope > md-content > button.md-raised.leftButton.md-button.md-ink-ripple
@@ -68,6 +71,8 @@ body > div > div.navContainer.ng-scope > md-content > button.md-raised.leftButto
 	top: 0px;
 	border:black;
 	left: 0px; 
+	background: inherit;
+	color: #FAFAFA;
 }
 
 
