@@ -36,7 +36,7 @@ angular
 					playlistIds.push($scope.tags[tag].id);
 				}
 
-				$rootScope.$broadcast('loading.loading', {key:"getPlaylistSongs", val: "Loading"});
+				$rootScope.$broadcast('loading.loading', {key:"getPlaylistSongs", val: "Loading Songs..."});
 				tagService["getPlaylist" + filterType](playlistIds).then(function(response){ 
 					$rootScope.$broadcast('loading.loaded', {key:"getPlaylistSongs"});
 					var allSongs = response.data;
@@ -84,7 +84,7 @@ angular
 			}, true);
 
 			// initial load
-			$rootScope.$broadcast('loading.loading', {key:"getPlaylists", val: "Loading"});
+			$rootScope.$broadcast('loading.loading', {key:"getPlaylists", val: "Loading Playlists..."});
 			tagService.getUserPlaylists().then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"getPlaylists"});
 				var playlists = response.data;

@@ -19,6 +19,7 @@ angular
 		$scope.$on('loading.loading', function (event, arg) { 			
 			$scope.loadingItems[arg.key] = arg.val;
 			$scope.dataLoading = true;
+			$scope.message = arg.val;
 		});
 
 		$scope.$on('loading.loaded', function (event, arg) { 			

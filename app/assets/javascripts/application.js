@@ -23,4 +23,5 @@
 //= require angular-animate
 //= require angular-aria
 //= require angular-ui-grid
+//= require angular-loading-bar
 //= require_tree .

@@ -1,4 +1,4 @@
-var app = angular.module('MusicApp', ['templates', 'ngRoute', 'navigationModule', 'tagModule', 'songModule', 'audioFeaturesModule', 'searchModule', 'ng-rails-csrf', 'ngMaterial'])
+var app = angular.module('MusicApp', ['templates', 'ngRoute', 'navigationModule', 'tagModule', 'songModule', 'audioFeaturesModule', 'searchModule', 'ng-rails-csrf', 'ngMaterial', 'angular-loading-bar', 'ngAnimate'])
 .config(
 	[
 		'$routeProvider',

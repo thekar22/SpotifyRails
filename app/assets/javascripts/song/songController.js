@@ -28,7 +28,7 @@ angular
 		}
 
 		$scope.addNewTag = function($tag) {
-			$rootScope.$broadcast('loading.loading', {key:"addNewTag", val: "Loading"});
+			$rootScope.$broadcast('loading.loading', {key:"addNewTag", val: "Adding Tag..."});
 			return songService.addNewTag($tag.text, $scope.id).then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
 				var tag = response.data
@@ -38,7 +38,7 @@ angular
 		}
 
 		$scope.addExistingTag = function($tag) {
-			$rootScope.$broadcast('loading.loading', {key:"addExistingTag", val: "Loading"});
+			$rootScope.$broadcast('loading.loading', {key:"addExistingTag", val: "Adding Tag..."});
 			return songService.addExistingTag($tag.id, $scope.id).then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"addExistingTag"});
 				if (response)
@@ -53,7 +53,7 @@ angular
 		}
 
 		$scope.removeTag = function($tag) {
-			$rootScope.$broadcast('loading.loading', {key:"removeTag", val: "Loading"});
+			$rootScope.$broadcast('loading.loading', {key:"removeTag", val: "Removing Tag..."});
 			return songService.removeTag($tag.id, $scope.id).then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"removeTag"});			
 				if (response)
@@ -86,13 +86,13 @@ angular
 			}
 			else
 			{	
-				$rootScope.$broadcast('loading.loading', {key:"getSong", val: "Loading"});
+				$rootScope.$broadcast('loading.loading', {key:"getSong", val: "Loading Song..."});
 				songService.getSong($scope.id).then(function(response){					
 					$rootScope.$broadcast('loading.loaded', {key:"getSong"});
 					$scope.song = response.data;
 				});
 
-				$rootScope.$broadcast('loading.loading', {key:"getCurrentTags", val: "Loading"});
+				$rootScope.$broadcast('loading.loading', {key:"getCurrentTags", val: "Loading Tags... (Takes a while the first time)"});
 				songService.getCurrentTags($scope.id).then(function(response) {
 					$rootScope.$broadcast('loading.loaded', {key:"getCurrentTags"});
 					var tags = response.data;
