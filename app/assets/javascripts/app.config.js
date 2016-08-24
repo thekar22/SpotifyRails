@@ -8,6 +8,10 @@ var app = angular.module('MusicApp', ['templates', 'ngRoute', 'navigationModule'
 				.when('/', {
 					templateUrl: 'tagCloud/tagView.html' // tagController specified in index.html.erb
 			})
+				.when('/tagCloud/:id', {
+					templateUrl: 'tagCloud/tagView.html',
+					controller: 'tagController'
+			})
 				.when('/audioFeatures', {
 					templateUrl: 'audioFeatures/audioFeaturesView.html',
 					controller: 'audioFeaturesController'

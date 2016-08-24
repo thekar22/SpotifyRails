@@ -2,13 +2,15 @@
 <h2> {{"by: " + song.artists[0].name}} </h2>
 
 <div class="singleSong">		
-	<tags-input ng-model="tags" 
+	<tags-input
+		ng-model="tags" 
 		text="text"
 		placeholder="-"
 		on-tag-added="onTagAdded($tag)"
 		on-tag-adding="onTagAdding($tag)"
 		on-tag-removed="onTagRemoved($tag)"
 		on-tag-removing="onTagRemoving($tag)"
+		on-tag-clicked="onTagClicked($tag)"
 		>
 		<auto-complete source="loadTags($query)"
 			min-length="0"

@@ -1,6 +1,6 @@
 angular
-	.module('songModule', ['songService', 'tagService', 'ngTagsInput'])
-	.controller('songController', ['$scope', 'songService', 'tagService', '$http', '$routeParams', '$rootScope', function songController($scope, songService, tagService, $http, $routeParams, $rootScope) {
+	.module('songModule', ['songService', 'tagService', 'ngTagsInput', 'sharedUtilService'])
+	.controller('songController', ['$scope', 'songService', 'tagService', '$http', '$routeParams', '$rootScope', 'sharedUtilService', function songController($scope, songService, tagService, $http, $routeParams, $rootScope, sharedUtilService) {
 		initModule();
 
 		$scope.loadTags = function($query) {
@@ -73,6 +73,10 @@ angular
 
 		$scope.onTagRemoved = function($tag) {
 			// notify user
+		}
+
+		$scope.onTagClicked = function ($tag) {			
+			sharedUtilService.redirect('#/tagCloud/' + $tag.id);
 		}
 
 		function initModule() {

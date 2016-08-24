@@ -1,6 +1,6 @@
 angular
-	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'sharedUtilService', 'uiGridService'])
-	.controller('tagController', ['$scope', 'tagService', '$http', 'sharedUtilService', 'uiGridService', '$rootScope', function tagController($scope, tagService, $http, sharedUtilService, uiGridService, $rootScope) {
+	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'uiGridService'])
+	.controller('tagController', ['$scope', 'tagService', '$http', 'uiGridService', '$rootScope', '$routeParams', function tagController($scope, tagService, $http, uiGridService, $rootScope, $routeParams) {
 		initModule();
 
 		$scope.loadTags = function($query) {
@@ -10,32 +10,26 @@ angular
 			});
 		};
 
-		$scope.onTagAdded = function($tag) {
-			$scope.queryResults();	
-		}
-
-		$scope.onTagRemoved = function($tag) {	
-			$scope.queryResults();
-		}
-
 		$scope.queryResults = function() {
 			if ($scope.tags.length > 0)
-			{
-				$scope.tagView = "tag-results";	
-				$scope.getPlaylistSongs($scope.filter.name);	
+			{				
+				var ids = $scope.getTagIds($scope.tags)
+				$scope.getPlaylistSongs(ids, $scope.filter.name);	
 			}
 		}
 
-		$scope.getPlaylistSongs = function(filterType) {
-			$scope.songs = {};
-			if ($scope.tags.length != 0)
-			{
-				playlistIds = [];
-				for (var tag in $scope.tags)
-				{
-					playlistIds.push($scope.tags[tag].id);
-				}
+		$scope.getTagIds = function (tags)
+		{
+			var playlistIds = $scope.tags.map(function(tag){
+				return tag.id;
+			});
+			return playlistIds;
+		}
 
+		$scope.getPlaylistSongs = function(playlistIds, filterType) {
+			$scope.songs = {};
+			if (playlistIds.length != 0)
+			{
 				$rootScope.$broadcast('loading.loading', {key:"getPlaylistSongs", val: "Loading Songs..."});
 				tagService["getPlaylist" + filterType](playlistIds).then(function(response){ 
 					$rootScope.$broadcast('loading.loaded', {key:"getPlaylistSongs"});
@@ -75,6 +69,7 @@ angular
 			$scope.filter = {
 				name: 'Union'
 			};
+			$scope.tagDictionary = {};
 
 			//watch variables
 			$scope.$watch('filter.name', function () {
@@ -85,15 +80,23 @@ angular
 				{
 					$scope.tagView = "tag-cloud";
 				}
+				else
+				{
+					$scope.queryResults();
+					$scope.tagView = "tag-results";
+				}
 			}, true);
 
 			// initial load
+			$scope.tagView = "tag-cloud";
 			$rootScope.$broadcast('loading.loading', {key:"getPlaylists", val: "Loading Playlists..."});
 			tagService.getUserPlaylists().then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"getPlaylists"});
 				var playlists = response.data;
 
-				for(var playlist in playlists){					
+				for(var playlist in playlists) {
+
+					$scope.tagDictionary[playlists[playlist].id] = playlists[playlist];
 					$scope.tagCloud.push({ 
 						text: playlists[playlist].name, 
 						weight: playlists[playlist].total, 
@@ -107,8 +110,18 @@ angular
 							}()
 						}
 					});
-				}			
-				$scope.tagView = "tag-cloud";
+				}
+
+				if($routeParams.id)
+				{
+					$scope.tags = [];
+					if($scope.tagDictionary[$routeParams.id])
+					{
+						var tag = $scope.tagDictionary[$routeParams.id]
+						$scope.tags.push({text: tag.name, weight: tag.total, id: tag.id});
+						$scope.getPlaylistSongs([tag.id], $scope.filter.name);
+					}
+				}
 			});
 		}
 	}
