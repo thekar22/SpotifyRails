@@ -1,5 +1,5 @@
 angular
-	.module('tagModule', ['tagService', 'ngTagsInput', 'ng-rails-csrf', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'sharedUtilService', 'uiGridService'])
+	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'sharedUtilService', 'uiGridService'])
 	.controller('tagController', ['$scope', 'tagService', '$http', 'sharedUtilService', 'uiGridService', '$rootScope', function tagController($scope, tagService, $http, sharedUtilService, uiGridService, $rootScope) {
 		initModule();
 

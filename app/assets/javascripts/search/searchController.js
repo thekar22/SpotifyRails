@@ -1,5 +1,5 @@
 angular
-	.module('searchModule', ['searchService', 'ng-rails-csrf', 'ui.grid', 'ui.grid.selection', 'sharedUtilService', 'uiGridService'])
+	.module('searchModule', ['searchService', 'ui.grid', 'ui.grid.selection', 'sharedUtilService', 'uiGridService'])
 	.controller('searchController', ['$scope', 'searchService', '$http', 'sharedUtilService', 'uiGridService', '$rootScope', function searchController($scope, searchService, $http, sharedUtilService, uiGridService, $rootScope) {
 		initModule();
 
@@ -33,4 +33,3 @@ angular
 		}
 	}
 ]);
-

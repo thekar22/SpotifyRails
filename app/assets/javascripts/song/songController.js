@@ -1,5 +1,5 @@
 angular
-	.module('songModule', ['songService', 'tagService', 'ngTagsInput', 'ng-rails-csrf'])
+	.module('songModule', ['songService', 'tagService', 'ngTagsInput'])
 	.controller('songController', ['$scope', 'songService', 'tagService', '$http', '$routeParams', '$rootScope', function songController($scope, songService, tagService, $http, $routeParams, $rootScope) {
 		initModule();
 

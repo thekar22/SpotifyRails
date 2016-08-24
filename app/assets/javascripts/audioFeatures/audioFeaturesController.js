@@ -1,5 +1,5 @@
 angular
-	.module('audioFeaturesModule', ['audioFeaturesService', 'ng-rails-csrf'])
+	.module('audioFeaturesModule', ['audioFeaturesService'])
 	.controller('audioFeaturesController', ['$scope', 'audioFeaturesService', '$rootScope', function audioFeaturesController($scope, audioFeaturesService, $rootScope) {
 		
 		$scope.features = [];
@@ -47,13 +47,11 @@ angular
 
 		var i = 0;
 		var numSongs = Object.keys($scope.songs).length;
-		if (numSongs != 0) {		
-			var songIds = [];		
-			for (var key in $scope.songs) {
-				if ($scope.songs.hasOwnProperty(key)) {  				
-					songIds.push($scope.songs[key].song_id);
-				}
-			}
+		if (numSongs != 0) {			
+			var songIds = Object.keys($scope.songs).map(function(key){
+				return $scope.songs[key].song_id;
+			});
+
 			$rootScope.$broadcast('loading.loading', {key:"loadingFeatures", val: "Loading"});
 			$scope.getAudioFeatures(songIds, i, $scope.features);	
 		}

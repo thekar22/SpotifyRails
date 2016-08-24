@@ -25,4 +25,12 @@ var app = angular.module('MusicApp', ['templates', 'ngRoute', 'navigationModule'
 			});
 		}
 	]
+)
+.config(
+	[
+		'cfpLoadingBarProvider', 
+		function(cfpLoadingBarProvider) {
+			cfpLoadingBarProvider.includeSpinner = false;
+		}
+	]
 );
