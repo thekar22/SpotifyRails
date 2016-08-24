@@ -21,8 +21,8 @@ angular
 					var tempFeature = {};
 					for(var feature in features)
 					{
-						tempFeature = features[feature];
-						$scope.songs[tempFeature.id]['audio_features'] = tempFeature;
+						tempFeature = features[feature];						
+						$scope.songs[tempFeature.id].audio_features = tempFeature;
 					}
 					$scope.features = features;
 					audioFeaturesService.initializeAudioFeatureAggregates($scope);
@@ -48,10 +48,10 @@ angular
 		var i = 0;
 		var numSongs = Object.keys($scope.songs).length;
 		if (numSongs != 0) {		
-			var songIds = [];
+			var songIds = [];		
 			for (var key in $scope.songs) {
 				if ($scope.songs.hasOwnProperty(key)) {  				
-					songIds.push($scope.songs[key]['songInfo'].song_id);
+					songIds.push($scope.songs[key].song_id);
 				}
 			}
 			$rootScope.$broadcast('loading.loading', {key:"loadingFeatures", val: "Loading"});

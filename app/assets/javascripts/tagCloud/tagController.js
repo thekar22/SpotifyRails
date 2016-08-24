@@ -39,7 +39,11 @@ angular
 				$rootScope.$broadcast('loading.loading', {key:"getPlaylistSongs", val: "Loading Songs..."});
 				tagService["getPlaylist" + filterType](playlistIds).then(function(response){ 
 					$rootScope.$broadcast('loading.loaded', {key:"getPlaylistSongs"});
-					var allSongs = response.data;
+					var allSongs = response.data;					
+					for(var i = 0; i < allSongs.length; i ++)
+					{
+						$scope.songs[allSongs[i].song_id] = allSongs[i];
+					}
 					$scope.gridOptions.data = allSongs;
 				});
 			}
