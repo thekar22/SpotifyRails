@@ -94,6 +94,14 @@ angular
 			// initial load
 			$scope.tagView = "tag-cloud";
 			$rootScope.$broadcast('loading.loading', {key:"getPlaylists", val: "Loading Playlists..."});
+
+			$rootScope.$on( "$routeChangeStart", function(event, next, current) {
+				if (next.$$route.originalPath == "/")
+				{
+					$scope.queryResults();
+				}
+			});
+
 			tagService.getUserPlaylists().then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"getPlaylists"});
 				var playlists = response.data;
@@ -105,11 +113,11 @@ angular
 						text: playlists[playlist].name, 
 						weight: playlists[playlist].total, 
 						id: playlists[playlist].id, 
-						handlers: { click: function() {							
+						handlers: { click: function() {
 								var index = angular.copy(playlist);
-								return function() {									
-									$scope.tags.push({text: playlists[index].name, weight: playlists[index].total, id: playlists[index].id});									
-									$scope.queryResults();									
+								return function() {
+									$scope.tags.push({text: playlists[index].name, weight: playlists[index].total, id: playlists[index].id});
+									$scope.queryResults();
 								}
 							}()
 						}

@@ -38,4 +38,9 @@ angular
 			$scope.openRightMenu = function() {
 			$mdSidenav('right').toggle();
 		};
+
+		$scope.toggle = function(side) {
+			$mdSidenav(side).toggle();
+		}
+
 }]);

@@ -21,20 +21,20 @@
 				<div ng-switch="navView">
 		
 					<div class="tagCloud" ng-switch-when="tag-view">
-						<a href="/#/audioFeatures">
+						<a ng-click="toggle('right')" href="/#/audioFeatures">
 							Get Song Features
 						</a>
 					</div>
 
 					<div class="tagResults" ng-switch-when="other-view">
-						<a href="/#/">
+						<a ng-click="toggle('right')" href="/#/">
 							Return to Tags
 						</a>
 					</div>
 
 				</div>
 
-				<a href="/#/search">
+				<a ng-click="toggle('right')" href="/#/search">
 					Search Songs
 				</a>
 
