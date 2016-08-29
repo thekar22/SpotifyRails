@@ -39,7 +39,7 @@ angular
 				// if row clicked
 			});
 			$scope.searchGridOptions.columnDefs.push({ 
-				name: 'Add To Custom Tag', 
+				name: 'Add', 
 				cellTemplate: '<button class="btn primary" ng-click="grid.appScope.addToSelectedSongs(row)"> + </button>'
 			});
 		}
