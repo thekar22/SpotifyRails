@@ -7,8 +7,17 @@
 	</form>
 
 	<div class="songSearchResults">
-	<div ui-grid="gridOptions" ui-grid-selection class="grid"></div>
+		<div ui-grid="searchGridOptions" ui-grid-selection class="grid"></div>
+	</div>
+</div>
 
+<div class="selectedSongsContainer">
+	<label>
+		Selected Songs:
+	</label>
+	
+	<div class="selectedSongs">
+		<div ui-grid="selectedSongsGridOptions" ui-grid-selection class="grid"></div>
 	</div>
 </div>
 

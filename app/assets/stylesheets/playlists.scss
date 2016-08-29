@@ -34,7 +34,7 @@ body
 
 .contentContainer
 {
-	height: 78%;
+	height: 88%;
 }
 
 
@@ -166,6 +166,7 @@ input[type="radio"]:checked + span
 
 .tagResults
 {
+	position: relative;
 	height: 100%;
 	width: 100%;
 	margin: 0 auto;
@@ -177,6 +178,40 @@ input[type="radio"]:checked + span
 	position:absolute;
 	height: 100%;
 	width: 100%;
+}
+
+//// Search
+
+div.searchSong
+{
+	height:50%;
+}
+
+div.selectedSongsContainer
+{
+	height:50%;
+}
+
+div.searchSong > form
+{
+	height: 15%;
+}
+
+div.songSearchResults
+{
+	position: relative;
+	height: 85%;	
+}
+
+div.selectedSongsContainer > label
+{
+	height: 15%;
+}
+
+div.selectedSongs
+{
+	position: relative;
+	height: 85%
 }
 
 
@@ -226,4 +261,13 @@ button span
     font-size: 22px;
     text-align: center;
     z-index: 100000;
+}
+
+.ui-grid {
+  position: absolute;
+  height: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }

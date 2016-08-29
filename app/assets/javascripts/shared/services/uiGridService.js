@@ -3,7 +3,7 @@ angular.module('uiGridService', ['sharedUtilService'])
 
 	var factory = {};
 
-	factory.createGridOptions = function($scope, redirectId) {
+	factory.createGridOptions = function($scope, selectFunction) {
 		var gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
 		gridOptions.multiSelect = false;
 		gridOptions.modifierKeysToMultiSelect = false;
@@ -11,9 +11,7 @@ angular.module('uiGridService', ['sharedUtilService'])
 		gridOptions.data = [];
 		gridOptions.onRegisterApi = function( gridApi ) {
 			$scope.gridApi = gridApi;
-			gridApi.selection.on.rowSelectionChanged($scope, function(row){
-				sharedUtilService.redirect('#/song/' + row.entity[redirectId]);
-			});
+			gridApi.selection.on.rowSelectionChanged($scope, selectFunction);
 		};
 
 		return gridOptions;

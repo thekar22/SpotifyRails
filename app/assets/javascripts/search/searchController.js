@@ -1,6 +1,6 @@
 angular
-	.module('searchModule', ['searchService', 'ui.grid', 'ui.grid.selection', 'uiGridService'])
-	.controller('searchController', ['$scope', 'searchService', '$http', 'uiGridService', '$rootScope', function searchController($scope, searchService, $http, uiGridService, $rootScope) {
+	.module('searchModule', ['searchService', 'ui.grid', 'ui.grid.selection', 'uiGridService', 'sharedUtilService'])
+	.controller('searchController', ['$scope', 'searchService', '$http', 'uiGridService', '$rootScope', 'sharedUtilService', function searchController($scope, searchService, $http, uiGridService, $rootScope, sharedUtilService) {
 		initModule();
 
 		$scope.searchQuery = function($query) {
@@ -9,22 +9,35 @@ angular
 			searchService.searchQuery($query).then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"searchQuery"});
 				var result = response.data;							
-				$scope.gridOptions.data = result;
+				$scope.searchGridOptions.data = result;
 
 				$scope.results = response.data;
-			})	
+			})
 		}
 
 		function setupGrid()
 		{ 
-			$scope.gridOptions = uiGridService.createGridOptions($scope, 'id');
-			$scope.gridOptions.columnDefs = [
+			$scope.searchGridOptions = uiGridService.createGridOptions($scope, function(row){
+				// sharedUtilService.redirect('#/song/' + row.entity['id']);
+			});
+			$scope.searchGridOptions.columnDefs = [
+				{ name: 'name', displayName: 'Title'},
+				{ name: 'artists[0].name', displayName: 'Artist'},
+				{ name: 'id', visible: false},
+				{ name: 'Add'}
+			];
+
+			$scope.selectedSongsGridOptions = uiGridService.createGridOptions($scope, function(row){
+				// sharedUtilService.redirect('#/song/' + row.entity['id']);
+			});
+			$scope.selectedSongsGridOptions.columnDefs = [
 				{ name: 'name', displayName: 'Title'},
 				{ name: 'artists[0].name', displayName: 'Artist'},
 				{ name: 'id', visible: false}
+				{ name: 'Delete'}
 			];
 		}
-
+		
 		function initModule(){
 			setupGrid();
 			$scope.query = {

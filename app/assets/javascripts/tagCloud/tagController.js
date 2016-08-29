@@ -1,6 +1,6 @@
 angular
-	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'uiGridService'])
-	.controller('tagController', ['$scope', 'tagService', '$http', 'uiGridService', '$rootScope', '$routeParams', function tagController($scope, tagService, $http, uiGridService, $rootScope, $routeParams) {
+	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'uiGridService', 'sharedUtilService'])
+	.controller('tagController', ['$scope', 'tagService', '$http', 'uiGridService', '$rootScope', '$routeParams','sharedUtilService', function tagController($scope, tagService, $http, uiGridService, $rootScope, $routeParams, sharedUtilService) {
 		initModule();
 
 		$scope.loadTags = function($query) {
@@ -45,7 +45,10 @@ angular
 
 		function setupGrid()
 		{
-			$scope.gridOptions = uiGridService.createGridOptions($scope, 'song_id');
+			$scope.gridOptions = uiGridService.createGridOptions($scope, function(row){
+				sharedUtilService.redirect('#/song/' + row.entity['song_id']);
+			});
+
 			$scope.gridOptions.columnDefs = [
 				{ name: 'name', displayName: 'Title'},
 				{ name: 'artist'},
@@ -78,6 +81,7 @@ angular
 			$scope.$watch('tags', function (newVal, oldVal) { 
 				if ($scope.tags.length < 1)
 				{
+					$scope.songs = {};
 					$scope.tagView = "tag-cloud";
 				}
 				else
