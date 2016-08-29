@@ -33,11 +33,11 @@ angular
 			$scope.selectedSongsGridOptions.columnDefs = [
 				{ name: 'name', displayName: 'Title'},
 				{ name: 'artists[0].name', displayName: 'Artist'},
-				{ name: 'id', visible: false}
+				{ name: 'id', visible: false},
 				{ name: 'Delete'}
 			];
 		}
-		
+
 		function initModule(){
 			setupGrid();
 			$scope.query = {
