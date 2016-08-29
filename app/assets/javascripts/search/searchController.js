@@ -8,41 +8,71 @@ angular
 			$rootScope.$broadcast('loading.loading', {key:"searchQuery", val: "Loading"});
 			searchService.searchQuery($query).then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"searchQuery"});
-				var result = response.data;							
+				var result = response.data;
+				result = $scope.parseSongs(result);
 				$scope.searchGridOptions.data = result;
-
-				$scope.results = response.data;
 			})
 		}
 
-		function setupGrid()
-		{ 
-			$scope.searchGridOptions = uiGridService.createGridOptions($scope, function(row){
-				// sharedUtilService.redirect('#/song/' + row.entity['id']);
+		$scope.parseSongs = function (spotifyList) {
+			// iterate through each item in spotify song list
+			// for each spotify song, create new object that has same fields (ones we care about) as db songs
+			var songs = spotifyList.map(function(song) {
+				return {name: song.name, artist: song.artists[0].name, song_id: song.id};
 			});
-			$scope.searchGridOptions.columnDefs = [
-				{ name: 'name', displayName: 'Title'},
-				{ name: 'artists[0].name', displayName: 'Artist'},
-				{ name: 'id', visible: false},
-				{ name: 'Add'}
-			];
 
-			$scope.selectedSongsGridOptions = uiGridService.createGridOptions($scope, function(row){
-				// sharedUtilService.redirect('#/song/' + row.entity['id']);
+			return songs;
+		}
+
+		$scope.addToSelectedSongs = function(row) { 
+			$scope.selectedSongsGridOptions.data.push(row.entity);
+		};
+
+		$scope.removeFromSelectedSongs = function(row) {
+			var index = $scope.selectedSongsGridOptions.data.indexOf(row.entity);
+			$scope.selectedSongsGridOptions.data.splice(index, 1);
+		};
+
+		function setupSearchGrid()
+		{
+			$scope.searchGridOptions = uiGridService.createGridOptions($scope, function(row){
+				// if row clicked
 			});
-			$scope.selectedSongsGridOptions.columnDefs = [
-				{ name: 'name', displayName: 'Title'},
-				{ name: 'artists[0].name', displayName: 'Artist'},
-				{ name: 'id', visible: false},
-				{ name: 'Delete'}
-			];
+			$scope.searchGridOptions.columnDefs.push({ 
+				name: 'Add To Custom Tag', 
+				cellTemplate: '<button class="btn primary" ng-click="grid.appScope.addToSelectedSongs(row)"> + </button>'
+			});
+		}
+
+		function setupCustomTagGrid()
+		{ 
+			$scope.selectedSongsGridOptions = uiGridService.createGridOptions($scope, function(row){
+				// if row clicked
+			});
+
+			$scope.selectedSongsGridOptions.columnDefs.push({ 
+				name: 'Remove', 
+				cellTemplate: '<button class="btn primary" ng-click="grid.appScope.removeFromSelectedSongs(row)"> - </button>'
+			});
+
+			if ($scope.gridOptions.data.length > 0)
+			{
+				$scope.selectedSongsGridOptions.data = [];
+				$scope.selectedSongsGridOptions.data = $scope.gridOptions.data;				
+			}
+			else
+			{
+				$scope.selectedSongsGridOptions.data = []
+			}
 		}
 
 		function initModule(){
-			setupGrid();
+			setupSearchGrid();
+			setupCustomTagGrid();
 			$scope.query = {
 				text: ''
 			};
 		}
+
 	}
 ]);

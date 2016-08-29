@@ -1,6 +1,6 @@
 <div class="searchSong">
 	<form ng-submit="searchQuery(query.text)">
-		<label>Search:
+		<label>Search
 			<input type="text" name="input" ng-model="query.text">
 		</label>
 		<input type="submit" id="submit" value="Submit" />	
@@ -13,9 +13,9 @@
 
 <div class="selectedSongsContainer">
 	<label>
-		Selected Songs:
+		Custom Tag
 	</label>
-	
+
 	<div class="selectedSongs">
 		<div ui-grid="selectedSongsGridOptions" ui-grid-selection class="grid"></div>
 	</div>

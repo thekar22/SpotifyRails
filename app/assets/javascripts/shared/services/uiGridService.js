@@ -9,6 +9,13 @@ angular.module('uiGridService', ['sharedUtilService'])
 		gridOptions.modifierKeysToMultiSelect = false;
 		gridOptions.noUnselect = true;
 		gridOptions.data = [];
+
+		gridOptions.columnDefs = [
+			{ name: 'name', displayName: 'Title'},
+			{ name: 'artist', displayName: 'Artist'},
+			{ name: 'song_id', visible: false},			
+		];
+
 		gridOptions.onRegisterApi = function( gridApi ) {
 			$scope.gridApi = gridApi;
 			gridApi.selection.on.rowSelectionChanged($scope, selectFunction);
