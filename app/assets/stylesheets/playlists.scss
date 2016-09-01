@@ -41,7 +41,7 @@ body
 //// Navigation elements
 
 
-html md-content
+html .navContainer md-content
 {
 	height:80%;
 	width:100%;
@@ -139,6 +139,11 @@ html tags-input .tags .tag-item
 	margin: 0 auto;
 	width: 400px;
 	text-align: center;
+
+	span
+	{
+		cursor:pointer;
+	}
 }
 
 .tagView
@@ -164,13 +169,30 @@ input[type="radio"]:checked + span
 	position: relative;
 }
 
+.tagResultsContainer
+{
+	position: relative;
+	height:100%;
+}
+
 .tagResults
 {
 	position: relative;
-	height: 100%;
+	height: 90%;
 	width: 100%;
 	margin: 0 auto;
 	overflow: scroll;
+}
+
+.tagNewButton
+{
+	text-align: center;
+	position: relative;
+	height:10%;
+	width:100%;
+	background-color: #e3acc8;	
+	cursor: pointer;
+	font-size:30px;
 }
 
 #cloud-dynamic 
@@ -203,9 +225,18 @@ div.songSearchResults
 	height: 85%;	
 }
 
-div.selectedSongsContainer > label
+div.selectedSongsContainer .selectedSongsHeader
 {
+	position: relative;
+	width: 100%;
 	height: 15%;
+
+}
+
+div.selectedSongsContainer .selectedSongsHeader label
+{
+	position: absolute;
+	margin: 5px;
 }
 
 div.selectedSongs
@@ -216,10 +247,17 @@ div.selectedSongs
 
 .searchSong label span
 {
-	margin-left:4px;
-	display: inline-block;
+	margin-left: 4px;
 	font-size: 35px;
+
+	display: inline-block;
 	-webkit-transform:rotate(45deg);
+}
+
+.md-button.customTagButton
+{
+	position: absolute;
+	right: 0px;
 }
 
 
@@ -278,4 +316,9 @@ button span
 	left: 0;
 	right: 0;
 	bottom: 0;
+}
+
+.grid-align
+{
+	text-align: center;
 }

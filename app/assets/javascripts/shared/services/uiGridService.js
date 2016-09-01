@@ -11,9 +11,17 @@ angular.module('uiGridService', ['sharedUtilService'])
 		gridOptions.data = [];
 
 		gridOptions.columnDefs = [
-			{ name: 'name', displayName: 'Title'},
-			{ name: 'artist', displayName: 'Artist'},
-			{ name: 'song_id', visible: false},			
+			{ 
+				name: 'name', 
+				displayName: 'Title',
+				cellTemplate: '<span ng-click="grid.appScope.goToSelectedSong(row)"> {{row.entity["name"]}} </span>'
+			},
+			{ 
+				name: 'artist', 
+				displayName: 'Artist',
+				cellTemplate: '<span ng-click="grid.appScope.goToSelectedSong(row)"> {{row.entity["artist"]}} </span>'
+			},
+			{ name: 'song_id', visible: false}
 		];
 
 		gridOptions.onRegisterApi = function( gridApi ) {

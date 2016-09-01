@@ -3,8 +3,7 @@
 		<label>
 			<span> &#9906 </span>
 			<input type="text" name="input" ng-model="query.text">
-		</label>
-		<input type="submit" id="submit" value="Submit" />	
+		</label>		
 	</form>
 
 	<div class="songSearchResults">
@@ -13,9 +12,15 @@
 </div>
 
 <div class="selectedSongsContainer">
-	<label>
-		Custom Tag
-	</label>
+	<div class="selectedSongsHeader">
+		<label>
+			Custom Tag
+		</label>
+		<md-button class="md-primary customTagButton">
+			+
+		</md-button>
+	</div>
+
 
 	<div class="selectedSongs">
 		<div ui-grid="selectedSongsGridOptions" ui-grid-selection class="grid"></div>

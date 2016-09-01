@@ -33,33 +33,47 @@ angular
 				$rootScope.$broadcast('loading.loading', {key:"getPlaylistSongs", val: "Loading Songs..."});
 				tagService["getPlaylist" + filterType](playlistIds).then(function(response){ 
 					$rootScope.$broadcast('loading.loaded', {key:"getPlaylistSongs"});
-					var allSongs = response.data;					
-					for(var i = 0; i < allSongs.length; i ++)
+					$scope.allSongs = response.data;					
+					for(var i = 0; i < $scope.allSongs.length; i ++)
 					{
-						$scope.songs[allSongs[i].song_id] = allSongs[i];
+						$scope.songs[$scope.allSongs[i].song_id] = $scope.allSongs[i];
 					}
-					$scope.gridOptions.data = allSongs;
+					$scope.gridOptions.data = $scope.allSongs;
 				});
 			}
 		}
 
+		$scope.onNewTagButtonClick = function()
+		{
+			sharedUtilService.redirect('#/search');
+		}
+
+		$scope.addToNewTag = function()
+		{
+			//TODO
+		}
+
+		$scope.goToSelectedSong = function(row) { 
+			sharedUtilService.redirect('#/song/' + row.entity['song_id']);
+		};
+
 		function setupGrid()
 		{
 			$scope.gridOptions = uiGridService.createGridOptions($scope, function(row){
-				sharedUtilService.redirect('#/song/' + row.entity['song_id']);
+				// on row select
 			});
 
-			$scope.gridOptions.columnDefs = [
-				{ name: 'name', displayName: 'Title'},
-				{ name: 'artist'},
-				{ name: 'song_id', visible: false}
-			];
+			$scope.gridOptions.columnDefs.push({ 
+				name: 'Add', 
+				cellTemplate: '<div class="tagAddCustom" ng-click="grid.appScope.addToNewTag(row)"> + </div>'
+			});
 		}
 
 		function initModule(){		
 
 			setupGrid();
 
+			$scope.allSongs = [];
 			// for tag cloud
 			$scope.colors = ["#111111", "#333333", "#555555", "#777777", "#999999", "#bbbbbb", "#dddddd"];
 			// all tags
@@ -124,6 +138,7 @@ angular
 					});
 				}
 
+				// tag id specified in url
 				if($routeParams.id)
 				{
 					$scope.tags = [];

@@ -30,7 +30,12 @@
 		<jqcloud id="cloud-dynamic" words="tagCloud" auto-resize="true" colors="{{colors}}" steps="7" font-size="{from:0.08, to:0.03}"></jqcloud>
 	</div>
 
-	<div class="tagResults" ng-switch-when="tag-results">
-		<div ui-grid="gridOptions" ui-grid-selection class="grid"></div>
+	<div class="tagResultsContainer" ng-switch-when="tag-results">
+		<div class="tagResults">
+			<div ui-grid="gridOptions" ui-grid-selection class="grid grid-align"></div>
+		</div>
+		<div class="tagNewButton" ng-click="onNewTagButtonClick()">
+			{{newTag}}
+		</div>
 	</div>
 </div>
