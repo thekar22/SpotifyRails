@@ -55,14 +55,9 @@ angular
 				cellTemplate: '<button class="btn primary" ng-click="grid.appScope.removeFromSelectedSongs(row)"> - </button>'
 			});
 
-			if ($scope.gridOptions.data.length > 0)
-			{
-				$scope.selectedSongsGridOptions.data = [];
-				$scope.selectedSongsGridOptions.data = $scope.gridOptions.data;				
-			}
-			else
-			{
-				$scope.selectedSongsGridOptions.data = []
+			if ($scope.selectedSongs.length > 0)
+			{				
+				$scope.selectedSongsGridOptions.data = $scope.selectedSongs;
 			}
 		}
 

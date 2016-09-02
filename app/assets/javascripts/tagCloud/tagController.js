@@ -48,9 +48,9 @@ angular
 			sharedUtilService.redirect('#/customTag');
 		}
 
-		$scope.addToNewTag = function()
+		$scope.addToNewTag = function(row)
 		{
-			//TODO
+			$scope.selectedSongs.push(row.entity);
 		}
 
 		function setupGrid()
@@ -61,7 +61,7 @@ angular
 
 			$scope.gridOptions.columnDefs.push({ 
 				name: 'Add', 
-				cellTemplate: '<div class="tagAddCustom" ng-click="grid.appScope.addToNewTag(row)"> + </div>'
+				cellTemplate: '<div class="songCell" ng-click="grid.appScope.addToNewTag(row)"> + </div>'
 			});
 		}
 
@@ -78,6 +78,8 @@ angular
 			$scope.tags = [];
 			// all user tags in dictionary by playlist id
 			$scope.tagDictionary = {};
+			// songs for custom list
+			$scope.selectedSongs = []
 
 			// default filter union
 			$scope.filter = {

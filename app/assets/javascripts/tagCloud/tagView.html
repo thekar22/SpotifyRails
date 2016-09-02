@@ -34,8 +34,8 @@
 		<div class="tagResults">
 			<div ui-grid="gridOptions" ui-grid-selection class="grid grid-align"></div>
 		</div>
-		<div class="tagNewButton" ng-click="onNewTagButtonClick()">
-			{{newTag}}
+		<div ng-show="selectedSongs.length > 0" class="tagNewButton" ng-click="onNewTagButtonClick()">
+			+ Custom Tag ({{selectedSongs.length}})
 		</div>
 	</div>
 </div>

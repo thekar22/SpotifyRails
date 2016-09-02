@@ -190,7 +190,7 @@ input[type="radio"]:checked + span
 	position: relative;
 	height:10%;
 	width:100%;
-	background-color: #e3acc8;	
+	background-color: #e4e4ac;	
 	cursor: pointer;
 	font-size:30px;
 }
@@ -330,6 +330,7 @@ div.ui-grid-cell
 
 .songCell
 {
+	cursor:pointer;
 	position: absolute;
 	left:0px;
 	width:100%;
