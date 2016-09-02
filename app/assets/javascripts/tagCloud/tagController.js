@@ -53,10 +53,6 @@ angular
 			//TODO
 		}
 
-		$scope.goToSelectedSong = function(row) { 
-			sharedUtilService.redirect('#/song/' + row.entity['song_id']);
-		};
-
 		function setupGrid()
 		{
 			$scope.gridOptions = uiGridService.createGridOptions($scope, function(row){

@@ -33,10 +33,6 @@ angular
 			$scope.selectedSongsGridOptions.data.splice(index, 1);
 		};
 
-		$scope.goToSelectedSong = function(row) { 
-			sharedUtilService.redirect('#/song/' + row.entity['song_id']);
-		};
-
 		function setupSearchGrid()
 		{
 			$scope.searchGridOptions = uiGridService.createGridOptions($scope, function(row){

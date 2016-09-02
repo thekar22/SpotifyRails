@@ -3,6 +3,7 @@ angular.module('uiGridService', ['sharedUtilService'])
 
 	var factory = {};
 
+
 	factory.createGridOptions = function($scope, selectFunction) {
 		var gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
 		gridOptions.multiSelect = false;
@@ -10,16 +11,22 @@ angular.module('uiGridService', ['sharedUtilService'])
 		gridOptions.noUnselect = true;
 		gridOptions.data = [];
 
+		$scope.goToSelectedSong = function(row) { 
+			sharedUtilService.redirect('#/song/' + row.entity['song_id']);
+		};
+
 		gridOptions.columnDefs = [
 			{ 
 				name: 'name', 
 				displayName: 'Title',
-				cellTemplate: '<span class="songCell" ng-click="grid.appScope.goToSelectedSong(row)"> {{row.entity["name"]}} </span>'
+				handleClick: $scope.goToSelectedSong,
+				cellTemplate: '<span class="songCell" ng-click="col.colDef.handleClick(row)"> {{row.entity["name"]}} </span>'
 			},
 			{ 
 				name: 'artist', 
 				displayName: 'Artist',
-				cellTemplate: '<span class="songCell" ng-click="grid.appScope.goToSelectedSong(row)"> {{row.entity["artist"]}} </span>'
+				handleClick: $scope.goToSelectedSong,
+				cellTemplate: '<span class="songCell" ng-click="col.colDef.handleClick(row)"> {{row.entity["artist"]}} </span>'
 			},
 			{ name: 'song_id', visible: false}
 		];
