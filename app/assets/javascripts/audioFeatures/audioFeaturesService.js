@@ -31,7 +31,6 @@ angular.module('audioFeaturesService', ['sharedUtilService'])
       nums.push(features[i][featureName]);
     }
 
-    console.log(featureName);
     return sharedUtilService["get" + aggregateType](nums);
   }
   return service;

@@ -35,7 +35,7 @@ angular
 		$scope.openLeftMenu = function() {
 			$mdSidenav('left').toggle();
 		};	
-			$scope.openRightMenu = function() {
+		$scope.openRightMenu = function() {
 			$mdSidenav('right').toggle();
 		};
 

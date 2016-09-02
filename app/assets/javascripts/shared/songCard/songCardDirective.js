@@ -4,16 +4,7 @@ angular
     
     function linkFunction($scope, elem, attrs) {
       elem.bind('click', function() {
-
-        if($scope.song.song_id)
-        {
           sharedUtilService.redirect('#/song/' + $scope.song.song_id);
-        }
-        else
-        {
-          sharedUtilService.redirect('#/song/' + $scope.song.id);
-        }
-
       });
     }
 

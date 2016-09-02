@@ -7,8 +7,8 @@
 			<div class="loadingContainer" ng-if="dataLoading">
 				{{message}}
 			</div>
+
 			<md-sidenav md-component-id="left" class="md-sidenav-left">
-				
 				<div>
 					Logged in as <strong><%= current_user.email %></strong>.
 					<%= link_to 'Edit profile', edit_user_registration_path %> |
@@ -17,33 +17,29 @@
 			</md-sidenav>
 
 			<md-sidenav md-component-id="right" class="md-sidenav-right">
-				
 				<div ng-switch="navView">
-		
 					<div class="tagCloud" ng-switch-when="tag-view">
 						<a ng-click="toggle('right')" href="/#/audioFeatures">
 							Get Song Features
 						</a>
 					</div>
-
 					<div class="tagResults" ng-switch-when="other-view">
 						<a ng-click="toggle('right')" href="/#/">
 							Return to Tags
 						</a>
 					</div>
-
 				</div>
-
 				<a ng-click="toggle('right')" href="/#/search">
 					Search Songs
 				</a>
-
 			</md-sidenav>
 
 			<md-content>
-				<md-button class="md-raised leftButton" ng-click="openLeftMenu()">@.@
+				<md-button class="md-raised leftButton" ng-click="openLeftMenu()">
+					@.@
 				</md-button>
-				<md-button class="md-raised rightButton" ng-click="openRightMenu()">()()()
+				<md-button class="md-raised rightButton" ng-click="openRightMenu()">
+					()()()
 				</md-button>
 			</md-content>
 		</div>
