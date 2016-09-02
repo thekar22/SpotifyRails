@@ -40,7 +40,7 @@ angular
 			});
 			$scope.searchGridOptions.columnDefs.push({ 
 				name: 'Add', 
-				cellTemplate: '<button class="btn primary" ng-click="grid.appScope.addToSelectedSongs(row)"> + </button>'
+				cellTemplate: '<div class="songCell" ng-click="grid.appScope.addToSelectedSongs(row)"> + </div>'
 			});
 		}
 
@@ -52,7 +52,7 @@ angular
 
 			$scope.selectedSongsGridOptions.columnDefs.push({ 
 				name: 'Remove', 
-				cellTemplate: '<button class="btn primary" ng-click="grid.appScope.removeFromSelectedSongs(row)"> - </button>'
+				cellTemplate: '<div class="songCell" ng-click="grid.appScope.removeFromSelectedSongs(row)"> - </div>'
 			});
 
 			if ($scope.selectedSongs.length > 0)
