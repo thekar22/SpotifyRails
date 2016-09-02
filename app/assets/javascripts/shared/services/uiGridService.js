@@ -14,12 +14,12 @@ angular.module('uiGridService', ['sharedUtilService'])
 			{ 
 				name: 'name', 
 				displayName: 'Title',
-				cellTemplate: '<span ng-click="grid.appScope.goToSelectedSong(row)"> {{row.entity["name"]}} </span>'
+				cellTemplate: '<span class="songCell" ng-click="grid.appScope.goToSelectedSong(row)"> {{row.entity["name"]}} </span>'
 			},
 			{ 
 				name: 'artist', 
 				displayName: 'Artist',
-				cellTemplate: '<span ng-click="grid.appScope.goToSelectedSong(row)"> {{row.entity["artist"]}} </span>'
+				cellTemplate: '<span class="songCell" ng-click="grid.appScope.goToSelectedSong(row)"> {{row.entity["artist"]}} </span>'
 			},
 			{ name: 'song_id', visible: false}
 		];
