@@ -3,6 +3,7 @@ angular.module('searchService', [])
 
   var service = {  
     searchQuery: function (query) {
+    	console.log(query);
       return $http({
         method: 'GET',
         url: '/search?' + $.param({query: query})

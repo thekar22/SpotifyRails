@@ -45,7 +45,7 @@ angular
 
 		$scope.onNewTagButtonClick = function()
 		{
-			sharedUtilService.redirect('#/search');
+			sharedUtilService.redirect('#/customTag');
 		}
 
 		$scope.addToNewTag = function()

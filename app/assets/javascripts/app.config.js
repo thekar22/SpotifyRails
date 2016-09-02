@@ -1,4 +1,4 @@
-var app = angular.module('MusicApp', ['templates', 'ngRoute', 'navigationModule', 'tagModule', 'songModule', 'audioFeaturesModule', 'searchModule', 'ng-rails-csrf', 'ngMaterial', 'angular-loading-bar', 'ngAnimate'])
+var app = angular.module('MusicApp', ['templates', 'ngRoute', 'navigationModule', 'tagModule', 'songModule', 'audioFeaturesModule', 'customTagModule', 'ng-rails-csrf', 'ngMaterial', 'angular-loading-bar', 'ngAnimate'])
 .config(
 	[
 		'$routeProvider',
@@ -16,9 +16,9 @@ var app = angular.module('MusicApp', ['templates', 'ngRoute', 'navigationModule'
 					templateUrl: 'audioFeatures/audioFeaturesView.html',
 					controller: 'audioFeaturesController'
 			})
-				.when('/search', {
-					templateUrl: 'search/searchView.html',
-					controller: 'searchController'
+				.when('/customTag', {
+					templateUrl: 'customTag/customTagView.html',
+					controller: 'customTagController'
 			})
 				.when('/song/:id', {
 					templateUrl: 'song/songView.html',

@@ -1,6 +1,6 @@
 angular
-	.module('searchModule', ['searchService', 'ui.grid', 'ui.grid.selection', 'uiGridService', 'sharedUtilService'])
-	.controller('searchController', ['$scope', 'searchService', '$http', 'uiGridService', '$rootScope', 'sharedUtilService', function searchController($scope, searchService, $http, uiGridService, $rootScope, sharedUtilService) {
+	.module('customTagModule', ['searchService', 'ui.grid', 'ui.grid.selection', 'uiGridService', 'sharedUtilService'])
+	.controller('customTagController', ['$scope', '$http', '$rootScope', 'searchService', 'uiGridService', 'sharedUtilService', function customTagController($scope, $http, $rootScope, searchService, uiGridService, sharedUtilService) {
 		initModule();
 
 		$scope.searchQuery = function($query) {
