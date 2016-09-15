@@ -6,9 +6,6 @@ angular.module('uiGridService', ['sharedUtilService'])
 
 	factory.createGridOptions = function($scope, selectFunction) {
 		var gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
-		gridOptions.multiSelect = false;
-		gridOptions.modifierKeysToMultiSelect = false;
-		gridOptions.noUnselect = true;
 		gridOptions.data = [];
 
 		$scope.goToSelectedSong = function(row) {			
@@ -26,7 +23,7 @@ angular.module('uiGridService', ['sharedUtilService'])
 				name: 'artist', 
 				displayName: 'Artist',
 				handleClick: $scope.goToSelectedSong,
-				cellTemplate: '<span class="songCell" ng-click="col.colDef.handleClick(row)"> {{row.entity["artist"]}} </span>'
+				cellTemplate: '<span> {{row.entity["artist"]}} </span>'
 			},
 			{ name: 'song_id', visible: false}
 		];
