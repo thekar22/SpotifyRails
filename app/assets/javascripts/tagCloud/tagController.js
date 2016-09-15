@@ -75,7 +75,7 @@ angular
 								}()
 							}
 						});
-						
+
 						$mdToast.show(
 							$mdToast.simple()
 								.textContent('Tag Created!')
@@ -99,11 +99,6 @@ angular
 		{
 			$scope.gridOptions = uiGridService.createGridOptions($scope, function(row){
 				// on row select
-			});
-
-			$scope.gridOptions.columnDefs.push({ 
-				name: 'Add', 
-				cellTemplate: '<div class="songCell" ng-click="grid.appScope.addToNewTag(row)"> + </div>'
 			});
 		}
 
