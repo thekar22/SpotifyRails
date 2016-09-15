@@ -26,13 +26,13 @@ angular
 			return songs;
 		}
 
-		$scope.addToSelectedSongs = function(row) { 
-			$scope.selectedSongsGridOptions.data.push(row.entity);
+		$scope.addToSelectedSongs = function(row) { 						
+			$scope.selectedSongs.push(row.entity);
 		};
 
-		$scope.removeFromSelectedSongs = function(row) {
-			var index = $scope.selectedSongsGridOptions.data.indexOf(row.entity);
-			$scope.selectedSongsGridOptions.data.splice(index, 1);
+		$scope.removeFromSelectedSongs = function(row) {			
+			var index = $scope.selectedSongs.indexOf(row.entity);
+			$scope.selectedSongs.splice(index, 1);
 		};
 
 		function setupSearchGrid()
@@ -47,7 +47,9 @@ angular
 		}
 
 		function setupCustomTagGrid()
-		{ 
+		{
+			$scope.showSelectedSongs = true;
+
 			$scope.selectedSongsGridOptions = uiGridService.createGridOptions($scope, function(row){
 				// if row clicked
 			});
@@ -57,10 +59,21 @@ angular
 				cellTemplate: '<div class="songCell" ng-click="grid.appScope.removeFromSelectedSongs(row)"> - </div>'
 			});
 
-			if ($scope.selectedSongs.length > 0)
-			{
-				$scope.selectedSongsGridOptions.data = $scope.selectedSongs;
-			}
+			$scope.selectedSongsGridOptions.data = $scope.selectedSongs;
+		}
+
+		function initWatchVars()
+		{
+			$scope.$watch('selectedSongs', function (newVal, oldVal) {
+				if ($scope.selectedSongs.length < 1)
+				{
+					$scope.showSelectedSongs = false;
+				}
+				else
+				{
+					$scope.showSelectedSongs = true;
+				}
+			}, true);
 		}
 
 		function initModule(){
@@ -69,7 +82,7 @@ angular
 			$scope.query = {
 				text: ''
 			};
+			initWatchVars();
 		}
-
 	}
 ]);

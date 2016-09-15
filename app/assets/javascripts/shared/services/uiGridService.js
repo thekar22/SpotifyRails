@@ -11,7 +11,7 @@ angular.module('uiGridService', ['sharedUtilService'])
 		gridOptions.noUnselect = true;
 		gridOptions.data = [];
 
-		$scope.goToSelectedSong = function(row) { 
+		$scope.goToSelectedSong = function(row) {			
 			sharedUtilService.redirect('#/song/' + row.entity['song_id']);
 		};
 
