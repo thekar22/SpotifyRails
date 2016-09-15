@@ -142,6 +142,7 @@ html tags-input .tags .tag-item
 
 	span
 	{
+		font-size: 30px;
 		cursor:pointer;
 	}
 }
@@ -264,20 +265,24 @@ div.selectedSongs
 
 //// MISC
 
-
-label
+.searchSong label
 {
 	font-size: 30px;
+}
+
+.navContainer span
+{
+	font-size: 30px;
+}
+
+.selectedSongsHeader label
+{
+	font-size: 30px;	
 }
 
 body > div > div.contentContainer.ng-scope > div.viewContainer.ng-scope > tags-input > div > div
 {
 	overflow: scroll;
-}
-
-button span
-{
-	font-size: 30px;
 }
 
 

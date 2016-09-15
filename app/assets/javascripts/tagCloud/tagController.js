@@ -1,6 +1,6 @@
 angular
 	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'uiGridService', 'sharedUtilService'])
-	.controller('tagController', ['$scope', 'tagService', '$http', 'uiGridService', '$rootScope', '$routeParams','sharedUtilService', function tagController($scope, tagService, $http, uiGridService, $rootScope, $routeParams, sharedUtilService) {
+	.controller('tagController', ['$scope', 'tagService', '$http', 'uiGridService', '$rootScope', '$routeParams', '$mdDialog', 'sharedUtilService', function tagController($scope, tagService, $http, uiGridService, $rootScope, $routeParams, $mdDialog, sharedUtilService) {
 		initModule();
 
 		$scope.loadTags = function($query) {
@@ -43,9 +43,23 @@ angular
 			}
 		}
 
-		$scope.onNewTagButtonClick = function()
+		$scope.onNewTagButtonClick = function(ev)
 		{
-			sharedUtilService.redirect('#/customTag');
+			var confirm = $mdDialog.prompt()
+				.title('Create New Tag')
+				.textContent('New tags are created as playlists in Spotify')
+				.placeholder('Type here')
+				.ariaLabel('Tagname')
+				.initialValue('Your New Tag')
+				.targetEvent(ev)
+				.ok('Create!')
+				.cancel('Cancel');
+
+			$mdDialog.show(confirm).then(function(result) {
+				$scope.status = 'You decided to name your dog ' + result + '.';
+			}, function() {
+					$scope.status = 'There was a failure';
+				});
 		}
 
 		$scope.addToNewTag = function(row)
