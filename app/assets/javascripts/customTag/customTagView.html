@@ -5,10 +5,10 @@
 			<input type="text" name="input" ng-model="query.text">
 		</label>		
 	</form>
+</div>
 
-	<div class="songSearchResults">
-		<div ui-grid="searchGridOptions" ui-grid-selection class="grid grid-align"></div>
-	</div>
+<div ng-if="showSearchResults == true" class="songSearchResults">
+	<div ui-grid="searchGridOptions" ui-grid-selection class="grid grid-align"></div>
 </div>
 
 <div class="selectedSongsContainer">

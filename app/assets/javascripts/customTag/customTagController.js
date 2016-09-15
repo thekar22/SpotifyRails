@@ -4,13 +4,15 @@ angular
 		initModule();
 
 		$scope.searchQuery = function($query) {
+			$scope.showSearchResults = true;
+
 			// perform search against query with spotify service
 			$rootScope.$broadcast('loading.loading', {key:"searchQuery", val: "Loading"});
 			searchService.searchQuery($query).then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"searchQuery"});
 				var result = response.data;
 				result = $scope.parseSongs(result);
-				$scope.searchGridOptions.data = result;
+				$scope.searchGridOptions.data = result;				
 			})
 		}
 
@@ -56,7 +58,7 @@ angular
 			});
 
 			if ($scope.selectedSongs.length > 0)
-			{				
+			{
 				$scope.selectedSongsGridOptions.data = $scope.selectedSongs;
 			}
 		}

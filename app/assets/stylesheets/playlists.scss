@@ -206,23 +206,24 @@ input[type="radio"]:checked + span
 
 div.searchSong
 {
-	height:50%;
-}
-
-div.selectedSongsContainer
-{
-	height:50%;
+	position: relative;
+	height:7.5%;
 }
 
 div.searchSong > form
 {
-	height: 15%;
+	height: 100%;
 }
 
 div.songSearchResults
 {
 	position: relative;
-	height: 85%;	
+	height: 42.5%;	
+}
+
+div.selectedSongsContainer
+{
+	height:50%;
 }
 
 div.selectedSongsContainer .selectedSongsHeader
