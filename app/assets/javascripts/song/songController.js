@@ -29,10 +29,23 @@ angular
 
 		$scope.addNewTag = function($tag) {
 			$rootScope.$broadcast('loading.loading', {key:"addNewTag", val: "Adding Tag..."});
-			return songService.addNewTag($tag.text, $scope.id).then(function(response){
+			return tagService.addNewTag($tag.text, $scope.id).then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
 				var tag = response.data
-				$scope.tags.push({ text: tag.name, weight: tag.total, id: tag.id });	
+				$scope.tags.push({ text: tag.name, weight: tag.total, id: tag.playlist_id });
+				$scope.tagCloud.push({ 
+					text: tag.name, 
+					weight: tag.total, 
+					id: tag.playlist_id,
+					handlers: { 
+						click: function() {
+							return function() {
+								$scope.tags.push({text: tag.name, weight: tag.total, id: tag.playlist_id});
+								$scope.queryResults();
+							}
+						}()
+					}
+				});
 				return false;
 			});
 		}

@@ -1,6 +1,6 @@
 angular
 	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'uiGridService', 'sharedUtilService'])
-	.controller('tagController', ['$scope', 'tagService', '$http', 'uiGridService', '$rootScope', '$routeParams', '$mdDialog', 'sharedUtilService', function tagController($scope, tagService, $http, uiGridService, $rootScope, $routeParams, $mdDialog, sharedUtilService) {
+	.controller('tagController', ['$scope', 'tagService', '$http', 'uiGridService', '$rootScope', '$routeParams', '$mdDialog', '$mdToast', 'sharedUtilService', function tagController($scope, tagService, $http, uiGridService, $rootScope, $routeParams, $mdDialog, $mdToast, sharedUtilService) {
 		initModule();
 
 		$scope.loadTags = function($query) {
@@ -55,11 +55,39 @@ angular
 				.ok('Create!')
 				.cancel('Cancel');
 
-			$mdDialog.show(confirm).then(function(result) {
-				$scope.status = 'You decided to name your dog ' + result + '.';
-			}, function() {
+			$mdDialog.show(confirm).then(
+				function(result) {
+					$rootScope.$broadcast('loading.loading', {key:"addNewTag", val: "Creating New Tag..."});
+					return tagService.addNewTag(result, null).then(function(response){
+						$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
+						
+						var tag = response.data
+						$scope.tagCloud.push({ 
+							text: tag.name, 
+							weight: tag.total, 
+							id: tag.playlist_id,
+							handlers: { 
+								click: function() {
+									return function() {
+										$scope.tags.push({text: tag.name, weight: tag.total, id: tag.playlist_id});
+										$scope.queryResults();
+									}
+								}()
+							}
+						});
+						
+						$mdToast.show(
+							$mdToast.simple()
+								.textContent('Tag Created!')
+								.hideDelay(3000)
+						);
+						return false;
+					});
+				}, 
+				function() {
 					$scope.status = 'There was a failure';
-				});
+				}
+			);
 		}
 
 		$scope.addToNewTag = function(row)

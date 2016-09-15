@@ -19,6 +19,12 @@ angular.module('tagService', [])
         	method: 'GET',
         	url: '/tagIntersection?' + $.param({playlistids: ids})
       	});
+    },
+    addNewTag: function (tagname, songid) {
+      return $http({
+        method: 'GET',
+        url: '/addNewTag?' + $.param({tagName: tagname, songId: songid})
+      });
     }
   };
   return service;

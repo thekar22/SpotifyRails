@@ -14,12 +14,6 @@ angular.module('songService', [])
 				url: '/song?' + $.param({songId: songId})
 			});
 		},
-		addNewTag: function (tagname, songid) {
-			return $http({
-				method: 'GET',
-				url: '/addNewTag?' + $.param({tagName: tagname, songId: songid})
-			});
-		},
 		addExistingTag: function (tagid, songid) {
 			return $http({
 				method: 'GET',
