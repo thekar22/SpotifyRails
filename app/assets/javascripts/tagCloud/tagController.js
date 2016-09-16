@@ -65,14 +65,13 @@ angular
 
 					if (!existingTag)
 					{
-						$scope.addNewTag(result);
+						$scope.addNewTag(result);						
 					}
 					else
 					{
-						$scope.showMessage("Tag already exists!");	
+						$scope.showMessage("Tag already exists!");
+						$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
 					}
-
-					$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
 				}, 
 				function() {
 					$scope.showMessage("User input error!");
@@ -99,6 +98,7 @@ angular
 				});
 
 				$scope.showMessage("Tag created!");
+				$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
 			});
 		}
 
