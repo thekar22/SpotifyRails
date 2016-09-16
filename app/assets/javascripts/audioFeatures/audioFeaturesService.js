@@ -1,4 +1,4 @@
-angular.module('audioFeaturesService', ['sharedUtilService'])
+angular.module('audioFeaturesService', ['sharedUtilModule'])
 .service('audioFeaturesService', ['$http', 'sharedUtilService', function ($http, sharedUtilService) {
   var service = {
     getAudioFeaturesFromSongIds: function (ids) {

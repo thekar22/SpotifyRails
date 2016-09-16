@@ -1,5 +1,5 @@
 angular
-	.module('songModule', ['songService', 'tagService', 'ngTagsInput', 'sharedUtilService'])
+	.module('songModule', ['songService', 'tagService', 'ngTagsInput', 'sharedUtilModule'])
 	.controller('songController', ['$scope', 'songService', 'tagService', '$http', '$routeParams', '$rootScope', 'sharedUtilService', function songController($scope, songService, tagService, $http, $routeParams, $rootScope, sharedUtilService) {
 		initModule();
 

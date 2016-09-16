@@ -1,5 +1,5 @@
 angular
-	.module('customTagModule', ['searchService', 'ui.grid', 'ui.grid.selection', 'uiGridService', 'sharedUtilService'])
+	.module('customTagModule', ['ui.grid', 'ui.grid.selection', 'sharedUtilModule'])
 	.controller('customTagController', ['$scope', '$http', '$rootScope', 'searchService', 'uiGridService', 'sharedUtilService', function customTagController($scope, $http, $rootScope, searchService, uiGridService, sharedUtilService) {
 		initModule();
 

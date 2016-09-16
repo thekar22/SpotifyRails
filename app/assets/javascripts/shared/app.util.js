@@ -1,5 +1,5 @@
 angular
-  .module('sharedUtilService', [])
+  .module('sharedUtilModule', ['ngMaterial'])
   .service('sharedUtilService', [ function ($http) {
     var service = {
       getMean: getMean,

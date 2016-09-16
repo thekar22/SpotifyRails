@@ -1,4 +1,4 @@
-angular.module('searchService', [])
+angular.module('sharedUtilModule')
 .service('searchService', ['$http', function ($http) {
 
   var service = {  

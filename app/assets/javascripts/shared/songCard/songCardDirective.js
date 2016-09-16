@@ -1,5 +1,5 @@
 angular
-  .module('songCardDirective', ['sharedUtilService'])
+  .module('songCardDirective', ['sharedUtilModule'])
   .directive('song', ['sharedUtilService', function (sharedUtilService) {
     
     function linkFunction($scope, elem, attrs) {

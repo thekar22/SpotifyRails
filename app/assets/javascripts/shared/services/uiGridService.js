@@ -1,8 +1,7 @@
-angular.module('uiGridService', ['sharedUtilService'])
+angular.module('sharedUtilModule')
 .factory('uiGridService', ['sharedUtilService', function (sharedUtilService) {
 
 	var factory = {};
-
 
 	factory.createGridOptions = function($scope, selectFunction) {
 		var gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
