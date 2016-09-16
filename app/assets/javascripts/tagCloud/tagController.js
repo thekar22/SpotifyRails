@@ -58,41 +58,57 @@ angular
 			$mdDialog.show(confirm).then(
 				function(result) {
 					$rootScope.$broadcast('loading.loading', {key:"addNewTag", val: "Creating New Tag..."});
-					return tagService.addNewTag(result, null).then(function(response){
-						$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
-						
-						var tag = response.data
-						$scope.tagCloud.push({ 
-							text: tag.name, 
-							weight: tag.total, 
-							id: tag.playlist_id,
-							handlers: { 
-								click: function() {
-									return function() {
-										$scope.tags.push({text: tag.name, weight: tag.total, id: tag.playlist_id});
-										$scope.queryResults();
-									}
-								}()
-							}
-						});
-
-						$mdToast.show(
-							$mdToast.simple()
-								.textContent('Tag Created!')
-								.hideDelay(3000)
-						);
-						return false;
+					
+					var existingTag = $scope.tagCloud.find(function(tag) { 
+						return tag.text.toLowerCase() === result.toLowerCase();
 					});
+
+					if (!existingTag)
+					{
+						$scope.addNewTag(result);
+					}
+					else
+					{
+						$scope.showMessage("Tag already exists!");	
+					}
+
+					$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
 				}, 
 				function() {
-					$scope.status = 'There was a failure';
+					$scope.showMessage("User input error!");
 				}
 			);
 		}
 
-		$scope.addToNewTag = function(row)
+		$scope.addNewTag = function(result)
 		{
-			$scope.selectedSongs.push(row.entity);
+			tagService.addNewTag(result, null).then(function(response){				
+				var tag = response.data
+				$scope.tagCloud.push({ 
+					text: tag.name, 
+					weight: tag.total, 
+					id: tag.playlist_id,
+					handlers: { 
+						click: function() {
+							return function() {
+								$scope.tags.push({text: tag.name, weight: tag.total, id: tag.playlist_id});
+								$scope.queryResults();
+							}
+						}()
+					}
+				});
+
+				$scope.showMessage("Tag created!");
+			});
+		}
+
+		$scope.showMessage = function(message)
+		{
+			$mdToast.show(
+				$mdToast.simple()
+					.textContent(message)
+					.hideDelay(3000)
+			);
 		}
 
 		function setupGrid()
