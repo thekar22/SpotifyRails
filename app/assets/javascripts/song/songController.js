@@ -32,7 +32,7 @@ angular
 			return tagService.addNewTag($tag.text, $scope.id).then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
 				var tag = response.data
-				$scope.tags.push({ text: tag.name, weight: tag.total, id: tag.playlist_id });
+				$scope.songTags.push({ text: tag.name, weight: tag.total, id: tag.playlist_id });
 				$scope.tagCloud.push({ 
 					text: tag.name, 
 					weight: tag.total, 
@@ -40,7 +40,7 @@ angular
 					handlers: { 
 						click: function() {
 							return function() {
-								$scope.tags.push({text: tag.name, weight: tag.total, id: tag.playlist_id});
+								$scope.songTags.push({text: tag.name, weight: tag.total, id: tag.playlist_id});
 								$scope.queryResults();
 							}
 						}()
@@ -94,7 +94,7 @@ angular
 
 		function initModule() {
 			// chosen tags
-			$scope.tags = [];
+			$scope.songTags = [];
 			$scope.id = $routeParams.id;
 
 			if ($scope.id == 0) {
@@ -115,7 +115,7 @@ angular
 					var tags = response.data;
 
 					for(var i = 0; i < tags.length; i++) {
-						$scope.tags.push({ text: tags[i].name, weight: tags[i].total, id: tags[i].playlist_id });
+						$scope.songTags.push({ text: tags[i].name, weight: tags[i].total, id: tags[i].playlist_id });
 					}
 				});
 			}

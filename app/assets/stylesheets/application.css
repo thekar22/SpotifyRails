@@ -15,5 +15,6 @@
  *= require ng-tags-input
  *= require angular-material
  *= require angular-ui-grid
- *= require angular-loading-bar
+ *= require angular-loading-bar 
+ *= require bootstrap
  */

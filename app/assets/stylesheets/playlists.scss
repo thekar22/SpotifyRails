@@ -142,9 +142,15 @@ html tags-input .tags .tag-item
 
 	span
 	{
-		font-size: 30px;
+		font-size: 40px;
+		font-weight: lighter;
 		cursor:pointer;
 	}
+}
+
+#union-symbol
+{ // for some reason, bootstrap has the union symbol, by default, much smaller than the intersection symbol
+	font-size:55px;
 }
 
 .tagView
@@ -190,10 +196,11 @@ input[type="radio"]:checked + span
 	text-align: center;
 	position: relative;
 	height:10%;
-	width:100%;
-	background-color: #81b71a;	
+	width:100%;	
+	background-color: black;
+	color:white;
 	cursor: pointer;
-	font-size:30px;
+	font-size:25px;
 }
 
 #cloud-dynamic 

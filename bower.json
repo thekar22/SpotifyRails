@@ -21,7 +21,9 @@
     "angular-jqcloud": "latest",
     "angular-material": "latest",
     "angular-ui-grid": "^3.2.1",
-    "angular-loading-bar": "latest"
+    "angular-loading-bar": "latest",
+    "angular-bootstrap-contextmenu": "latest",
+    "bootstrap": "3.3.4"
   },
   "resolutions": {
     "angular": "^1.4.8"

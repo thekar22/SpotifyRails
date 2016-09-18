@@ -24,4 +24,5 @@
 //= require angular-aria
 //= require angular-ui-grid
 //= require angular-loading-bar
+//= require angular-bootstrap-contextmenu
 //= require_tree .

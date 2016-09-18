@@ -3,7 +3,7 @@ angular.module('sharedUtilModule')
 
 	var factory = {};
 
-	factory.createGridOptions = function($scope, selectFunction) {
+	factory.createGridOptions = function($scope) {
 		var gridOptions = { enableRowSelection: true, enableRowHeaderSelection: false };
 		gridOptions.data = [];
 
@@ -28,8 +28,8 @@ angular.module('sharedUtilModule')
 		];
 
 		gridOptions.onRegisterApi = function( gridApi ) {
-			$scope.gridApi = gridApi;
-			gridApi.selection.on.rowSelectionChanged($scope, selectFunction);
+			gridOptions.gridApi = gridApi;
+			gridOptions.mySelectedRows=gridOptions.gridApi.selection.getSelectedRows();			
 		};
 
 		return gridOptions;

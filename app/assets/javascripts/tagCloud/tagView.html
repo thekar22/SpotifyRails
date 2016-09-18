@@ -15,22 +15,22 @@
 <div class="tagFilterSection">
 	<label>
 		<input type="radio" ng-model="filter.name" value="Union">
-		<span> &#x222A </span>
+		<span id="union-symbol"> &#x222A</span>
 	</label>
 
 	<label>
 		<input type="radio" ng-model="filter.name" value="Intersection">
-		<span> &#x2229 </span>
+		<span> &#x2229</span>
 	</label><br/>
 </div>
 
 <div ng-switch="tagView" class="tagView">
-	
+
 	<div class="tagCloud" ng-switch-when="tag-cloud">
 		<jqcloud id="cloud-dynamic" words="tagCloud" auto-resize="true" colors="{{colors}}" steps="7" font-size="{from:0.08, to:0.03}"></jqcloud>
 	</div>
 
-	<div class="tagResultsContainer" ng-switch-when="tag-results">
+	<div class="tagResultsContainer" context-menu="menuOptions" ng-switch-when="tag-results">
 		<div class="tagResults">
 			<div ui-grid="gridOptions" ui-grid-selection class="grid grid-align"></div>
 		</div>

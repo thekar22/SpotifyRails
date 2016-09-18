@@ -1,5 +1,5 @@
 angular
-	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'sharedUtilModule'])
+	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'ui.bootstrap.contextMenu', 'sharedUtilModule'])
 	.controller('tagController', ['$scope', 'tagService', '$http', 'uiGridService', '$rootScope', '$routeParams', '$mdDialog', '$mdToast', 'mdConfirmService', 'sharedUtilService', function tagController($scope, tagService, $http, uiGridService, $rootScope, $routeParams, $mdDialog, $mdToast, mdConfirmService, sharedUtilService) {
 		initModule();
 
@@ -60,7 +60,7 @@ angular
 
 					if (!existingTag)
 					{
-						$scope.addNewTag(result);						
+						$scope.addNewTag(result);
 					}
 					else
 					{
@@ -76,7 +76,7 @@ angular
 
 		$scope.addNewTag = function(result)
 		{
-			tagService.addNewTag(result, null).then(function(response){				
+			tagService.addNewTag(result, null).then(function(response){
 				var tag = response.data
 				$scope.addToTagCloud(tag);
 				$scope.showMessage("Tag created!");
@@ -110,11 +110,24 @@ angular
 			);
 		}
 
+		$scope.onAddSelectedSongs = function(rows)
+		{
+			
+
+			console.log(rows);
+		}
+
 		function setupGrid()
 		{
 			$scope.gridOptions = uiGridService.createGridOptions($scope, function(row){
 				// on row select
 			});
+
+			$scope.menuOptions = [
+				['Add selected songs to tag...', function ($itemScope) {
+					$scope.onAddSelectedSongs($scope.gridOptions.gridApi.selection.getSelectedRows());
+				}]
+			];
 		}
 
 		function initVars() {
@@ -188,7 +201,6 @@ angular
 		}
 
 		function initModule() {		
-
 			setupGrid();
 			initVars();
 			initWatchVars();
