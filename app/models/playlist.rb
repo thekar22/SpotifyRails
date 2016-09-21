@@ -87,7 +87,7 @@ class Playlist < ActiveRecord::Base
 		song_tags = UserSongTagging.get_songs_for_tag(userid, playlistid)
 		song_tags.each do |song_tag|
 			songs.push(song_tag.song)
-		end		
+		end
 		songs.compact
 	end
 

@@ -3,7 +3,7 @@ class AddSongToPlaylistFromSpotify
 		new
 	end
 
-	def call(song, playlist)		
+	def call(song, playlist)
 		playlist.add_tracks!([song])
 	end
 end

@@ -9,7 +9,7 @@ class HomeController < ApplicationController
 	# return to caller json list of user playlist metadata
 	def getPlaylists
 		userid = current_user.uid
-		playlists = GetPlaylistMetadataFromSpotify.build.call(session["devise.spotify_data"])		
+		playlists = GetPlaylistMetadataFromSpotify.build.call(session["devise.spotify_data"])
 		Playlist.sync_playlists(playlists, userid)
 		render json: playlists
 	end
@@ -18,7 +18,7 @@ class HomeController < ApplicationController
 	def getTagUnion
 		playlistids = params[:playlistids]
 		songs = []
-		userid = current_user.uid		
+		userid = current_user.uid
 		playlistids.each do |playlistid|
 			result = Playlist.get_playlist_songs(playlistid, userid)
 			songs += result
@@ -28,7 +28,7 @@ class HomeController < ApplicationController
 	end
 
 	# return to caller json list of songs shared between given playlist ids
-	def getTagIntersection		
+	def getTagIntersection
 		playlistids = params[:playlistids]
 		playlists = []
 		userid = current_user.uid
@@ -95,9 +95,19 @@ class HomeController < ApplicationController
 		render json: playlist
 	end
 
-	def addTagForSongIds
-		# TODO
-		render json: [1,2,3]
+	def addExistingTagForSongs
+		tagid = params[:tagId]
+		songids = params[:songIds]
+		userid = current_user.uid
+
+		spotify_playlist = GetPlaylistFromSpotifyById.build.call(tagid, userid)
+		playlist = UserSongTagging.add_tag_to_songs(userid,spotify_playlist,songids)
+
+		db_playlist = Playlist.get(tagid)
+		db_playlist.stale = true
+		db_playlist.save
+
+		render json: playlist
 	end
 
 	def removeTagForSong

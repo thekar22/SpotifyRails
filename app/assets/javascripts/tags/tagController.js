@@ -114,11 +114,20 @@ angular
 			$scope.gridOptions = uiGridService.createGridOptions($scope, function(row){
 				// on row select
 			});
-
+			
 			$scope.menuOptions = [
-				['Add selected songs to tag...', function ($itemScope) {
-					$scope.onAddSelectedSongs($scope.gridOptions.gridApi.selection.getSelectedRows());
-				}]
+				[
+					'Add selected songs to tag...', 
+					function ($itemScope) {
+						$scope.onAddSelectedSongs($scope.gridOptions.gridApi.selection.getSelectedRows());
+					},
+					function ($itemScope) { // function to determine whether menu option should be enabled/disabled
+						if ($scope.gridOptions.gridApi.selection.getSelectedRows().length > 0){
+							return true;
+						}
+						return false;
+					}
+				]
 			];
 		}
 

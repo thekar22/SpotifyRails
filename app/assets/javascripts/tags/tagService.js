@@ -29,7 +29,7 @@ angular.module('tagService', [])
     addTagToSelectedSongs: function (tagid, songids) {
       return $http({
         method: 'GET',
-        url: '/addTagToSongs?' + $.param({tagid: tagid, songIds: songids})
+        url: '/addTagToSongs?' + $.param({tagId: tagid, songIds: songids})
       });
     }
   };

@@ -29,8 +29,6 @@ angular.module('tagAddModule', ['sharedUtilModule'])
         if($scope.addedTag)
         {
           tagService.addTagToSelectedSongs($scope.addedTag[0].id, songIds).then(function(response){
-            // TODO
-            console.log(response);
             $scope.closeDialog();
             $scope.addedTag = [];
             toastService.showMessage('Added songs to tag!');
@@ -42,6 +40,7 @@ angular.module('tagAddModule', ['sharedUtilModule'])
       }
 
       $scope.closeDialog = function() {
+        $scope.addedTag = [];
         $mdDialog.hide();
       }
   	}

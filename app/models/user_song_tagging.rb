@@ -32,12 +32,24 @@ class UserSongTagging < ActiveRecord::Base
 			duration_ms: spotify_track.duration_ms, artist: spotify_track.artists[0].name)
 
 		if songid.present? && userid.present? && spotify_playlist.id.present?			
-			create(user_id: userid, song_id: songid, playlist_id: spotify_playlist.id)
+			create(user_id: userid, song_id: songid, playlist_id: spotify_playlist.id)			
 			AddSongToPlaylistFromSpotify.build.call(spotify_track, spotify_playlist)
 			return spotify_playlist
 		else
 			raise arguments_error
 		end
+	end
+
+	def self.add_tag_to_songs(userid, spotify_playlist, songids)
+		# TODO null check on songids array
+		spotify_tracks = GetSongsFromSpotify.build.call(songids)
+		spotify_tracks.each do |track|
+			Song.create(song_id: track.id, name: track.name, album_id: track.album.id, 
+			duration_ms: track.duration_ms, artist: track.artists[0].name)
+			create(user_id: userid, song_id: track.id, playlist_id: spotify_playlist.id)			
+		end
+			AddSongsToPlaylistFromSpotify.build.call(spotify_tracks, spotify_playlist)
+			return spotify_playlist
 	end
 
 	def self.remove_tag_from_song(userid, tagid, songid)
