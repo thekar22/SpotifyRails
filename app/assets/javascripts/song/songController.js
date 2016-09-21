@@ -1,7 +1,7 @@
 angular
 	.module('songModule', ['songService', 'tagService', 'ngTagsInput', 'sharedUtilModule'])
-	.controller('songController', ['$scope', 'songService', 'tagService', 'tagCloudService', '$http', '$routeParams', '$rootScope', 'sharedUtilService', 
-	function songController($scope, songService, tagService, tagCloudService, $http, $routeParams, $rootScope, sharedUtilService) {
+	.controller('songController', ['$scope', 'songService', 'tagService', 'tagCloudService', '$http', '$routeParams', '$rootScope', '$sce', 'sharedUtilService', 
+	function songController($scope, songService, tagService, tagCloudService, $http, $routeParams, $rootScope, $sce, sharedUtilService) {
 		initModule();
 
 		$scope.filterTags = function($query) {
@@ -97,7 +97,8 @@ angular
 			// chosen tags
 			$scope.songTags = [];
 			$scope.id = $routeParams.id;
-
+			$scope.embedUrl = $sce.trustAsResourceUrl('https://embed.spotify.com/?uri=spotify:track:' + $scope.id);
+			
 			if ($scope.id == 0) {
 				// TODO	current song
 				console.log("current song");
@@ -112,8 +113,6 @@ angular
 
 				$rootScope.$broadcast('loading.loading', {key:"getCurrentTags", val: "Loading Tags... (Takes a while the first time)"});
 				songService.getCurrentTags($scope.id).then(function(response) {
-					console.log("response");
-					console.log(response);
 					$rootScope.$broadcast('loading.loaded', {key:"getCurrentTags"});
 					var tags = response.data;
 
