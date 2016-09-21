@@ -6,10 +6,10 @@ var app = angular.module('MusicApp', ['templates', 'ngRoute', 'navigationModule'
 			// set up routes
 			$routeProvider
 				.when('/', {
-					templateUrl: 'tagCloud/tagView.html' // tagController specified in index.html.erb
+					templateUrl: 'tags/tagView.html' // tagController specified in index.html.erb
 			})
-				.when('/tagCloud/:id', {
-					templateUrl: 'tagCloud/tagView.html',
+				.when('/tags/:id', {
+					templateUrl: 'tags/tagView.html',
 					controller: 'tagController'
 			})
 				.when('/audioFeatures', {
@@ -27,6 +27,15 @@ var app = angular.module('MusicApp', ['templates', 'ngRoute', 'navigationModule'
 				.otherwise({
 					redirectTo: '/'
 			});
+		}
+	]
+)
+.config(
+	[
+		'tagsInputConfigProvider',
+		function(tagsInputConfigProvider) {
+			tagsInputConfigProvider.setDefaults('tagsInput', { placeholder: '' });
+			tagsInputConfigProvider.setActiveInterpolation('tagsInput', { placeholder: true });
 		}
 	]
 )

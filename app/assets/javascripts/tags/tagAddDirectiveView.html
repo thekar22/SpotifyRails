@@ -1,0 +1,37 @@
+<div>
+	<div class="addTagMainContent">
+		<h3>
+			Add Songs to Tag...
+		</h3>
+
+		<p>
+			Choose an existing tag
+		</p>
+
+		<tags-input ng-model="addedTag" 
+			placeholder="{{addedTag.length ? '' : 'Enter Tag'}}"
+			add-from-autocomplete-only="true"
+			on-tag-adding="onTagAdding($tag)"
+			max-tags="1"
+			>
+			<auto-complete source="filterTags($query)"
+				min-length="0"
+				load-on-empty="true"
+				load-on-focus="true"
+				max-results-to-show="64"
+			>
+			</auto-complete>
+		</tags-input>
+	</div>
+
+	<div class="addTagNavButtons">
+		<md-dialog-actions>
+			<md-button ng-click="closeDialog()" class="md-primary">
+				Cancel
+			</md-button>
+			<md-button ng-click="addToTag()" ng-if="addedTag.length == 1" class="md-primary">
+				Add &#10003;
+			</md-button>
+		</md-dialog-actions>
+	</div>
+<div>

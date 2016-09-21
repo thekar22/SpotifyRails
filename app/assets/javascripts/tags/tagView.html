@@ -3,6 +3,7 @@
 	add-from-autocomplete-only="true"
 	on-tag-added="onTagAdded($tag)"
 	on-tag-removed="onTagRemoved($tag)"
+	min-length="1"
 	>
 	<auto-complete source="filterTags($query)"
 		min-length="0"
@@ -40,4 +41,15 @@
 		</div>
 
 	</div>
+</div>
+
+<div style="visibility: hidden">
+  <div class="md-dialog-container" id="myStaticDialog">
+    <md-dialog>     
+		<md-dialog-content>
+			<tag-add>
+			</tag-add>
+		</md-dialog-content>
+	</md-dialog>
+  </div>
 </div>

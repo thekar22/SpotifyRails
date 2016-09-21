@@ -95,6 +95,11 @@ class HomeController < ApplicationController
 		render json: playlist
 	end
 
+	def addTagForSongIds
+		# TODO
+		render json: [1,2,3]
+	end
+
 	def removeTagForSong
 		tagid = params[:tagId]
 		songid = params[:songId]

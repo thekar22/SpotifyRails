@@ -25,6 +25,12 @@ angular.module('tagService', [])
         method: 'GET',
         url: '/addNewTag?' + $.param({tagName: tagname, songId: songid})
       });
+    },
+    addTagToSelectedSongs: function (tagid, songids) {
+      return $http({
+        method: 'GET',
+        url: '/addTagToSongs?' + $.param({tagid: tagid, songIds: songids})
+      });
     }
   };
   return service;

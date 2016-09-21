@@ -1,0 +1,80 @@
+// Tag radio buttons
+.tagFilterSection
+{
+	height: 10%;
+	margin: 0 auto;
+	width: 400px;
+	text-align: center;
+
+	span
+	{
+		font-size: 40px;
+		font-weight: lighter;
+		cursor:pointer;
+	}
+}
+
+#union-symbol
+{ // for some reason, bootstrap has the union symbol, by default, much smaller than the intersection symbol
+	font-size:55px;
+}
+
+.tagView
+{
+	height: 70%;
+}
+
+input[type="radio"]:checked + span
+{
+    font-weight: bold;
+}
+
+[type='radio'] {
+	display: none; 
+}
+
+//// Tag cloud / results
+.tagCloud
+{
+	height: 100%; 
+	position: relative;
+}
+
+.tagResultsContainer
+{
+	position: relative;
+	height:100%;
+}
+
+.tagResults
+{
+	position: relative;
+	height: 90%;
+	width: 100%;
+	margin: 0 auto;
+	overflow: scroll;
+}
+
+.tagNewButton
+{
+	text-align: center;
+	position: relative;
+	height:10%;
+	width:100%;	
+	background-color: black;
+	color:white;
+	cursor: pointer;
+	font-size:25px;
+}
+
+#cloud-dynamic 
+{ 
+	position:absolute;
+	height: 100%;
+	width: 100%;
+}
+
+#cloud-dynamic > span
+{
+	cursor: pointer;
+}

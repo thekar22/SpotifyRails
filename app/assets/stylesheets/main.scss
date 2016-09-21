@@ -1,0 +1,41 @@
+//// Parent containers
+html
+{
+    height: 100%;
+}
+
+head
+{
+	height: 0%;
+}
+
+body
+{
+	height: 100%;
+	overflow:hidden;
+}
+
+.mainContainer
+{
+	height: 100%;
+}
+
+//// Main page containers
+.navContainer
+{
+	height: 12%;
+	width: 100%;
+}
+
+.contentContainer
+{
+	height: 88%;
+}
+
+//// Angular view container
+.viewContainer
+{
+	position: relative;
+	top: 0px;
+	height: 100%;
+}

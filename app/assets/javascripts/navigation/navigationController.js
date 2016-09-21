@@ -1,9 +1,9 @@
 angular
 	.module('navigationModule', [])
-	.controller('navigationController', ['$scope', '$mdSidenav', '$location', function tagController($scope, $mdSidenav, $location) {
-		
+	.controller('navigationController', ['$scope', '$mdSidenav', '$location', 
+	function tagController($scope, $mdSidenav, $location) {
 		$scope.$on('$locationChangeStart', function(event) {			
-			if (($location.path().substr(0,9) == "/tagCloud") || $location.path() == "/")
+			if (($location.path().substr(0,5) == "/tags") || $location.path() == "/")
 			{
 				$scope.navView = "tag-view";
 			}
@@ -16,13 +16,13 @@ angular
 		$scope.loadingItems = {};
 		$scope.dataLoading = false;
 
-		$scope.$on('loading.loading', function (event, arg) { 			
+		$scope.$on('loading.loading', function (event, arg) {
 			$scope.loadingItems[arg.key] = arg.val;
 			$scope.dataLoading = true;
 			$scope.message = arg.val;
 		});
 
-		$scope.$on('loading.loaded', function (event, arg) { 			
+		$scope.$on('loading.loaded', function (event, arg) {
 			if ($scope.loadingItems[arg.key])
 			{
 				delete $scope.loadingItems[arg.key]
@@ -42,5 +42,4 @@ angular
 		$scope.toggle = function(side) {
 			$mdSidenav(side).toggle();
 		}
-
 }]);

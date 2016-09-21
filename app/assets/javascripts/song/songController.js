@@ -1,12 +1,11 @@
 angular
 	.module('songModule', ['songService', 'tagService', 'ngTagsInput', 'sharedUtilModule'])
-	.controller('songController', ['$scope', 'songService', 'tagService', '$http', '$routeParams', '$rootScope', 'sharedUtilService', function songController($scope, songService, tagService, $http, $routeParams, $rootScope, sharedUtilService) {
+	.controller('songController', ['$scope', 'songService', 'tagService', 'tagCloudService', '$http', '$routeParams', '$rootScope', 'sharedUtilService', 
+	function songController($scope, songService, tagService, tagCloudService, $http, $routeParams, $rootScope, sharedUtilService) {
 		initModule();
 
-		$scope.loadTags = function($query) {
-			return $scope.tagCloud.filter(function(tag) {
-				return tag.text.toLowerCase().indexOf($query.toLowerCase()) != -1;
-			});
+		$scope.filterTags = function($query) {
+			return tagCloudService.filterTags($query);
 		};
 
 		$scope.onTagAdding = function($tag) {
@@ -20,7 +19,7 @@ angular
 			else
 			{
 				return $scope.addNewTag($tag);
-			}		
+			}
 		}
 
 		$scope.onTagRemoving = function($tag) {
@@ -32,7 +31,8 @@ angular
 			return tagService.addNewTag($tag.text, $scope.id).then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
 				var tag = response.data
-				$scope.songTags.push({ text: tag.name, weight: tag.total, id: tag.playlist_id });
+				console.log($scope.songTags.push({ text: tag.name, weight: tag.total, id: tag.playlist_id }));
+				console.log($scope.songTags);
 				$scope.tagCloud.push({ 
 					text: tag.name, 
 					weight: tag.total, 
@@ -89,7 +89,7 @@ angular
 		}
 
 		$scope.onTagClicked = function ($tag) {			
-			sharedUtilService.redirect('#/tagCloud/' + $tag.id);
+			sharedUtilService.redirect('#/tags/' + $tag.id);
 		}
 
 		function initModule() {
@@ -111,6 +111,8 @@ angular
 
 				$rootScope.$broadcast('loading.loading', {key:"getCurrentTags", val: "Loading Tags... (Takes a while the first time)"});
 				songService.getCurrentTags($scope.id).then(function(response) {
+					console.log("response");
+					console.log(response);
 					$rootScope.$broadcast('loading.loaded', {key:"getCurrentTags"});
 					var tags = response.data;
 

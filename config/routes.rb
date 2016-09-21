@@ -14,9 +14,11 @@ Rails.application.routes.draw do
   get '/currentTags', to: 'home#getCurrentTagsForSong'
   get '/addNewTag', to: 'home#addNewTagForSong'
   get '/addExistingTag', to: 'home#addExistingTagForSong'
+  get '/addTagToSongs', to: 'home#addTagForSongIds'
   get '/removeTag', to: 'home#removeTagForSong'
   get '/search', to: 'home#getQuery'
   get '/song', to: 'home#getSong'
+
 
   match 'getAudioFeatures' => 'home#getAudioFeatures', via: [:post]
   root 'home#index'

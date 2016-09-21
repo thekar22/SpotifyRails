@@ -3,7 +3,7 @@
 
 <div class="singleSong">		
 	<tags-input
-		ng-model="tags" 
+		ng-model="songTags" 
 		text="text"
 		placeholder="-"
 		on-tag-added="onTagAdded($tag)"
@@ -11,8 +11,10 @@
 		on-tag-removed="onTagRemoved($tag)"
 		on-tag-removing="onTagRemoving($tag)"
 		on-tag-clicked="onTagClicked($tag)"
+		min-length="1"
+		add-on-blur="false"
 		>
-		<auto-complete source="loadTags($query)"
+		<auto-complete source="filterTags($query)"
 			min-length="0"
 			load-on-focus="true"
 			max-results-to-show="64"

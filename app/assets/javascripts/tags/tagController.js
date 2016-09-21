@@ -1,13 +1,11 @@
 angular
-	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'ui.bootstrap.contextMenu', 'sharedUtilModule'])
-	.controller('tagController', ['$scope', 'tagService', '$http', 'uiGridService', '$rootScope', '$routeParams', '$mdDialog', '$mdToast', 'mdConfirmService', 'sharedUtilService', function tagController($scope, tagService, $http, uiGridService, $rootScope, $routeParams, $mdDialog, $mdToast, mdConfirmService, sharedUtilService) {
+	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'ui.bootstrap.contextMenu', 'tagAddModule', 'sharedUtilModule'])
+	.controller('tagController', ['$scope', 'tagService', 'tagCloudService', 'selectedSongsService', '$http', 'uiGridService', '$rootScope', '$routeParams', '$mdDialog', 'toastService', 'mdConfirmService', 'sharedUtilService', 
+	function tagController($scope, tagService, tagCloudService, selectedSongsService, $http, uiGridService, $rootScope, $routeParams, $mdDialog, toastService, mdConfirmService, sharedUtilService) {
 		initModule();
 
-		$scope.filterTags = function($query) {
-			var tags = $scope.tagCloud;
-			return tags.filter(function(tag) {
-				return tag.text.toLowerCase().indexOf($query.toLowerCase()) != -1;
-			});
+		$scope.filterTags = function($query) {				
+			return tagCloudService.filterTags($query);
 		};
 
 		$scope.querySelectedTags = function() {
@@ -54,7 +52,7 @@ angular
 				function(result) {
 					$rootScope.$broadcast('loading.loading', {key:"addNewTag", val: "Creating New Tag..."});
 					
-					var existingTag = $scope.tagCloud.find(function(tag) { 
+					var existingTag = tagCloudService.tagCloud.find(function(tag) { 
 						return tag.text.toLowerCase() === result.toLowerCase();
 					});
 
@@ -64,29 +62,28 @@ angular
 					}
 					else
 					{
-						$scope.showMessage("Tag already exists!");
+						toastService.showMessage("Tag already exists!");
 						$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
 					}
 				}, 
 				function() {
-					$scope.showMessage("Tag creation canceled");
+					toastService.showMessage("Tag creation canceled");
 				}
 			);
 		}		
 
 		$scope.addNewTag = function(result)
 		{
-			tagService.addNewTag(result, null).then(function(response){
-				var tag = response.data
-				$scope.addToTagCloud(tag);
-				$scope.showMessage("Tag created!");
+			tagService.addNewTag(result, null).then(function(response){				
+				$scope.addToTagCloud(response.data);
+				toastService.showMessage("Tag created!");
 				$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
 			});
 		}
 
 		$scope.addToTagCloud = function (tag)
 		{
-			$scope.tagCloud.push({ 
+			tagCloudService.tagCloud.push({ 
 					text: tag.name, 
 					weight: tag.total, 
 					id: tag.playlist_id,
@@ -101,20 +98,15 @@ angular
 				});
 		}
 
-		$scope.showMessage = function(message)
-		{
-			$mdToast.show(
-				$mdToast.simple()
-					.textContent(message)
-					.hideDelay(3000)
-			);
-		}
-
 		$scope.onAddSelectedSongs = function(rows)
 		{
-			
-
-			console.log(rows);
+			selectedSongsService.selectedSongs = rows;
+			var outerScope = $scope;
+			var parentEl = angular.element(document.body);
+			$mdDialog.show({
+				contentElement: '#myStaticDialog',
+				parent: parentEl			
+			});
 		}
 
 		function setupGrid()
@@ -143,8 +135,6 @@ angular
 			$scope.tags = [];
 			// all user tags in dictionary by playlist id
 			$scope.tagDictionary = {};
-			// songs for custom list
-			$scope.selectedSongs = []
 
 			// default filter union
 			$scope.filter = {
@@ -182,9 +172,10 @@ angular
 		}
 
 		function createCloud(playlists) {
+			tagCloudService.tagCloud = [];
 			for(var playlist in playlists) {
 				$scope.tagDictionary[playlists[playlist].id] = playlists[playlist];
-				$scope.tagCloud.push({ 
+				tagCloudService.tagCloud.push({ 
 					text: playlists[playlist].name, 
 					weight: playlists[playlist].total, 
 					id: playlists[playlist].id, 
@@ -198,6 +189,7 @@ angular
 					}
 				});
 			}
+			$scope.tagCloud = tagCloudService.tagCloud;
 		}
 
 		function initModule() {		

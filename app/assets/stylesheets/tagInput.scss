@@ -1,0 +1,40 @@
+//// Tag input elements
+// these tag input selectors affect both tagCloud tags-input and song tags-input
+html tags-input
+{	
+	height: 20%;
+}
+
+body > div > div.ng-scope > div.ng-scope tags-input > div > div > ul > li
+{
+	background: #ACACE4;
+}
+
+body tags-input .tags .tag-item .remove-button
+{
+	font-size: 50px;
+}
+
+html tags-input .tags .input
+{
+	border: 0;
+	outline: none;
+	margin: 2px;
+	padding: 0;
+	padding-left: 5px;	
+	float: left;
+	height: 50px;
+	font: 40px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+html tags-input .tags .tag-item
+{
+	border: 0;
+	outline: none;
+	margin: 2px;
+	padding: 0;
+	padding-left: 5px;	
+	float: left;
+	height: 50px;
+	font: 40px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
