@@ -17,6 +17,7 @@ angular.module('tagAddModule', ['sharedUtilModule'])
         // do not perform auto complete if tag already added
         if($scope.addedTag.length > 0)
         {
+          $scope.text = '';
           return [];
         }
   			return tagCloudService.filterTags($query);

@@ -8,17 +8,20 @@
 			Choose an existing tag
 		</p>
 
-		<tags-input ng-model="addedTag" 
+		<tags-input ng-model="addedTag"
 			placeholder="{{addedTag.length ? '' : 'Enter Tag'}}"
 			add-from-autocomplete-only="true"
 			on-tag-adding="onTagAdding($tag)"
+			text="text"
 			max-tags="1"
+			min-length="1"
 			>
 			<auto-complete source="filterTags($query)"
 				min-length="0"
 				load-on-empty="true"
 				load-on-focus="true"
 				max-results-to-show="64"
+
 			>
 			</auto-complete>
 		</tags-input>

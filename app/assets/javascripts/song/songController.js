@@ -22,7 +22,8 @@ angular
 			}
 		}
 
-		$scope.onTagRemoving = function($tag) {
+		$scope.onTagRemoving = function($tag) {			
+			window.event.stopPropagation();
 			return $scope.removeTag($tag);
 		}
 
