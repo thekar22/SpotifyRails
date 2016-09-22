@@ -1,20 +1,30 @@
 //// Navigation elements
 html .navContainer md-content
 {
-	height:80px;
-	width:100%;
-	overflow:hidden;	
+	height: 80px;
+	width: 100%;
+	overflow: hidden;	
 	background: #282828;
 }
 
 .navContainer .md-button
 {
-	height:50%;
-	width:13%;
+	height: 50%;
+	width: 100px;
 	margin-top: 18px;
 }
 
-body > div > div.navContainer.ng-scope > md-content > button.md-raised.rightButton.md-button.md-ink-ripple
+.navContainer span
+{
+	font-size: 30px;
+}
+
+.navContainer.ng-scope > md-content > button.md-raised.md-button.md-ink-ripple
+{
+	box-shadow: none;
+}
+
+.navContainer.ng-scope > md-content > button.md-raised.rightButton.md-button.md-ink-ripple
 {
 	position: absolute;
 	top: 0px;
@@ -28,14 +38,25 @@ body > div > div.navContainer.ng-scope > md-content > button.md-raised.rightButt
 	}
 }
 
-body > div > div.navContainer.ng-scope > md-content > button.md-raised.leftButton.md-button.md-ink-ripple
+.navContainer.ng-scope > md-content > button.md-raised.leftButton.md-button.md-ink-ripple
 {  
 	position: absolute;
 	top: 0px;
-	border:black;
+	border: black;
 	left: 0px; 
 	background: inherit;
 	color: #FAFAFA;
-	margin-top:0px;
-	height:70px;
+	margin-top: 0px;
+	height: 70px;
+}
+
+// changed position to fixed because these menus inherit the height of the nav bar (which is only 80px) when opened
+.navContainer.ng-scope > md-sidenav.ng-isolate-scope._md
+{
+	position: fixed;
+}
+
+.navContainer.ng-scope > md-backdrop
+{
+	position: fixed;
 }

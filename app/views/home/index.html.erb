@@ -1,18 +1,12 @@
 <% if user_signed_in? %>
-
 	<div ng-app="MusicApp" class="mainContainer">
-
 		<div ng-controller="navigationController" class="navContainer">
-
 			<iframe id="songPlayer" src="https://embed.spotify.com/?uri=spotify:track:5JunxkcjfCYcY7xJ29tLai" frameborder="0" allowtransparency="true"></iframe>
-
-			<div class="loadingContainer" ng-if="dataLoading">
-				
+			<div class="loadingContainer" ng-if="dataLoading">				
 				<div> 
 					{{message}}
 				</div>
 			</div>
-
 			<md-sidenav md-component-id="left" class="md-sidenav-left">
 				<div>
 					Logged in as <strong><%= current_user.email %></strong>.
@@ -20,7 +14,6 @@
 					<%= link_to "Logout", destroy_user_session_path, method: :delete %>
 				</div>
 			</md-sidenav>
-
 			<md-sidenav md-component-id="right" class="md-sidenav-right">
 				<div ng-switch="navView">
 					<div class="tagCloud" ng-switch-when="tag-view">
@@ -38,7 +31,6 @@
 					Search Songs
 				</a>
 			</md-sidenav>
-
 			<md-content>
 				<md-button class="md-raised leftButton" ng-click="openLeftMenu()">
 					&#6624; 
@@ -48,13 +40,10 @@
 				</md-button>
 			</md-content>
 		</div>
-
 		<div ng-controller="tagController" class="contentContainer">
 			<div ng-view class="viewContainer">
 				<!-- view content here -->
 			</div>
 		</div>
-
 	</div>
-
 <% end %>

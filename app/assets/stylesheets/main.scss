@@ -12,30 +12,42 @@ head
 body
 {
 	height: 100%;
+	margin:0;
+	padding:0;
 	overflow:hidden;
 }
 
 .mainContainer
 {
+	position: relative;
 	height: 100%;
+	margin: 0;
+	padding: 0;
 }
 
 //// Main page containers
 .navContainer
 {
-	height: 12%;
+	position:relative;
+	height: 80px;
 	width: 100%;
+	margin:0;
+	padding: 0;
 }
 
 .contentContainer
 {
-	height: 88%;
+	position: relative;
+	height: 100%;
+	margin: 0;
+	padding: 0 0 80px;
 }
 
 //// Angular view container
 .viewContainer
 {
-	position: relative;
-	top: 0px;
+	position: relative;	
 	height: 100%;
+	margin: 0;
+	padding: 0;
 }

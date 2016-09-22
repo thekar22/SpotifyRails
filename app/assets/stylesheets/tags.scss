@@ -1,17 +1,26 @@
 // Tag radio buttons
 .tagFilterSection
 {
-	height: 10%;
-	margin: 0 auto;
+	height: 60px;
 	width: 400px;
+	margin: 0 auto;
 	text-align: center;
-	transform: translate(0px, -10px);
+	line-height: 0.75;
 
 	span
 	{
 		font-size: 40px;
 		font-weight: lighter;
 		cursor:pointer;
+	}
+
+	input[type="radio"]:checked + span
+	{
+		font-weight: bold;
+	}
+
+	[type='radio'] {
+		display: none;
 	}
 }
 
@@ -21,29 +30,13 @@
 }
 
 .tagView
-{
+{	
 	height: 70%;
 }
 
-input[type="radio"]:checked + span
-{
-    font-weight: bold;
-}
-
-[type='radio'] {
-	display: none; 
-}
-
 //// Tag cloud / results
-.tagCloud
-{
-	height: 100%; 
-	position: relative;
-}
-
 .tagResultsContainer
-{
-	position: relative;
+{	
 	height:100%;
 }
 
@@ -59,8 +52,9 @@ input[type="radio"]:checked + span
 .tagNewButton
 {
 	text-align: center;
-	position: relative;
-	height:10%;
+	position: absolute;
+	bottom: 0;
+	height:45px;
 	width:100%;	
 	background-color: #282828;
 	color:white;
@@ -68,14 +62,20 @@ input[type="radio"]:checked + span
 	font-size:25px;
 }
 
+.tagCloud
+{
+	height: 100%; 
+	position: relative;
+}
+
 #cloud-dynamic 
 { 
 	position:absolute;
 	height: 100%;
 	width: 100%;
-}
 
-#cloud-dynamic > span
-{
-	cursor: pointer;
+	span 
+	{
+		cursor: pointer;
+	}
 }
