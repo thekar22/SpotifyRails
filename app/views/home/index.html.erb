@@ -4,8 +4,13 @@
 
 		<div ng-controller="navigationController" class="navContainer">
 
+			<iframe id="songPlayer" src="https://embed.spotify.com/?uri=spotify:track:5JunxkcjfCYcY7xJ29tLai" frameborder="0" allowtransparency="true"></iframe>
+
 			<div class="loadingContainer" ng-if="dataLoading">
-				{{message}}
+				
+				<div> 
+					{{message}}
+				</div>
 			</div>
 
 			<md-sidenav md-component-id="left" class="md-sidenav-left">
@@ -36,10 +41,10 @@
 
 			<md-content>
 				<md-button class="md-raised leftButton" ng-click="openLeftMenu()">
-					&#127760;
+					&#6624; 
 				</md-button>
 				<md-button class="md-raised rightButton" ng-click="openRightMenu()">
-					&#9836;
+					&#9834;
 				</md-button>
 			</md-content>
 		</div>

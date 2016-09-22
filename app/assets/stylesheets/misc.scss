@@ -7,6 +7,20 @@
 	margin: 0 auto;
 }
 
+#songPlayer
+{
+	position:absolute;
+	margin: 0 auto;
+	left:0px;
+	right:0px;
+	z-index:10;
+}
+
+div.navContainer.ng-scope > md-content > button.md-raised.md-button.md-ink-ripple
+{
+	box-shadow:none;
+}
+
 .loadingContainer
 {
     position:fixed;
@@ -14,19 +28,24 @@
     margin:0;
     color: #FAFAFA;
 
-    top:0;
-    left:0;
-
     width: 100%;
     height: 100%;
     background:rgba(255,255,255,0.5);
 
     font-size: 22px;
-    text-align: center;
     z-index: 100000;
+
+    div 
+    {
+    	color:black;
+    	position:absolute;
+    	bottom:5px;
+    	left:5px;
+    }
 }
 
-.ui-grid {
+.ui-grid 
+{
 	position: absolute;
 	height: auto;
 	top: 0;

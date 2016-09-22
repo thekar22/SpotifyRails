@@ -1,10 +1,10 @@
 //// Navigation elements
 html .navContainer md-content
 {
-	height:80%;
+	height:80px;
 	width:100%;
-	overflow:hidden;
-	background: black;
+	overflow:hidden;	
+	background: #282828;
 }
 
 .navContainer .md-button
@@ -21,7 +21,11 @@ body > div > div.navContainer.ng-scope > md-content > button.md-raised.rightButt
 	border:black;
 	right: 0px;	
 	background: inherit;
-	color: #FAFAFA;
+	color: #FAFAFA;	
+	span
+	{
+		font-size: 45px;
+	}
 }
 
 body > div > div.navContainer.ng-scope > md-content > button.md-raised.leftButton.md-button.md-ink-ripple
@@ -32,4 +36,6 @@ body > div > div.navContainer.ng-scope > md-content > button.md-raised.leftButto
 	left: 0px; 
 	background: inherit;
 	color: #FAFAFA;
+	margin-top:0px;
+	height:70px;
 }
