@@ -29,6 +29,11 @@ html tags-input .tags
 	overflow: scroll;
 }
 
+tags-input li ti-tag-item ng-include span
+{
+	padding: 5px;
+}
+
 // specific to tags input on main tags page
 tags-input.tagCloudTagInput
 {	
@@ -40,3 +45,4 @@ tags-input.tagCloudTagInput
 		margin-top: 0;
 	}
 }
+

@@ -7,26 +7,47 @@
 	text-align: center;
 	line-height: 0.75;
 
+	label
+	{
+		position:absolute;
+		height:50px;
+		width:50px;
+	}
+
+	label:nth-child(1)
+	{
+		transform: translate(-75px, 0px);
+	}
+
+	label:nth-child(2)
+	{
+		transform: translate(-25px, 0px);
+	}
+
 	span
 	{
+		font-family: Roboto, "Helvetica Neue", sans-serif !important;
 		font-size: 40px;
 		font-weight: lighter;
 		cursor:pointer;
 	}
 
+	span:hover
+	{
+		font-size: 500%;
+		transition: all 0.3s ease;		
+	}
+
 	input[type="radio"]:checked + span
 	{
+		transition:all 0.3s ease;
 		font-weight: bold;
+		color: #ACACE4;
 	}
 
 	[type='radio'] {
 		display: none;
 	}
-}
-
-#union-symbol
-{ // for some reason, bootstrap has the union symbol, by default, much smaller than the intersection symbol
-	font-size:55px;
 }
 
 .tagView
@@ -54,12 +75,22 @@
 	text-align: center;
 	position: absolute;
 	bottom: 0;
-	height:45px;
-	width:100%;	
+	height: 45px;
+	width: 100%;	
 	background-color: #282828;
-	color:white;
+	color: white;
 	cursor: pointer;
 	font-size:25px;
+	span 
+	{
+		color: green;
+	}
+}
+
+.tagNewButton:hover
+{
+	transition: all 0.5s ease;
+	background-color: #254117;
 }
 
 .tagCloud
@@ -77,5 +108,12 @@
 	span 
 	{
 		cursor: pointer;
+	}
+
+	span:hover
+	{
+		transition: all 0.3s ease;
+		border-color: #66afe9;
+		color: #ACACE4 !important;
 	}
 }

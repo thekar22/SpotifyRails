@@ -144,7 +144,6 @@ angular
 			$scope.tags = [];
 			// all user tags in dictionary by playlist id
 			$scope.tagDictionary = {};
-
 			// default filter union
 			$scope.filter = {
 				name: 'Union'
@@ -154,8 +153,17 @@ angular
 		function initWatchVars()
 		{
 			//watch variables
+			var initializing = true;
 			$scope.$watch('filter.name', function () {
-				$scope.querySelectedTags();
+				if (!initializing)
+				{
+					$scope.querySelectedTags();
+					toastService.showMessage($scope.filter.name + "!");
+				}
+				else
+				{
+					initializing = false;
+				}
 			});
 			$scope.$watch('tags', function (newVal, oldVal) { 
 				if ($scope.tags.length < 1)

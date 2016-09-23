@@ -20,23 +20,26 @@
 
 .loadingContainer
 {
-	position: fixed;
+	position: fixed;	
 	height: 100%;
 	width: 100%;
 	margin: 0;
-	padding: 0;
+	padding: 0;	
 
 	color: #FAFAFA;
 	background: rgba(255,255,255,0.5);
-	font-size: 22px;
+	font-size: 15px;
 	z-index: 100000;
 
 	div 
-	{
+	{		
 		position: absolute;
-		bottom: 5px;
-		left: 5px;
-		color: black;
+		background-color: black;
+		bottom: 0px;
+		right: 0px;
+		padding: 0 15px 5px;
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		color: white;
 	}
 }
 
@@ -69,4 +72,10 @@ div.ui-grid-cell
 .selectedSongsHeader label
 {
 	font-size: 30px;	
+}
+
+.songArt
+{
+	border: solid black;
+	margin: 5px;
 }

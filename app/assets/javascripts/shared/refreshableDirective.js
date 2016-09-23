@@ -1,20 +1,17 @@
 angular.module('sharedUtilModule')
-.directive('refreshable', [function () {
+.directive('refreshable', ['$sce', function ($sce) {
     return {
         restrict: 'A',
         scope: {
             refresh: "=refreshable"
         },
         link: function (scope, element, attr) {
-            var refreshMe = function () {
-                element.attr('src', element.attr('src'));
+            var refreshMe = function (newSrc) {       
+                element.attr('src', newSrc);
             };
 
-            scope.$watch('refresh', function (newVal, oldVal) {
-                if (scope.refresh) {
-                    scope.refresh = false;
-                    refreshMe();
-                }
+            scope.$watch('refresh', function (newVal, oldVal) {                
+                refreshMe($sce.trustAsResourceUrl(newVal));
             });
         }
     };
