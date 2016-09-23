@@ -1,6 +1,6 @@
 angular
 	.module('audioFeaturesModule', ['audioFeaturesService'])
-	.controller('audioFeaturesController', ['$scope', 'audioFeaturesService', '$rootScope', function audioFeaturesController($scope, audioFeaturesService, $rootScope) {
+	.controller('audioFeaturesController', ['$scope', 'audioFeaturesService', '$rootScope', 'filteredSongsService', function audioFeaturesController($scope, audioFeaturesService, $rootScope, filteredSongsService) {
 		
 		$scope.features = [];
 		
@@ -22,7 +22,7 @@ angular
 					for(var feature in features)
 					{
 						tempFeature = features[feature];						
-						$scope.filteredSongsDictionary[tempFeature.id].audio_features = tempFeature;
+						filteredSongsService.filteredSongsDictionary[tempFeature.id].audio_features = tempFeature;
 					}
 					$scope.features = features;
 					audioFeaturesService.initializeAudioFeatureAggregates($scope);
@@ -46,10 +46,10 @@ angular
 		}
 
 		var i = 0;
-		var numSongs = Object.keys($scope.filteredSongsDictionary).length;
+		var numSongs = Object.keys(filteredSongsService.filteredSongsDictionary).length;
 		if (numSongs != 0) {			
-			var songIds = Object.keys($scope.filteredSongsDictionary).map(function(key){
-				return $scope.filteredSongsDictionary[key].song_id;
+			var songIds = Object.keys(filteredSongsService.filteredSongsDictionary).map(function(key){
+				return filteredSongsService.filteredSongsDictionary[key].song_id;
 			});
 
 			$rootScope.$broadcast('loading.loading', {key:"loadingFeatures", val: "Loading"});

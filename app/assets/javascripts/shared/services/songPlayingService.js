@@ -3,8 +3,7 @@ angular.module('sharedUtilModule')
 	var factory = {};
 	factory.song = { songUrl:"" };
 
-	factory.pushSongById = function(id) {
-		// factory.song.songUrl = $sce.trustAsResourceUrl('https://embed.spotify.com/?uri=spotify:track:' + id);
+	factory.pushSongById = function(id) {		
 		factory.song.songUrl = 'https://embed.spotify.com/?uri=spotify:track:' + id;
 	};
 

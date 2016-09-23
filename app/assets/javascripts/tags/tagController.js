@@ -1,7 +1,7 @@
 angular
 	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'ui.bootstrap.contextMenu', 'tagAddModule', 'sharedUtilModule'])
-	.controller('tagController', ['$scope', 'tagService', 'tagCloudService', 'selectedSongsService', '$http', 'uiGridService', '$rootScope', '$routeParams', '$mdDialog', 'toastService', 'mdConfirmService', 'sharedUtilService', 
-	function tagController($scope, tagService, tagCloudService, selectedSongsService, $http, uiGridService, $rootScope, $routeParams, $mdDialog, toastService, mdConfirmService, sharedUtilService) {
+	.controller('tagController', ['$scope', 'tagService', 'tagCloudService', 'selectedSongsService', '$http', 'uiGridService', '$rootScope', '$routeParams', '$mdDialog', 'toastService', 'mdConfirmService', 'sharedUtilService', 'filteredSongsService', 
+	function tagController($scope, tagService, tagCloudService, selectedSongsService, $http, uiGridService, $rootScope, $routeParams, $mdDialog, toastService, mdConfirmService, sharedUtilService, filteredSongsService) {
 		initModule();
 
 		$scope.filterTags = function($query) {				
@@ -31,7 +31,7 @@ angular
 				tagService["getPlaylist" + filterType](playlistIds).then(function(response){ 
 					$rootScope.$broadcast('loading.loaded', {key:"getPlaylistSongs"});
 					$scope.gridOptions.data = response.data;
-					$scope.filteredSongsDictionary = $scope.convertFilteredResultsToDictioanry(response.data);					
+					filteredSongsService.filteredSongsDictionary = filteredSongsService.convertFilteredResultsToDictioanry(response.data);					
 				});
 			}
 		}
@@ -132,10 +132,6 @@ angular
 		}
 
 		function initVars() {
-			// songs returned from user filtering action
-			$scope.filteredSongs = [];
-			// songs in dictionary by id
-			$scope.filteredSongsDictionary = {};
 			// for tag cloud
 			$scope.colors = ["#111111", "#333333", "#555555", "#777777", "#999999", "#bbbbbb", "#dddddd"];
 			// all user tags
@@ -167,8 +163,8 @@ angular
 			});
 			$scope.$watch('tags', function (newVal, oldVal) { 
 				if ($scope.tags.length < 1)
-				{
-					$scope.filteredSongsDictionary = {};
+				{					
+					filteredSongsService.filteredSongsDictionary = {};
 					$scope.tagView = "tag-cloud";
 				}
 				else
@@ -208,7 +204,7 @@ angular
 			$scope.tagCloud = tagCloudService.tagCloud;
 		}
 
-		function initModule() {		
+		function initModule() {
 			setupGrid();
 			initVars();
 			initWatchVars();
@@ -217,7 +213,7 @@ angular
 			$scope.tagView = "tag-cloud";
 			$rootScope.$broadcast('loading.loading', {key:"getPlaylists", val: "Loading Playlists..."});
 			tagService.getUserPlaylists().then(function(response){
-				$rootScope.$broadcast('loading.loaded', {key:"getPlaylists"});				
+				$rootScope.$broadcast('loading.loaded', {key:"getPlaylists"});
 				createCloud(response.data);
 				
 				// tag id specified in url

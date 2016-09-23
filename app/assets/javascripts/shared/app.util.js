@@ -1,6 +1,6 @@
 angular
   .module('sharedUtilModule', ['ngMaterial'])
-  .service('sharedUtilService', [ function ($http) {
+  .service('sharedUtilService', ['$location', function ($location) {
     var service = {
       getMean: getMean,
       getMedian: getMedian,
@@ -30,11 +30,10 @@ angular
       return sum / nums.length;
     }
 
-    function redirect($url)
-    {
-      window.location.href = $url;
+    function redirect($path)
+    {      
+      $location.path($path);
     }
     
     return service;
   }]);
-

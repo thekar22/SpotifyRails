@@ -1,6 +1,6 @@
 angular.module('tagAddModule', ['sharedUtilModule'])
-  .directive('tagAdd', ['sharedUtilService', '$rootScope', 'tagService', 'tagCloudService', 'toastService', 'selectedSongsService', '$mdDialog', 
-  function (sharedUtilService, $rootScope, tagService, tagCloudService, toastService, selectedSongsService, $mdDialog) {
+  .directive('tagAdd', ['sharedUtilService', '$rootScope', 'tagService', 'tagCloudService', 'toastService', 'selectedSongsService', '$mdDialog', '$location', 
+  function (sharedUtilService, $rootScope, tagService, tagCloudService, toastService, selectedSongsService, $mdDialog, $location) {
   	function linkFunction($scope, elem, attrs) {
       $scope.addedTag = [];
 
@@ -23,12 +23,13 @@ angular.module('tagAddModule', ['sharedUtilModule'])
   			return tagCloudService.filterTags($query);
   		};
 
-      $scope.addToTag = function() {
+      $scope.addToTag = function() {        
         $rootScope.$broadcast('loading.loading', {key:"addTagToSongs", val: "Adding songs to tag..."});
         var songIds = selectedSongsService.extractSongIds(selectedSongsService.selectedSongs);
         if($scope.addedTag)
         {
-          tagService.addTagToSelectedSongs($scope.addedTag[0].id, songIds).then(function(response){
+          tagService.addTagToSelectedSongs($scope.addedTag[0].id, songIds).then(function(response){            
+            $location.path('/tags/' + $scope.addedTag[0].id);
             $scope.closeDialog();
             $scope.addedTag = [];
             toastService.showMessage('Added songs to tag!');

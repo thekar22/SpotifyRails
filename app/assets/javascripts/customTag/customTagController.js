@@ -1,6 +1,6 @@
 angular
 	.module('customTagModule', ['ui.grid', 'ui.grid.selection', 'sharedUtilModule'])
-	.controller('customTagController', ['$scope', '$http', '$rootScope', 'searchService', 'uiGridService', 'sharedUtilService', function customTagController($scope, $http, $rootScope, searchService, uiGridService, sharedUtilService) {
+	.controller('customTagController', ['$scope', '$http', '$rootScope', 'searchService', 'uiGridService', 'sharedUtilService', 'selectedSongsService', function customTagController($scope, $http, $rootScope, searchService, uiGridService, sharedUtilService, selectedSongsService) {
 		initModule();
 
 		$scope.searchQuery = function($query) {
@@ -27,12 +27,12 @@ angular
 		}
 
 		$scope.addToSelectedSongs = function(row) { 						
-			$scope.selectedSongs.push(row.entity);
+			selectedSongsService.selectedSongs.push(row.entity);
 		};
 
 		$scope.removeFromSelectedSongs = function(row) {			
 			var index = $scope.selectedSongs.indexOf(row.entity);
-			$scope.selectedSongs.splice(index, 1);
+			selectedSongsService.selectedSongs.splice(index, 1);
 		};
 
 		function setupSearchGrid()
@@ -59,13 +59,13 @@ angular
 				cellTemplate: '<div class="songCell" ng-click="grid.appScope.removeFromSelectedSongs(row)"> - </div>'
 			});
 
-			$scope.selectedSongsGridOptions.data = $scope.selectedSongs;
+			$scope.selectedSongsGridOptions.data = selectedSongsService.selectedSongs;
 		}
 
 		function initWatchVars()
 		{
 			$scope.$watch('selectedSongs', function (newVal, oldVal) {
-				if ($scope.selectedSongs.length < 1)
+				if (selectedSongsService.selectedSongs.length < 1)
 				{
 					$scope.showSelectedSongs = false;
 				}

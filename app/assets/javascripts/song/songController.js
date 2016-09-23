@@ -12,7 +12,7 @@ angular
 
 			$scope.text = "";
 
-			if ($scope.tagCloud.some(function(e) { return e.text == $tag.text }))
+			if (tagCloudService.tagCloud.some(function(e) { return e.text == $tag.text }))
 			{
 				return $scope.addExistingTag($tag);
 			}
@@ -34,7 +34,7 @@ angular
 				var tag = response.data
 				console.log($scope.songTags.push({ text: tag.name, weight: tag.total, id: tag.playlist_id }));
 				console.log($scope.songTags);
-				$scope.tagCloud.push({ 
+				tagCloudService.tagCloud.push({ 
 					text: tag.name, 
 					weight: tag.total, 
 					id: tag.playlist_id,
@@ -89,8 +89,8 @@ angular
 			// notify user
 		}
 
-		$scope.onTagClicked = function ($tag) {			
-			sharedUtilService.redirect('#/tags/' + $tag.id);
+		$scope.onTagClicked = function ($tag) {
+			sharedUtilService.redirect('/tags/' + $tag.id);
 		}
 
 		function initModule() {
@@ -98,7 +98,7 @@ angular
 			$scope.songTags = [];
 			$scope.id = $routeParams.id;			
 			songPlayingService.pushSongById($scope.id);
-			
+						
 			if ($scope.id == 0) {
 				// TODO	current song
 				console.log("current song");

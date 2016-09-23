@@ -6,7 +6,8 @@ var app = angular.module('MusicApp', ['templates', 'ngRoute', 'navigationModule'
 			// set up routes
 			$routeProvider
 				.when('/', {
-					templateUrl: 'tags/tagView.html' // tagController specified in index.html.erb
+					templateUrl: 'tags/tagView.html', // tagController specified in index.html.erb
+					controller: 'tagController'
 			})
 				.when('/tags/:id', {
 					templateUrl: 'tags/tagView.html',

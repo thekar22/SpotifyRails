@@ -3,8 +3,7 @@ angular.module('sharedUtilModule')
 	var factory = {};
 	factory.selectedSongs = [];
 
-	factory.extractSongIds = function(songRows)
-	{
+	factory.extractSongIds = function(songRows) {
 		return songRows.map(function(song){
 			return song.song_id
 		});
