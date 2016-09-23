@@ -4,7 +4,8 @@ angular
     var service = {
       getMean: getMean,
       getMedian: getMedian,
-      redirect: redirect
+      redirect: redirect,
+      capitalizeFirstLetter: capitalizeFirstLetter
     };
 
     function getMedian(nums) 
@@ -30,10 +31,19 @@ angular
       return sum / nums.length;
     }
 
-    function redirect($path)
+    function redirect(path, queryObject)
     {      
-      $location.path($path);
+      $location.path(path).search(queryObject);
     }
-    
+
+    function changeQueryStringKeyValue(path, queryObject)
+    {
+      
+    }
+
+    function capitalizeFirstLetter(string) {
+        return string[0].toUpperCase() + string.slice(1);
+    }
+
     return service;
   }]);

@@ -8,7 +8,7 @@ angular.module('sharedUtilModule')
 		gridOptions.data = [];
 
 		$scope.goToSelectedSong = function(row) {			
-			sharedUtilService.redirect('/song/' + row.entity['song_id']);			
+			sharedUtilService.redirect('/song/' + row.entity['song_id'], {});			
 		};
 
 		gridOptions.columnDefs = [

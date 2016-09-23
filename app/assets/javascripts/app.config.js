@@ -9,7 +9,7 @@ var app = angular.module('MusicApp', ['templates', 'ngRoute', 'navigationModule'
 					templateUrl: 'tags/tagView.html', // tagController specified in index.html.erb
 					controller: 'tagController'
 			})
-				.when('/tags/:id', {
+				.when('/tags/', {
 					templateUrl: 'tags/tagView.html',
 					controller: 'tagController'
 			})

@@ -90,13 +90,13 @@ angular
 		}
 
 		$scope.onTagClicked = function ($tag) {
-			sharedUtilService.redirect('/tags/' + $tag.id);
+			sharedUtilService.redirect('/tags/', {ids:$tag.id});
 		}
 
 		function initModule() {
 			// chosen tags
 			$scope.songTags = [];
-			$scope.id = $routeParams.id;			
+			$scope.id = $routeParams.id;
 			songPlayingService.pushSongById($scope.id);
 						
 			if ($scope.id == 0) {
@@ -106,9 +106,9 @@ angular
 			else
 			{	
 				$rootScope.$broadcast('loading.loading', {key:"getSong", val: "Loading Song..."});
-				songService.getSong($scope.id).then(function(response){					
+				songService.getSong($scope.id).then(function(response) {
 					$rootScope.$broadcast('loading.loaded', {key:"getSong"});
-					$scope.song = response.data;					
+					$scope.song = response.data;
 				});
 
 				$rootScope.$broadcast('loading.loading', {key:"getCurrentTags", val: "Loading Tags... (Takes a while the first time)"});
