@@ -138,8 +138,6 @@ angular
 			$scope.tagCloud = [];
 			// chosen tags for filtering
 			$scope.tags = [];
-			// all user tags in dictionary by playlist id
-			$scope.tagDictionary = {};
 			// default filter union
 			$scope.filter = {
 				name: 'Union'
@@ -186,11 +184,11 @@ angular
 		function createCloud(playlists) {
 			tagCloudService.tagCloud = [];
 			for(var playlist in playlists) {
-				$scope.tagDictionary[playlists[playlist].id] = playlists[playlist];
+				tagCloudService.tagDictionary[playlists[playlist].id] = playlists[playlist];
 				tagCloudService.tagCloud.push({ 
 					text: playlists[playlist].name, 
 					weight: playlists[playlist].total, 
-					id: playlists[playlist].id, 
+					id: playlists[playlist].id,
 					handlers: { click: function() {
 							var index = angular.copy(playlist);
 							return function() {
@@ -221,7 +219,7 @@ angular
 				var ids = queryString.ids.split(';');
 				for (var i = 0; i < ids.length; i++)
 				{
-					var tag = $scope.tagDictionary[ids[i]];
+					var tag = tagCloudService.tagDictionary[ids[i]];
 					if (tag)
 					{
 						$scope.tags.push({text: tag.name, weight: tag.total, id: tag.id});
@@ -234,7 +232,7 @@ angular
 			} 
 		}
 
-		function initModule() {
+		function initModule() {			
 			setupGrid();
 			initVars();
 			initWatchVars();

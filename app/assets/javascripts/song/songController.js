@@ -1,10 +1,10 @@
 angular
 	.module('songModule', ['songService', 'tagService', 'ngTagsInput', 'sharedUtilModule'])
-	.controller('songController', ['$scope', 'songService', 'songPlayingService', 'tagService', 'tagCloudService', '$http', '$routeParams', '$rootScope', '$sce', 'sharedUtilService', 
-	function songController($scope, songService, songPlayingService, tagService, tagCloudService, $http, $routeParams, $rootScope, $sce, sharedUtilService) {
+	.controller('songController', ['$scope', 'songService', 'songPlayingService', 'tagService', 'tagCloudService', 'toastService', '$http', '$routeParams', '$rootScope', '$sce', 'sharedUtilService', 
+	function songController($scope, songService, songPlayingService, tagService, tagCloudService, toastService, $http, $routeParams, $rootScope, $sce, sharedUtilService) {
 		initModule();
 
-		$scope.filterTags = function($query) {
+		$scope.filterTags = function($query) {			
 			return tagCloudService.filterTags($query);
 		};
 
@@ -32,21 +32,13 @@ angular
 			return tagService.addNewTag($tag.text, $scope.id).then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
 				var tag = response.data
-				console.log($scope.songTags.push({ text: tag.name, weight: tag.total, id: tag.playlist_id }));
-				console.log($scope.songTags);
 				tagCloudService.tagCloud.push({ 
 					text: tag.name, 
 					weight: tag.total, 
-					id: tag.playlist_id,
-					handlers: { 
-						click: function() {
-							return function() {
-								$scope.songTags.push({text: tag.name, weight: tag.total, id: tag.playlist_id});
-								$scope.queryResults();
-							}
-						}()
-					}
+					id: tag.playlist_id
 				});
+				$scope.songTags.push({ text: tag.name, weight: tag.total, id: tag.playlist_id });
+				toastService.showMessage("New tag created!");
 				return false;
 			});
 		}
@@ -57,6 +49,7 @@ angular
 				$rootScope.$broadcast('loading.loaded', {key:"addExistingTag"});
 				if (response)
 				{
+					toastService.showMessage("Tag added!");
 					return true;
 				}
 				else
@@ -93,7 +86,20 @@ angular
 			sharedUtilService.redirect('/tags/', {ids:$tag.id});
 		}
 
-		function initModule() {
+		$scope.createCloud = function (playlists)
+		{
+			tagCloudService.tagCloud = [];
+			for (var playlist in playlists) {
+				tagCloudService.tagDictionary[playlists[playlist].id] = playlists[playlist];
+				tagCloudService.tagCloud.push({ 
+					text: playlists[playlist].name, 
+					weight: playlists[playlist].total, 
+					id: playlists[playlist].id
+				});
+			}
+		}
+
+		function initModule() {			
 			// chosen tags
 			$scope.songTags = [];
 			$scope.id = $routeParams.id;
@@ -120,6 +126,13 @@ angular
 						$scope.songTags.push({ text: tags[i].name, weight: tags[i].total, id: tags[i].playlist_id });
 					}
 				});
+
+				$rootScope.$broadcast('loading.loading', {key:"getPlaylists", val: "Loading Playlists..."});
+				tagService.getUserPlaylists().then(function(response) {
+					$rootScope.$broadcast('loading.loaded', {key:"getPlaylists"});
+					$scope.createCloud(response.data);
+				});
+
 			}
 		}
 	}
