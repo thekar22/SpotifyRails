@@ -8,7 +8,9 @@
 			Choose an existing tag
 		</p>
 
-		<tags-input ng-model="addedTag"
+		<tags-input 
+			ng-model="addedTag"
+			key-property="id"
 			placeholder="{{addedTag.length ? '' : 'Enter Tag'}}"
 			add-from-autocomplete-only="true"
 			on-tag-adding="onTagAdding($tag)"
