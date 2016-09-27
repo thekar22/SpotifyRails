@@ -29,7 +29,7 @@ angular.module('tagAddModule', ['sharedUtilModule'])
         if($scope.addedTag)
         {
           tagService.addTagToSelectedSongs($scope.addedTag[0].id, songIds).then(function(response){            
-            $location.path('/tags/' + $scope.addedTag[0].id);
+            sharedUtilService.redirect('/tags/', {ids:$scope.addedTag[0].id});
             $scope.closeDialog();
             $scope.addedTag = [];
             toastService.showMessage('Added songs to tag!');

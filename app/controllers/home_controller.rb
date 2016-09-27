@@ -66,7 +66,7 @@ class HomeController < ApplicationController
 		tagname = params[:tagName]
 		songid = params[:songId]
 		userid = current_user.uid
-	
+			
 		spotify_playlist = CreateSpotifyPlaylist.build.call(session["devise.spotify_data"], tagname)
 		
 		if !songid.empty?
@@ -92,7 +92,7 @@ class HomeController < ApplicationController
 		db_playlist.stale = true
 		db_playlist.save
 
-		render json: playlist
+		render json: db_playlist
 	end
 
 	def addExistingTagForSongs
@@ -107,7 +107,7 @@ class HomeController < ApplicationController
 		db_playlist.stale = true
 		db_playlist.save
 
-		render json: playlist
+		render json: db_playlist
 	end
 
 	def removeTagForSong
@@ -128,9 +128,9 @@ class HomeController < ApplicationController
 		songid = params[:songId]
 		userid = current_user.uid
 		tags = UserSongTagging.get_tags_for_song(userid, songid)
-		playlists = tags.map { |tag| tag.playlist}
+		db_playlists = tags.map { |tag| tag.playlist}
 
-		render json: playlists
+		render json: db_playlists
 	end
 
 	# spotify user created from oauth will be saved in current devise session; will be removed when devise next clears session

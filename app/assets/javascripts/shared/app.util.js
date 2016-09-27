@@ -36,11 +36,6 @@ angular
       $location.path(path).search(queryObject);
     }
 
-    function changeQueryStringKeyValue(path, queryObject)
-    {
-      
-    }
-
     function capitalizeFirstLetter(string) {
         return string[0].toUpperCase() + string.slice(1);
     }

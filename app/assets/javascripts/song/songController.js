@@ -11,16 +11,21 @@ angular
 		$scope.onTagAdding = function($tag) {
 
 			$scope.text = "";
-
-			if (tagCloudService.tagCloud.some(function(e) { return e.text == $tag.text }))
-			{
-				return $scope.addExistingTag($tag);
+			
+			// client side check to see if playlist already exists
+			var match = tagCloudService.tagCloud.some(function(e) { return e.text == $tag.text });			
+			if (match) {
+				// check to make sure we are not adding a tag that already exists
+				var tagAlreadyChosen = $scope.songTags.some(function(e) { return e.text == $tag.text });
+				if (!tagAlreadyChosen) {
+					return $scope.addExistingTag($tag);
+				}
+				return false;
 			}
-			else
-			{
+			else {
 				return $scope.addNewTag($tag);
 			}
-		}
+		}		
 
 		$scope.onTagRemoving = function($tag) {			
 			window.event.stopPropagation();
@@ -31,14 +36,16 @@ angular
 			$rootScope.$broadcast('loading.loading', {key:"addNewTag", val: "Adding Tag..."});
 			return tagService.addNewTag($tag.text, $scope.id).then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
-				var tag = response.data
-				tagCloudService.tagCloud.push({ 
-					text: tag.name, 
-					weight: tag.total, 
-					id: tag.playlist_id
-				});
-				$scope.songTags.push({ text: tag.name, weight: tag.total, id: tag.playlist_id });
-				toastService.showMessage("New tag created!");
+				if (response) {					
+					var tag = response.data;
+					tagCloudService.tagCloud.push({ 
+						text: tag.name, 
+						weight: tag.total, 
+						id: tag.playlist_id
+					});
+					$scope.songTags.push({ text: tag.name, weight: tag.total, id: tag.playlist_id });
+					toastService.showMessage("New tag created!");
+				}
 				return false;
 			});
 		}
@@ -49,13 +56,11 @@ angular
 				$rootScope.$broadcast('loading.loaded', {key:"addExistingTag"});
 				if (response)
 				{
-					toastService.showMessage("Tag added!");
-					return true;
+					var tag = response.data;					
+					$scope.songTags.push({ text: tag.name, weight: tag.total, id: tag.playlist_id });
+					toastService.showMessage("Tag added!");	
 				}
-				else
-				{
-					return false
-				}
+				return false;
 			});
 		}
 
@@ -88,7 +93,7 @@ angular
 
 		$scope.createCloud = function (playlists)
 		{
-			tagCloudService.tagCloud = [];
+			tagCloudService.tagCloud = [];			
 			for (var playlist in playlists) {
 				tagCloudService.tagDictionary[playlists[playlist].id] = playlists[playlist];
 				tagCloudService.tagCloud.push({ 
@@ -122,7 +127,7 @@ angular
 					$rootScope.$broadcast('loading.loaded', {key:"getCurrentTags"});
 					var tags = response.data;
 
-					for(var i = 0; i < tags.length; i++) {
+					for(var i = 0; i < tags.length; i++) {						
 						$scope.songTags.push({ text: tags[i].name, weight: tags[i].total, id: tags[i].playlist_id });
 					}
 				});
