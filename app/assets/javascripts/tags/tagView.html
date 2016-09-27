@@ -1,10 +1,12 @@
-<tags-input class="tagCloudTagInput" 
+<tags-input context-menu="tagOptions" class="tagCloudTagInput" 
 	ng-model="tags"
 	key-property="id"
-	placeholder="Tags"
+	placeholder="{{tags.length ? '' : 'Enter Tag'}}"
 	add-from-autocomplete-only="true"
+	on-tag-clicked="onTagClicked($tag)"
 	on-tag-added="onTagAdded($tag)"
 	on-tag-removed="onTagRemoved($tag)"
+	template="my-custom-template"
 	min-length="1"
 	>
 	<auto-complete source="filterTags($query)"
@@ -55,3 +57,14 @@
 	</md-dialog>
   </div>
 </div>
+
+<script type="text/ng-template" id="my-custom-template">
+	<div class="tag-template">
+		<div>
+			<span>{{$getDisplayText()}}</span>
+			<span class="selectedTagSymbol" ng-if="data.selected"> &#10004;</span>
+			<a class="remove-button" ng-click="$removeTag()">&#10006;</a>
+
+		</div>
+	</div>
+</script>

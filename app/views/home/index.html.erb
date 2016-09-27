@@ -1,5 +1,5 @@
 <% if user_signed_in? %>
-	<div ng-app="MusicApp" class="mainContainer">
+	<div ng-app="MusicApp" class="mainContainer noselect">
 		<div ng-controller="navigationController" class="navContainer">
 			<iframe refreshable = "tab.refresh" id="songPlayer" src="https://embed.spotify.com/?uri=spotify:track:5JunxkcjfCYcY7xJ29tLai" frameborder="0" allowtransparency="true"></iframe>
 			<div class="loadingContainer" ng-cloak ng-if="dataLoading">				

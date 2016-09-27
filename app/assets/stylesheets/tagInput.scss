@@ -1,4 +1,5 @@
 //// Tag input elements
+$tag-text-height: 30px;
 
 tags-input .tags .tag-list .tag-item
 {
@@ -10,18 +11,18 @@ tags-input .tags .tag-list .tag-item
 	border: 0;
 	outline: none;
 	float: left;
-	font: 40px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font: $tag-text-height "Helvetica Neue", Helvetica, Arial, sans-serif;
 
 	.remove-button
 	{
-		font-size: 50px
+		font-size: $tag-text-height;
 	}
 }
 
 html tags-input .tags .input
 {
 	height: 50px;
-	font: 40px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font: $tag-text-height "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 html tags-input .tags
@@ -37,7 +38,7 @@ tags-input li ti-tag-item ng-include span
 // specific to tags input on main tags page
 tags-input.tagCloudTagInput
 {	
-	height: 20%;
+	height: 14%;
 	min-height: 60px;
 
 	div.host 

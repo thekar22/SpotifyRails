@@ -4,20 +4,19 @@ angular
 	function tagController($scope, tagService, tagCloudService, selectedSongsService, $http, uiGridService, $rootScope, $routeParams, $mdDialog, toastService, mdConfirmService, sharedUtilService, filteredSongsService, $location) {
 		initModule();
 
-		$scope.filterTags = function($query) {				
+		$scope.filterTags = function($query) {
 			return tagCloudService.filterTags($query);
 		};
 
 		$scope.querySelectedTags = function() {
 			if ($scope.tags.length > 0)
-			{				
+			{
 				var ids = $scope.getTagIds($scope.tags)
-				$scope.getPlaylistSongs(ids, $scope.filter.name);	
+				$scope.getPlaylistSongs(ids, $scope.filter.name);
 			}
 		}
 
-		$scope.getTagIds = function (tags)
-		{
+		$scope.getTagIds = function (tags) {
 			var playlistIds = $scope.tags.map(function(tag){
 				return tag.id;
 			});
@@ -31,21 +30,19 @@ angular
 				tagService["getPlaylist" + filterType](playlistIds).then(function(response){ 
 					$rootScope.$broadcast('loading.loaded', {key:"getPlaylistSongs"});
 					$scope.gridOptions.data = response.data;
-					filteredSongsService.filteredSongsDictionary = filteredSongsService.convertFilteredResultsToDictioanry(response.data);					
+					filteredSongsService.filteredSongsDictionary = filteredSongsService.convertFilteredResultsToDictioanry(response.data);
 				});
 			}
 		}
 
-		$scope.convertFilteredResultsToDictioanry = function(filteredSongs)
-		{
+		$scope.convertFilteredResultsToDictioanry = function(filteredSongs) {
 			return filteredSongs.reduce(function (dict, song) {
 				dict[song.song_id] = song;
 				return dict;
 			}, {});
 		}
 
-		$scope.onNewTagButtonClick = function(ev)
-		{
+		$scope.onNewTagButtonClick = function(ev) {
 			var confirm = mdConfirmService.createConfirmDialog(ev);
 
 			$mdDialog.show(confirm).then(
@@ -72,17 +69,15 @@ angular
 			);
 		}		
 
-		$scope.addNewTag = function(result)
-		{
-			tagService.addNewTag(result, null).then(function(response){				
+		$scope.addNewTag = function(result) {
+			tagService.addNewTag(result, null).then(function(response){
 				$scope.addToTagCloud(response.data);
 				toastService.showMessage("Tag created!");
 				$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
 			});
 		}
 
-		$scope.addToTagCloud = function (tag)
-		{
+		$scope.addToTagCloud = function (tag) {
 			tagCloudService.tagCloud.push({ 
 					text: tag.name, 
 					weight: tag.total, 
@@ -90,7 +85,7 @@ angular
 					handlers: { 
 						click: function() {
 							return function() {
-								$scope.tags.push({text: tag.name, weight: tag.total, id: tag.playlist_id});
+								$scope.tags.push({text: tag.name, weight: tag.total, id: tag.playlist_id, selected: false});
 								$scope.querySelectedTags();
 							}
 						}()
@@ -98,8 +93,7 @@ angular
 				});
 		}
 
-		$scope.onAddSelectedSongs = function(rows)
-		{
+		$scope.onAddSelectedSongs = function(rows) {
 			selectedSongsService.selectedSongs = rows;
 			var outerScope = $scope;
 			var parentEl = angular.element(document.body);
@@ -109,8 +103,20 @@ angular
 			});
 		}
 
-		function setupGrid()
-		{
+		$scope.onTagRemoved = function($tag) {
+			if ($tag.id == $scope.selectedTag.id) {
+				$scope.selectedTag = {};
+				$tag.selected = false;
+			}
+		}
+
+		$scope.onTagClicked = function ($tag) {
+			$scope.selectedTag.selected = false;
+			$scope.selectedTag = $tag;
+			$scope.selectedTag.selected = true;
+		}
+
+		function setupGrid() {
 			$scope.gridOptions = uiGridService.createGridOptions($scope, function(row){
 				// on row select
 			});
@@ -131,6 +137,24 @@ angular
 			];
 		}
 
+		function setupTagContextMenu() {
+				$scope.tagOptions = [
+				[
+					'Delete tag and playlist from Spotify...', 
+					function ($itemScope) {
+						console.log($itemScope);
+						console.log("remove tag");
+					},
+					function ($itemScope) { // function to determine whether menu option should be enabled/disabled																		
+						if (Object.keys($scope.selectedTag).length !== 0) {
+							return true;
+						}
+						return false;
+					}
+				]
+			];
+		}
+
 		function initVars() {
 			// for tag cloud
 			$scope.colors = ["#111111", "#333333", "#555555", "#777777", "#999999", "#bbbbbb", "#dddddd"];
@@ -142,10 +166,11 @@ angular
 			$scope.filter = {
 				name: 'Union'
 			};
+			// keep track of tag that was chosen by user (used for r-click, delete tag/playlist)
+			$scope.selectedTag = {};
 		}
 
-		function initWatchVars()
-		{
+		function initWatchVars() {
 			//watch variables
 			var initializing = true;
 			$scope.$watch('filter.name', function () {
@@ -192,7 +217,7 @@ angular
 					handlers: { click: function() {
 							var index = angular.copy(playlist);
 							return function() {
-								$scope.tags.push({text: playlists[index].name, weight: playlists[index].total, id: playlists[index].id});
+								$scope.tags.push({text: playlists[index].name, weight: playlists[index].total, id: playlists[index].id, selected: false});
 								$scope.querySelectedTags();
 							}
 						}()
@@ -202,7 +227,7 @@ angular
 			$scope.tagCloud = tagCloudService.tagCloud;
 		}
 
-		function handleParams(params){
+		function handleParams(params) {
 			var queryString = $location.search();
 
 			if (queryString.filter)
@@ -222,7 +247,7 @@ angular
 					var tag = tagCloudService.tagDictionary[ids[i]];
 					if (tag)
 					{
-						$scope.tags.push({text: tag.name, weight: tag.total, id: tag.id});
+						$scope.tags.push({text: tag.name, weight: tag.total, id: tag.id, selected: false});
 					}
 				}
 				if ($scope.tags.length > 0)
@@ -234,6 +259,7 @@ angular
 
 		function initModule() {			
 			setupGrid();
+			setupTagContextMenu();
 			initVars();
 			initWatchVars();
 
