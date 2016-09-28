@@ -1,7 +1,7 @@
 angular
 	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'ui.bootstrap.contextMenu', 'tagAddModule', 'sharedUtilModule'])
-	.controller('tagController', ['$scope', 'tagService', 'tagCloudService', 'selectedSongsService', '$http', 'uiGridService', '$rootScope', '$routeParams', '$mdDialog', 'toastService', 'mdConfirmService', 'sharedUtilService', 'filteredSongsService', '$location', 
-	function tagController($scope, tagService, tagCloudService, selectedSongsService, $http, uiGridService, $rootScope, $routeParams, $mdDialog, toastService, mdConfirmService, sharedUtilService, filteredSongsService, $location) {
+	.controller('tagController', ['$scope', 'tagService', 'tagCloudService', 'selectedSongsService', '$http', 'uiGridService', '$rootScope', '$routeParams', '$mdDialog', 'toastService', 'mdDialogService', 'sharedUtilService', 'filteredSongsService', '$location', 
+	function tagController($scope, tagService, tagCloudService, selectedSongsService, $http, uiGridService, $rootScope, $routeParams, $mdDialog, toastService, mdDialogService, sharedUtilService, filteredSongsService, $location) {
 		initModule();
 
 		$scope.filterTags = function($query) {
@@ -9,8 +9,7 @@ angular
 		};
 
 		$scope.querySelectedTags = function() {
-			if ($scope.tags.length > 0)
-			{
+			if ($scope.tags.length > 0) {
 				var ids = $scope.getTagIds($scope.tags)
 				$scope.getPlaylistSongs(ids, $scope.filter.name);
 			}
@@ -35,17 +34,20 @@ angular
 			}
 		}
 
-		$scope.convertFilteredResultsToDictioanry = function(filteredSongs) {
-			return filteredSongs.reduce(function (dict, song) {
-				dict[song.song_id] = song;
-				return dict;
-			}, {});
-		}
-
 		$scope.onNewTagButtonClick = function(ev) {
-			var confirm = mdConfirmService.createConfirmDialog(ev);
+			var prompt = mdDialogService.createDialog('prompt',
+				{
+					title:'Create New Tag', 
+					textContent: 'New tags are created as playlists in Spotify', 
+					placeholder: 'Type here', 
+					arialLabel: 'Tagname',
+					initialValue: 'Your New Tag',
+					targetEvent: ev,
+					ok: 'Create!',
+					cancel: 'Cancel'
+				});
 
-			$mdDialog.show(confirm).then(
+			$mdDialog.show(prompt).then(
 				function(result) {
 					$rootScope.$broadcast('loading.loading', {key:"addNewTag", val: "Creating New Tag..."});
 					
@@ -53,18 +55,16 @@ angular
 						return tag.text.toLowerCase() === result.toLowerCase();
 					});
 
-					if (!existingTag)
-					{
+					if (!existingTag) {
 						$scope.addNewTag(result);
 					}
-					else
-					{
+					else {
 						toastService.showMessage("Tag already exists!");
 						$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
 					}
 				}, 
 				function() {
-					toastService.showMessage("Tag creation canceled");
+					toastService.showMessage("Tag creation canceled.");
 				}
 			);
 		}		
@@ -79,18 +79,18 @@ angular
 
 		$scope.addToTagCloud = function (tag) {
 			tagCloudService.tagCloud.push({ 
-					text: tag.name, 
-					weight: tag.total, 
-					id: tag.playlist_id,
-					handlers: { 
-						click: function() {
-							return function() {
-								$scope.tags.push({text: tag.name, weight: tag.total, id: tag.playlist_id, selected: false});
-								$scope.querySelectedTags();
-							}
-						}()
-					}
-				});
+				text: tag.name, 
+				weight: tag.total, 
+				id: tag.playlist_id,
+				handlers: { 
+					click: function() {
+						return function() {
+							$scope.tags.push({text: tag.name, weight: tag.total, id: tag.playlist_id, selected: false});
+							$scope.querySelectedTags();
+						}
+					}()
+				}
+			});
 		}
 
 		$scope.onAddSelectedSongs = function(rows) {
@@ -101,6 +101,40 @@ angular
 				contentElement: '#myStaticDialog',
 				parent: parentEl			
 			});
+		}
+
+		$scope.onDeleteSelectedTag = function(tag) {
+			var confirm = mdDialogService.createDialog('confirm',
+				{
+					title:'Are you want to delete "' + tag.text + '"?', 
+					textContent: 'Tag and associated playlist from Spotify will be deleted ',
+					arialLabel: 'Tagname',
+					ok: 'Delete',
+					cancel: 'Cancel'
+				});
+			
+			$mdDialog.show(confirm).then(
+				function(result) {
+					if (result) {
+						$rootScope.$broadcast('loading.loading', {key:"deleteTag", val: "Deleting Tag..."});
+
+						// TODO: call service to:
+						// remove from spotify
+						// remove form db
+						// if failure (could not find playlist), remove tag
+						// if success, remove tag
+						tagService.deleteTag(tag.id).then(function(response){
+							console.log(response);
+
+							toastService.showMessage("Tag deleted.");
+							$rootScope.$broadcast('loading.loaded', {key:"deleteTag"});
+						});
+					}
+				}, 
+				function() {
+					toastService.showMessage("Tag deletion canceled.");
+				}
+			);
 		}
 
 		$scope.onTagRemoved = function($tag) {
@@ -121,6 +155,10 @@ angular
 				// on row select
 			});
 			
+			setupGridContextMenu();
+		}
+
+		function setupGridContextMenu() {
 			$scope.menuOptions = [
 				[
 					'Add selected songs to tag...', 
@@ -140,12 +178,11 @@ angular
 		function setupTagContextMenu() {
 				$scope.tagOptions = [
 				[
-					'Delete tag and playlist from Spotify...', 
-					function ($itemScope) {
-						console.log($itemScope);
-						console.log("remove tag");
+					'Delete selected tag and playlist from Spotify...', 
+					function () {
+						$scope.onDeleteSelectedTag($scope.selectedTag);
 					},
-					function ($itemScope) { // function to determine whether menu option should be enabled/disabled																		
+					function () { // function to determine whether menu option should be enabled/disabled
 						if (Object.keys($scope.selectedTag).length !== 0) {
 							return true;
 						}
@@ -196,14 +233,6 @@ angular
 					$scope.tagView = "tag-results";
 				}
 			}, true);
-
-			// on any navigation event back to tag cloud, query results
-			$rootScope.$on( "$routeChangeStart", function(event, next, current) {
-				if (next.$$route.originalPath == "/")
-				{
-					$scope.querySelectedTags();
-				}
-			});
 		}
 
 		function createCloud(playlists) {
@@ -230,34 +259,28 @@ angular
 		function handleParams(params) {
 			var queryString = $location.search();
 
-			if (queryString.filter)
-			{
+			if (queryString.filter) {
 				var filterType = queryString.filter.toLowerCase();
-				if (filterType == "union" || filterType == "intersection")
-				{
+				if (filterType == "union" || filterType == "intersection") {
 					$scope.filter.name = sharedUtilService.capitalizeFirstLetter(filterType);
 				}
 			}
 			
-			if (queryString.ids)
-			{
+			if (queryString.ids) {
 				var ids = queryString.ids.split(';');
-				for (var i = 0; i < ids.length; i++)
-				{
+				for (var i = 0; i < ids.length; i++) {
 					var tag = tagCloudService.tagDictionary[ids[i]];
-					if (tag)
-					{
+					if (tag) {
 						$scope.tags.push({text: tag.name, weight: tag.total, id: tag.id, selected: false});
 					}
 				}
-				if ($scope.tags.length > 0)
-				{
-					$scope.getPlaylistSongs([tag.id], $scope.filter.name);	
-				}		
+				if ($scope.tags.length > 0) {
+					$scope.getPlaylistSongs([tag.id], $scope.filter.name);
+				}
 			} 
 		}
 
-		function initModule() {			
+		function initModule() {
 			setupGrid();
 			setupTagContextMenu();
 			initVars();
@@ -268,8 +291,8 @@ angular
 			$rootScope.$broadcast('loading.loading', {key:"getPlaylists", val: "Loading Playlists..."});
 			tagService.getUserPlaylists().then(function(response){
 				$rootScope.$broadcast('loading.loaded', {key:"getPlaylists"});
-				createCloud(response.data);						
-				handleParams($routeParams);				
+				createCloud(response.data);
+				handleParams($routeParams);
 			});
 		}
 	}

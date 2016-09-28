@@ -123,6 +123,12 @@ class HomeController < ApplicationController
 		render json: true
 	end
 
+	def deleteTag
+
+
+		render json: true
+	end
+
 	# return to caller json all tags to which song belongs
 	def getCurrentTagsForSong
 		songid = params[:songId]

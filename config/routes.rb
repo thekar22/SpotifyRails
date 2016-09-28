@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get '/addExistingTag', to: 'home#addExistingTagForSong'
   get '/addTagToSongs', to: 'home#addExistingTagForSongs'
   get '/removeTag', to: 'home#removeTagForSong'
+  get '/deleteTag', to: 'home#deleteTag'
   get '/search', to: 'home#getQuery'
   get '/song', to: 'home#getSong'
 
