@@ -1,7 +1,7 @@
 angular
 	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'ui.bootstrap.contextMenu', 'tagAddModule', 'sharedUtilModule'])
-	.controller('tagController', ['$scope', 'tagService', 'tagCloudService', 'selectedSongsService', '$http', 'uiGridService', '$rootScope', '$routeParams', '$mdDialog', 'toastService', 'mdDialogService', 'sharedUtilService', 'filteredSongsService', '$location', 
-	function tagController($scope, tagService, tagCloudService, selectedSongsService, $http, uiGridService, $rootScope, $routeParams, $mdDialog, toastService, mdDialogService, sharedUtilService, filteredSongsService, $location) {
+	.controller('tagController', ['$scope', 'tagService', 'tagCloudService', 'selectedSongsService', '$http', 'uiGridService', 'loadingService', '$routeParams', '$mdDialog', 'toastService', 'mdDialogService', 'sharedUtilService', 'filteredSongsService', '$location', 
+	function tagController($scope, tagService, tagCloudService, selectedSongsService, $http, uiGridService, loadingService, $routeParams, $mdDialog, toastService, mdDialogService, sharedUtilService, filteredSongsService, $location) {
 		initModule();
 
 		$scope.filterTags = function($query) {
@@ -24,10 +24,10 @@ angular
 
 		$scope.getPlaylistSongs = function(playlistIds, filterType) {
 			if (playlistIds.length != 0)
-			{
-				$rootScope.$broadcast('loading.loading', {key:"getPlaylistSongs", val: "Loading Songs..."});
-				tagService["getPlaylist" + filterType](playlistIds).then(function(response){ 
-					$rootScope.$broadcast('loading.loaded', {key:"getPlaylistSongs"});
+			{				
+				loadingService.broadcast('loading.loading', {key:"getPlaylistSongs", val: "Loading Songs..."});
+				tagService["getPlaylist" + filterType](playlistIds).then(function(response){ 					
+					loadingService.broadcast('loading.loaded', {key:"getPlaylistSongs"});					
 					$scope.gridOptions.data = response.data;
 					filteredSongsService.filteredSongsDictionary = filteredSongsService.convertFilteredResultsToDictioanry(response.data);
 				});
@@ -48,8 +48,9 @@ angular
 				});
 
 			$mdDialog.show(prompt).then(
-				function(result) {
-					$rootScope.$broadcast('loading.loading', {key:"addNewTag", val: "Creating New Tag..."});
+				function(result) {					
+					loadingService.broadcast('loading.loading', {key:"addNewTag", val: "Creating New Tag..."});
+
 					
 					var existingTag = tagCloudService.tagCloud.find(function(tag) { 
 						return tag.text.toLowerCase() === result.toLowerCase();
@@ -59,8 +60,8 @@ angular
 						$scope.addNewTag(result);
 					}
 					else {
-						toastService.showMessage("Tag already exists!");
-						$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
+						toastService.showMessage("Tag already exists!");						
+						loadingService.broadcast('loading.loaded', {key:"addNewTag"});
 					}
 				}, 
 				function() {
@@ -72,8 +73,8 @@ angular
 		$scope.addNewTag = function(result) {
 			tagService.addNewTag(result, null).then(function(response){
 				$scope.addToTagCloud(response.data);
-				toastService.showMessage("Tag created!");
-				$rootScope.$broadcast('loading.loaded', {key:"addNewTag"});
+				toastService.showMessage("Tag created!");				
+				loadingService.broadcast('loading.loaded', {key:"addNewTag"});
 			});
 		}
 
@@ -115,26 +116,36 @@ angular
 			
 			$mdDialog.show(confirm).then(
 				function(result) {
-					if (result) {
-						$rootScope.$broadcast('loading.loading', {key:"deleteTag", val: "Deleting Tag..."});
-
-						// TODO: call service to:
-						// remove from spotify
-						// remove form db
-						// if failure (could not find playlist), remove tag
-						// if success, remove tag
-						tagService.deleteTag(tag.id).then(function(response){
-							console.log(response);
-
-							toastService.showMessage("Tag deleted.");
-							$rootScope.$broadcast('loading.loaded', {key:"deleteTag"});
-						});
+					if (result) {						
+						loadingService.broadcast('loading.loading', {key:"deleteTag", val: "Deleting Tag..."});
+						$scope.deleteSelectedTag(tag, tagService, tagCloudService, $scope.tags, toastService, loadingService);
 					}
 				}, 
-				function() {
+			 	function() {
 					toastService.showMessage("Tag deletion canceled.");
 				}
 			);
+		}
+
+		// calls service to delete (unfollow, remove tag, delete db_playlist), removes from tags and tag cloud
+		$scope.deleteSelectedTag = function (tag, tagSvc, tagCloudSvc, currentTags, toastSvc, loadingService) {
+			tagSvc.deleteTag(tag.id).then(function(response) {
+				if (response.data) {
+					var index = currentTags.findIndex(function(t) {
+						return t.id == tag.id; 
+					});
+					// remove from tags
+					if (index !== -1) { currentTags.splice(index,1); }
+					// remove from tagCloud
+					index = tagCloudSvc.tagCloud.findIndex(function(t) {
+						return t.id == tag.id; 
+					})
+					if (index !== -1) { tagCloudSvc.tagCloud.splice(index,1); }
+				}
+
+				toastSvc.showMessage("Tag deleted.");
+				loadingService.broadcast('loading.loaded', {key:"deleteTag"});
+			});
 		}
 
 		$scope.onTagRemoved = function($tag) {
@@ -287,10 +298,11 @@ angular
 			initWatchVars();
 
 			// initial load
-			$scope.tagView = "tag-cloud";
-			$rootScope.$broadcast('loading.loading', {key:"getPlaylists", val: "Loading Playlists..."});
+			$scope.tagView = "tag-cloud";			
+			loadingService.broadcast('loading.loading', {key:"getPlaylists", val: "Loading Playlists..."});
+
 			tagService.getUserPlaylists().then(function(response){
-				$rootScope.$broadcast('loading.loaded', {key:"getPlaylists"});
+				loadingService.broadcast('loading.loaded', {key:"getPlaylists"});				
 				createCloud(response.data);
 				handleParams($routeParams);
 			});

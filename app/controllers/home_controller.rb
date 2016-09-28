@@ -124,8 +124,19 @@ class HomeController < ApplicationController
 	end
 
 	def deleteTag
+		tagid = params[:tagId]
+		userid = current_user.uid
 
+		spotify_user =  RSpotify::User.find(userid)
+		spotify_playlist = GetPlaylistFromSpotifyById.build.call(tagid, userid)
+		
+		spotify_user.unfollow(spotify_playlist)
+		db_playlist = Playlist.get(tagid)
+		if db_playlist.present?
+			db_playlist.delete
+		end
 
+		UserSongTagging.remove_tag(userid, tagid)
 		render json: true
 	end
 
