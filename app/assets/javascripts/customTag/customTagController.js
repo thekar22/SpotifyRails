@@ -1,6 +1,7 @@
 angular
 	.module('customTagModule', ['ui.grid', 'ui.grid.selection', 'sharedUtilModule'])
-	.controller('customTagController', ['$scope', '$http', '$rootScope', 'searchService', 'uiGridService', 'sharedUtilService', 'selectedSongsService', function customTagController($scope, $http, $rootScope, searchService, uiGridService, sharedUtilService, selectedSongsService) {
+	.controller('customTagController', ['$scope', '$http', '$rootScope', 'searchService', 'uiGridService', 'sharedUtilService', 'selectedSongsService', 'customTagService', 
+		function customTagController($scope, $http, $rootScope, searchService, uiGridService, sharedUtilService, selectedSongsService, customTagService) {
 		initModule();
 
 		$scope.searchQuery = function($query) {
@@ -9,6 +10,7 @@ angular
 			// perform search against query with spotify service
 			$rootScope.$broadcast('loading.loading', {key:"searchQuery", val: "Loading"});
 			searchService.searchQuery($query).then(function(response){
+				$scope.searchedQuery = $query;
 				$rootScope.$broadcast('loading.loaded', {key:"searchQuery"});
 				var result = response.data;
 				result = $scope.parseSongs(result);
@@ -26,54 +28,78 @@ angular
 			return songs;
 		}
 
-		$scope.addToSelectedSongs = function(row) { 						
-			selectedSongsService.selectedSongs.push(row.entity);
-		};
-
-		$scope.removeFromSelectedSongs = function(row) {			
-			var index = $scope.selectedSongs.indexOf(row.entity);
-			selectedSongsService.selectedSongs.splice(index, 1);
+		$scope.onRemoveFromCustomTag = function(row) {			
+			customTagService.removeFromCustomTag(row);
 		};
 
 		function setupSearchGrid()
 		{
-			$scope.searchGridOptions = uiGridService.createGridOptions($scope, function(row){
+			$scope.searchGridOptions = uiGridService.createGridOptions($scope, function(row) {
 				// if row clicked
 			});
-			$scope.searchGridOptions.columnDefs.push({ 
-				name: 'Add', 
-				cellTemplate: '<div class="songCell" ng-click="grid.appScope.addToSelectedSongs(row)"> + </div>'
-			});
+
+			$scope.menuOptions = [
+				[
+					'Add selected songs to tag...', 
+					function () {						
+						selectedSongsService.onAddSelectedSongs($scope.searchGridOptions.gridApi.selection.getSelectedRows());
+					},
+					function () { // function to determine whether menu option should be enabled/disabled
+						if ($scope.searchGridOptions.gridApi.selection.getSelectedRows().length > 0) {
+							return true;
+						}
+						return false;
+					}
+				],
+				[
+					'Add selected songs to custom tag...', 
+					function () {
+						customTagService.onAddToCustomTag($scope.searchGridOptions.gridApi.selection.getSelectedRows());
+					},
+					function () { // function to determine whether menu option should be enabled/disabled
+						if ($scope.searchGridOptions.gridApi.selection.getSelectedRows().length > 0) {
+							return true;
+						}
+						return false;
+					}
+				]
+			];
 		}
 
 		function setupCustomTagGrid()
-		{
-			$scope.showSelectedSongs = true;
-
-			$scope.selectedSongsGridOptions = uiGridService.createGridOptions($scope, function(row){
+		{			
+			$scope.customTagGridOptions = uiGridService.createGridOptions($scope, function(row){
 				// if row clicked
 			});
 
-			$scope.selectedSongsGridOptions.columnDefs.push({ 
-				name: 'Remove', 
-				cellTemplate: '<div class="songCell" ng-click="grid.appScope.removeFromSelectedSongs(row)"> - </div>'
+			$scope.customTagGridOptions.columnDefs.push({ 
+				name: 'Remove',
+				cellTemplate: '<div ng-click="grid.appScope.onRemoveFromCustomTag(row)"> - </div>'
 			});
 
-			$scope.selectedSongsGridOptions.data = selectedSongsService.selectedSongs;
+			$scope.customTagGridOptions.data = customTagService.customSongs;
 		}
 
 		function initWatchVars()
 		{
-			$scope.$watch('selectedSongs', function (newVal, oldVal) {
-				if (selectedSongsService.selectedSongs.length < 1)
+			$scope.$watch('customTagGridOptions.data', function (newVal, oldVal) {
+				console.log("we need this");
+				if (customTagService.customSongs.length > 0)
 				{
-					$scope.showSelectedSongs = false;
+					$scope.customView = "custom-results";
 				}
 				else
 				{
-					$scope.showSelectedSongs = true;
+					$scope.customView = "";					
 				}
 			}, true);
+		}
+
+		function initVars()
+		{
+			$scope.searchedQuery = "";
+			$scope.showSearchResults = false;
+			$scope.customView = "";
 		}
 
 		function initModule(){

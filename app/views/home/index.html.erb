@@ -28,7 +28,7 @@
 					</div>
 				</div>
 				<a ng-click="toggle('right')" href="/#/customTag">
-					Search Songs
+					Search Songs					
 				</a>
 			</md-sidenav>
 			<md-content>
@@ -43,6 +43,9 @@
 		<div class="contentContainer">
 			<div ng-view class="viewContainer">
 				<!-- view content here -->
+			</div>
+			<div ng-include src="'customTag/customTagView.html'" ng-controller="customTagController" class="secondaryContainer">
+				
 			</div>
 		</div>
 	</div>

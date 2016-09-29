@@ -46,8 +46,24 @@ body
 //// Angular view container
 .viewContainer
 {
-	position: relative;	
 	height: 100%;
+	width: 50%;
+	position: relative;
+	float: left;
+
+	margin: 0;
+	padding: 0;	
+	border-right: 3px solid black;
+}
+
+.secondaryContainer
+{
+	height: 100%;
+	width: 50%;
+	position: relative;	
+	float: left;
+	
 	margin: 0;
 	padding: 0;
+	border-left: 3px solid black;
 }

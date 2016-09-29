@@ -1,7 +1,7 @@
 <tags-input context-menu="tagOptions" class="tagCloudTagInput" 
 	ng-model="tags"
 	key-property="id"
-	placeholder="{{tags.length ? '' : 'Enter Tag'}}"
+	placeholder="{{tags.length ? '' : '&#9751; Enter Tag'}}"
 	add-from-autocomplete-only="true"
 	on-tag-clicked="onTagClicked($tag)"
 	on-tag-added="onTagAdded($tag)"
@@ -39,11 +39,10 @@
 		<div class="tagResults">
 			<div ui-grid="gridOptions" ui-grid-selection class="grid grid-align"></div>
 		</div>
-		
+
 		<div class="tagNewButton" ng-click="onNewTagButtonClick($event)">
 			<span> &#x2295 </span> New Tag
 		</div>
-
 	</div>
 </div>
 

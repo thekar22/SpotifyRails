@@ -1,27 +1,24 @@
-<div class="searchSong">
+<div class="searchSong">	
 	<form ng-submit="searchQuery(query.text)">
 		<label>
-			<span> &#9906 </span>
-			<input type="text" name="input" ng-model="query.text">
+			<input id="songSearch" type="text" placeholder="&#9833; Search" name="input" ng-model="query.text">
 		</label>		
 	</form>
+	<div class="searchResultsStatus" ng-if="showSearchResults == true"> showing results for "{{searchedQuery}}" </div>
 </div>
 
-<div ng-if="showSearchResults == true" class="songSearchResults">
+<div ng-if="showSearchResults == true" context-menu="menuOptions" class="songSearchResults">
 	<div ui-grid="searchGridOptions" ui-grid-selection class="grid grid-align"></div>
 </div>
 
-<div ng-if="showSelectedSongs" class="selectedSongsContainer">
-	<div class="selectedSongsHeader">
+<div ng-switch="customView" class="customSongsContainer">
+	<div ng-if="customView == 'custom-results'" class="customSongsHeader">
 		<label>
 			Custom Tag
 		</label>
-		<md-button class="md-primary customTagButton">
-			+
-		</md-button>
 	</div>
 
-	<div class="selectedSongs">
-		<div ui-grid="selectedSongsGridOptions" ui-grid-selection class="grid grid-align"></div>
+	<div ng-switch-when="custom-results" class="customSongs">		
+		<div ui-grid="customTagGridOptions" ui-grid-selection class="grid grid-align"></div>
 	</div>
 </div>

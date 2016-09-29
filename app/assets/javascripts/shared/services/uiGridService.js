@@ -32,6 +32,8 @@ angular.module('sharedUtilModule')
 			gridOptions.mySelectedRows=gridOptions.gridApi.selection.getSelectedRows();			
 		};
 
+		gridOptions.rowHeight = 40;
+
 		return gridOptions;
 	}
 

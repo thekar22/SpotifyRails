@@ -44,8 +44,7 @@
 }
 
 .ui-grid 
-{
-	position: absolute;
+{	
 	height: auto;
 	top: 0;
 	left: 0;
@@ -67,11 +66,6 @@ div.ui-grid-cell
 {	
 	text-decoration: underline;
 	cursor: pointer;
-}
-
-.selectedSongsHeader label
-{
-	font-size: 30px;	
 }
 
 .songArt

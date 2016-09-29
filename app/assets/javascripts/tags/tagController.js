@@ -1,5 +1,5 @@
 angular
-	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.selection', 'ui.bootstrap.contextMenu', 'tagAddModule', 'sharedUtilModule'])
+	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.selection', 'ui.bootstrap.contextMenu', 'tagAddModule', 'sharedUtilModule'])
 	.controller('tagController', ['$scope', 'tagService', 'tagCloudService', 'selectedSongsService', '$http', 'uiGridService', 'loadingService', '$routeParams', '$mdDialog', 'toastService', 'mdDialogService', 'sharedUtilService', 'filteredSongsService', '$location', 
 	function tagController($scope, tagService, tagCloudService, selectedSongsService, $http, uiGridService, loadingService, $routeParams, $mdDialog, toastService, mdDialogService, sharedUtilService, filteredSongsService, $location) {
 		initModule();
@@ -94,16 +94,6 @@ angular
 			});
 		}
 
-		$scope.onAddSelectedSongs = function(rows) {
-			selectedSongsService.selectedSongs = rows;
-			var outerScope = $scope;
-			var parentEl = angular.element(document.body);
-			$mdDialog.show({
-				contentElement: '#myStaticDialog',
-				parent: parentEl			
-			});
-		}
-
 		$scope.onDeleteSelectedTag = function(tag) {
 			var confirm = mdDialogService.createDialog('confirm',
 				{
@@ -173,8 +163,8 @@ angular
 			$scope.menuOptions = [
 				[
 					'Add selected songs to tag...', 
-					function ($itemScope) {
-						$scope.onAddSelectedSongs($scope.gridOptions.gridApi.selection.getSelectedRows());
+					function ($itemScope) {						
+						selectedSongsService.onAddSelectedSongs($scope.gridOptions.gridApi.selection.getSelectedRows());
 					},
 					function ($itemScope) { // function to determine whether menu option should be enabled/disabled
 						if ($scope.gridOptions.gridApi.selection.getSelectedRows().length > 0){
