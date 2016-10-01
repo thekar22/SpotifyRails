@@ -17,6 +17,14 @@ body
 	overflow:hidden;	
 }
 
+.lisztContainer
+{
+	position:relative;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
 .mainContainer
 {
 	position: relative;
@@ -47,13 +55,23 @@ body
 .viewContainer
 {
 	height: 100%;
-	width: 50%;
+	width: 100%;
 	position: relative;
 	float: left;
 
 	margin: 0;
-	padding: 0;	
-	border-right: 3px solid black;
+	padding: 0;		
+}
+
+.splitContainer
+{
+	height: 100%;	
+	width: 100%;
+	position: relative;
+	float: left;
+
+	margin: 0;
+	padding: 0;		
 }
 
 .secondaryContainer
@@ -65,5 +83,5 @@ body
 	
 	margin: 0;
 	padding: 0;
-	border-left: 3px solid black;
+	border-left: 1px solid grey;
 }

@@ -22,7 +22,7 @@ angular
 			return playlistIds;
 		}
 
-		$scope.getPlaylistSongs = function(playlistIds, filterType) {
+		$scope.getPlaylistSongs = function(playlistIds, filterType) {			
 			if (playlistIds.length != 0)
 			{				
 				loadingService.broadcast('loading.loading', {key:"getPlaylistSongs", val: "Loading Songs..."});
@@ -35,6 +35,8 @@ angular
 		}
 
 		$scope.onNewTagButtonClick = function(ev) {
+			
+
 			var prompt = mdDialogService.createDialog('prompt',
 				{
 					title:'Create New Tag', 
@@ -205,7 +207,7 @@ angular
 				name: 'Union'
 			};
 			// keep track of tag that was chosen by user (used for r-click, delete tag/playlist)
-			$scope.selectedTag = {};
+			$scope.selectedTag = {};			
 		}
 
 		function initWatchVars() {
@@ -225,8 +227,9 @@ angular
 			$scope.$watch('tags', function (newVal, oldVal) { 
 				if ($scope.tags.length < 1)
 				{					
-					filteredSongsService.filteredSongsDictionary = {};
+					filteredSongsService.filteredSongsDictionary = {};					
 					$scope.tagView = "tag-cloud";
+					
 				}
 				else
 				{

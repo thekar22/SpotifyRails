@@ -1,11 +1,11 @@
 angular
 	.module('navigationModule', ['sharedUtilModule'])
-	.controller('navigationController', ['$scope', '$mdSidenav', '$location', 'songPlayingService', 
-	function navigationController($scope, $mdSidenav, $location, songPlayingService) {
+	.controller('navigationController', ['$scope', '$mdSidenav', '$location', 'songPlayingService', 'tagCloudService', '$route', 
+	function navigationController($scope, $mdSidenav, $location, songPlayingService, tagCloudService, $route) {
 		initModule();
 
 		function setupLoading() {
-			$scope.$on('$locationChangeStart', function(event) {			
+			$scope.$on('$locationChangeStart', function(event) {
 				if (($location.path().substr(0,5) == "/tags") || $location.path() == "/")
 				{
 					$scope.navView = "tag-view";
@@ -56,10 +56,38 @@ angular
 			$mdSidenav(side).toggle();
 		}
 
-		function initModule() {		
-			setupLoading();
-			setupSongPlaying();
+		$scope.afterFullScreenAnimation = function() {
+			$scope.hide = false;
+			if ($scope.firstLoad) {
+				$scope.firstLoad = false;
+			}
+			$route.reload();
 		}
 
+		$scope.afterSplitAnimation = function() {			
+			if ($scope.firstLoad) {
+				$scope.firstLoad = false;
+			}
+			$route.reload();
+		}
+
+		$scope.toggleSplitScreen = function (splitScreen) {			
+			$scope.splitScreen = !$scope.splitScreen;
+		}
+
+		$scope.toggleSplit = function () {
+			$scope.splitScreen = !$scope.splitScreen;
+		}
+
+		function initWatchVars() {			
+			$scope.splitScreen = false;
+			$scope.firstLoad = true;
+		}
+
+		function initModule() {
+			setupLoading();
+			setupSongPlaying();
+			initWatchVars();
+		}
 }]);
 

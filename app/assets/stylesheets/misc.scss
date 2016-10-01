@@ -27,7 +27,7 @@
 	padding: 0;	
 
 	color: #FAFAFA;
-	background: rgba(255,255,255,0.5);
+	background: rgba(255,255,255,0.1);
 	font-size: 15px;
 	z-index: 100000;
 
@@ -84,4 +84,36 @@ div.ui-grid-cell
   -ms-user-select: none;       /* Internet Explorer/Edge */
   user-select: none;           /* Non-prefixed version, currently
                                   not supported by any browser */
+}
+
+.splitContainer.ng-split-add {
+	opacity: 1; 
+	transition: width 0.3s ease;
+}
+.splitContainer.ng-split-add.ng-split-add-active {
+	opacity: 1;
+	width: 50%;
+}
+.splitContainer.ng-split-remove {  
+	opacity: 1; 	
+	transition: width 0.3s ease;
+}
+.splitContainer.ng-split-remove.ng-split-remove-active {
+	opacity: 1;
+	width: 100%;
+}
+.splitContainer.ng-split
+{
+	width: 50%;	
+}
+
+.splitToggleButton
+{
+	position:fixed;
+	top: 150px;
+	right: 5px;
+	font-size: 35px;
+
+	z-index: 1;
+	cursor: pointer;
 }

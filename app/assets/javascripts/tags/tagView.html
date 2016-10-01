@@ -32,7 +32,7 @@
 <div ng-switch="tagView" class="tagView">
 
 	<div class="tagCloud" ng-switch-when="tag-cloud">
-		<jqcloud id="cloud-dynamic" words="tagCloud" auto-resize="true" colors="{{colors}}" steps="7" font-size="{from:0.04, to:0.015}"></jqcloud>
+		<jqcloud id="cloud-dynamic" words="tagCloud" auto-resize="true" colors="{{colors}}" steps="7" font-size="{from:0.04, to:0.015}"></jqcloud> 
 	</div>
 
 	<div class="tagResultsContainer" context-menu="menuOptions" ng-switch-when="tag-results">
@@ -48,7 +48,7 @@
 
 <div style="visibility: hidden">
   <div class="md-dialog-container" id="myStaticDialog">
-    <md-dialog>     
+    <md-dialog>
 		<md-dialog-content>
 			<tag-add>
 			</tag-add>

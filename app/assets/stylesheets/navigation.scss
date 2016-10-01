@@ -19,12 +19,12 @@ html .navContainer md-content
 	font-size: 30px;
 }
 
-.navContainer.ng-scope > md-content > button.md-raised.md-button.md-ink-ripple
+.navContainer > md-content > button.md-raised.md-button.md-ink-ripple
 {
 	box-shadow: none;
 }
 
-.navContainer.ng-scope > md-content > button.md-raised.rightButton.md-button.md-ink-ripple
+.navContainer > md-content > button.md-raised.rightButton.md-button.md-ink-ripple
 {
 	position: absolute;
 	top: 0px;
@@ -38,7 +38,7 @@ html .navContainer md-content
 	}
 }
 
-.navContainer.ng-scope > md-content > button.md-raised.leftButton.md-button.md-ink-ripple
+.navContainer > md-content > button.md-raised.leftButton.md-button.md-ink-ripple
 {  
 	position: absolute;
 	top: 0px;
@@ -51,12 +51,12 @@ html .navContainer md-content
 }
 
 // changed position to fixed because these menus inherit the height of the nav bar (which is only 80px) when opened
-.navContainer.ng-scope > md-sidenav.ng-isolate-scope._md
+.navContainer > md-sidenav.ng-isolate-scope._md
 {
 	position: fixed;
 }
 
-.navContainer.ng-scope > md-backdrop
+.navContainer > md-backdrop
 {
 	position: fixed;
 }

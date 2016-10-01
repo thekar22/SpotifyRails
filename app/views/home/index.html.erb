@@ -1,52 +1,62 @@
 <% if user_signed_in? %>
-	<div ng-app="MusicApp" class="mainContainer noselect">
-		<div ng-controller="navigationController" class="navContainer">
-			<iframe refreshable = "tab.refresh" id="songPlayer" src="https://embed.spotify.com/?uri=spotify:track:5JunxkcjfCYcY7xJ29tLai" frameborder="0" allowtransparency="true"></iframe>
-			<div class="loadingContainer" ng-cloak ng-if="dataLoading">				
-				<div> 
-					{{message}}
-				</div>
-			</div>
-			<md-sidenav ng-cloak md-component-id="left" class="md-sidenav-left">
-				<div>
-					Logged in as <strong><%= current_user.email %></strong>.
-					<%= link_to 'Edit profile', edit_user_registration_path %> |
-					<%= link_to "Logout", destroy_user_session_path, method: :delete %>
-				</div>
-			</md-sidenav>
-			<md-sidenav ng-cloak md-component-id="right" class="md-sidenav-right">
-				<div ng-switch="navView">
-					<div class="tagCloud" ng-switch-when="tag-view">
-						<a ng-click="toggle('right')" href="/#/audioFeatures">
-							Get Song Features
-						</a>
-					</div>
-					<div class="tagResults" ng-switch-when="other-view">
-						<a ng-click="toggle('right')" href="/#/">
-							Return to Tags
-						</a>
+	<div ng-app="MusicApp" class="lisztContainer noselect">
+		<div ng-controller="navigationController" class="mainContainer">
+			<div class="navContainer">
+				<iframe refreshable = "tab.refresh" id="songPlayer" src="https://embed.spotify.com/?uri=spotify:track:5JunxkcjfCYcY7xJ29tLai" frameborder="0" allowtransparency="true"></iframe>
+				<div class="loadingContainer" ng-cloak ng-if="dataLoading">
+					<div> 
+						{{message}}
 					</div>
 				</div>
-				<a ng-click="toggle('right')" href="/#/customTag">
-					Search Songs					
-				</a>
-			</md-sidenav>
-			<md-content>
-				<md-button class="md-raised leftButton" ng-click="openLeftMenu()">
-					&#6624; 
-				</md-button>
-				<md-button class="md-raised rightButton" ng-click="openRightMenu()">
-					&#9834;
-				</md-button>
-			</md-content>
-		</div>
-		<div class="contentContainer">
-			<div ng-view class="viewContainer">
-				<!-- view content here -->
+				<md-sidenav ng-cloak md-component-id="left" class="md-sidenav-left">
+					<div>
+						Logged in as <strong><%= current_user.email %></strong>.
+						<%= link_to 'Edit profile', edit_user_registration_path %> |
+						<%= link_to "Logout", destroy_user_session_path, method: :delete %>
+					</div>
+				</md-sidenav>
+				<md-sidenav ng-cloak md-component-id="right" class="md-sidenav-right">
+					<div ng-switch="navView">
+						<div ng-switch-when="tag-view">
+							<a ng-click="toggle('right')" href="/#/audioFeatures">
+								Get Song Features
+							</a>
+						</div>
+						<div ng-switch-when="other-view">
+							<a ng-click="toggle('right')" href="/#/">
+								Return to Tags
+							</a>
+						</div>
+					</div>
+					<a ng-click="toggle('right')" href="/#/customTag">
+						Search Songs
+					</a>
+				</md-sidenav>
+				<md-content>
+					<md-button class="md-raised leftButton" ng-click="openLeftMenu()">
+						&#6624; 
+					</md-button>
+					<md-button class="md-raised rightButton" ng-click="openRightMenu()">
+						&#9834;
+					</md-button>
+				</md-content>
 			</div>
-			<div ng-include src="'customTag/customTagView.html'" ng-controller="customTagController" class="secondaryContainer">
-				
+
+			<div class="splitToggleButton" ng-click="toggleSplit()">
+				&#9707;
+			</div>
+
+			<div class="contentContainer">
+				<div class="splitContainer" split-screen="splitScreen" after-full-screen-animation="afterFullScreenAnimation()" after-split-animation="afterSplitAnimation()">
+					<div ng-view class="viewContainer">
+						<!-- view content here -->
+					</div>
+				</div>
+				<div ng-include src="'customTag/customTagView.html'" ng-controller="customTagController" class="secondaryContainer">
+					
+				</div>
 			</div>
 		</div>
+
 	</div>
 <% end %>
