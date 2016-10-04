@@ -82,8 +82,7 @@ angular
 
 		function initWatchVars()
 		{
-			$scope.$watch('customTagGridOptions.data', function (newVal, oldVal) {
-				console.log("we need this");
+			$scope.$watch('customTagGridOptions.data', function (newVal, oldVal) {				
 				if (customTagService.customSongs.length > 0)
 				{
 					$scope.customView = "custom-results";
