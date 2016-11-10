@@ -41,45 +41,10 @@ div.songSearchResults
 	border-bottom: 2px solid grey; 
 }
 
-div.customSongsContainer
-{
-	height:50%;
+.songSearchResults > div {
+	height:210px;
 }
 
-div.customSongsContainer .customSongsHeader
-{
-	height: 50px;
-	position: relative;
-	width: 100%;
-	border-top: 2px solid grey;
+.contentContainer .songSearchResults div.ui-grid-viewport {
+	height:210px;
 }
-
-div.customSongsContainer .customSongsHeader label
-{	
-	margin: 5px;
-	font-size: 30px;
-	font-weight: normal;
-}
-
-div.customSongs
-{
-	height: 85%;
-	position: relative;
-	overflow: scroll;
-}
-
-.customSongsContainer div.grid.grid-align
-{
-	overflow: scroll;
-}
-
-
-
-
-
-
-
-
-
-
-

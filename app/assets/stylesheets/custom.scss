@@ -1,0 +1,34 @@
+div.customSongsContainer
+{
+	height:50%;
+}
+
+div.customSongsContainer .customSongsHeader
+{
+	height: 50px;
+	position: relative;
+	width: 100%;
+	border-top: 2px solid grey;
+}
+
+div.customSongsContainer .customSongsHeader label
+{	
+	margin: 5px;
+	font-size: 30px;
+	font-weight: normal;
+}
+
+div.customSongs
+{	
+	position: relative;
+	overflow: scroll;
+}
+
+.customSongsContainer div.grid.grid-align
+{
+	overflow: scroll;
+}
+
+.contentContainer .customSongs div.ui-grid-viewport {
+	height:210px;
+}
