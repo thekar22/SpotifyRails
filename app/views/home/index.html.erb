@@ -21,6 +21,10 @@
 							<a ng-click="toggle('right')" href="/#/audioFeatures">
 								Get Song Features
 							</a>
+							<br>
+							<a ng-if="!splitScreen" ng-click="toggle('right')" href="/#/customTag">
+								Search Songs
+							</a>
 						</div>
 						<div ng-switch-when="other-view">
 							<a ng-click="toggle('right')" href="/#/">
@@ -28,9 +32,7 @@
 							</a>
 						</div>
 					</div>
-					<a ng-click="toggle('right')" href="/#/customTag">
-						Search Songs
-					</a>
+
 				</md-sidenav>
 				<md-content>
 					<md-button class="md-raised leftButton" ng-click="openLeftMenu()">
@@ -42,7 +44,7 @@
 				</md-content>
 			</div>
 
-			<div class="splitToggleButton" ng-click="toggleSplit()">
+			<div ng-if="navView=='tag-view'" class="splitToggleButton" ng-click="toggleSplit()">
 				&#9707;
 			</div>
 
@@ -56,7 +58,7 @@
 					
 				</div>
 			</div>
-			
+
 			<div style="visibility: hidden">
 			  <div class="md-dialog-container" id="myStaticDialog">
 			    <md-dialog>
