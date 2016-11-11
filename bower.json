@@ -23,7 +23,8 @@
     "angular-ui-grid": "^3.2.1",
     "angular-loading-bar": "latest",
     "angular-bootstrap-contextmenu": "latest",
-    "bootstrap": "3.3.4"
+    "bootstrap": "3.3.4",
+    "d3": "latest"
   },
   "resolutions": {
     "angular": "^1.4.8"

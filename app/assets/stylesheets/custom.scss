@@ -29,6 +29,12 @@ div.customSongs
 	overflow: scroll;
 }
 
-.contentContainer .customSongs div.ui-grid-viewport {
+.contentContainer .customSongs div.ui-grid-viewport 
+{
 	height:210px;
+}
+
+.contentContainer .customSongsContainer > .customSongsHeader > label
+{
+	color: #ACACE4;
 }
