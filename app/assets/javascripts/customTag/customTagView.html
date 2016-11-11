@@ -7,11 +7,11 @@
 	<div class="searchResultsStatus" ng-if="showSearchResults == true"> showing results for "{{searchedQuery}}" </div>
 </div>
 
-<div ng-if="showSearchResults == true" context-menu="menuOptions" class="songSearchResults">
+<div ng-if="showSearchResults == true" context-menu="searchMenuOptions" class="songSearchResults">
 	<div ui-grid="searchGridOptions" ui-grid-selection class="grid grid-align"></div>
 </div>
 
-<div ng-switch="customView" class="customSongsContainer">
+<div ng-switch="customView" context-menu="customMenuOptions" class="customSongsContainer">
 	<div ng-if="customView == 'custom-results'" class="customSongsHeader">
 		<label>
 			Custom Tag

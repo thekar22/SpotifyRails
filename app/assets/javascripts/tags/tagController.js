@@ -1,7 +1,7 @@
 angular
 	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.selection', 'ui.bootstrap.contextMenu', 'tagAddModule', 'sharedUtilModule'])
-	.controller('tagController', ['$scope', 'tagService', 'tagCloudService', 'selectedSongsService', '$http', 'uiGridService', 'loadingService', '$routeParams', '$mdDialog', 'toastService', 'mdDialogService', 'sharedUtilService', 'filteredSongsService', '$location', 
-	function tagController($scope, tagService, tagCloudService, selectedSongsService, $http, uiGridService, loadingService, $routeParams, $mdDialog, toastService, mdDialogService, sharedUtilService, filteredSongsService, $location) {
+	.controller('tagController', ['$scope', 'tagService', 'tagCloudService', 'selectedSongsService', 'customTagService', '$http', 'uiGridService', 'loadingService', '$routeParams', '$mdDialog', 'toastService', 'mdDialogService', 'sharedUtilService', 'filteredSongsService', '$location', 
+	function tagController($scope, tagService, tagCloudService, selectedSongsService, customTagService, $http, uiGridService, loadingService, $routeParams, $mdDialog, toastService, mdDialogService, sharedUtilService, filteredSongsService, $location) {
 		initModule();
 
 		$scope.filterTags = function($query) {
@@ -34,9 +34,7 @@ angular
 			}
 		}
 
-		$scope.onNewTagButtonClick = function(ev) {
-			
-
+		$scope.onNewTagButtonClick = function(ev) {			
 			var prompt = mdDialogService.createDialog('prompt',
 				{
 					title:'Create New Tag', 
@@ -165,7 +163,7 @@ angular
 			$scope.menuOptions = [
 				[
 					'Add selected songs to tag...', 
-					function ($itemScope) {						
+					function ($itemScope) {
 						selectedSongsService.onAddSelectedSongs($scope.gridOptions.gridApi.selection.getSelectedRows());
 					},
 					function ($itemScope) { // function to determine whether menu option should be enabled/disabled
@@ -173,6 +171,18 @@ angular
 							return true;
 						}
 						return false;
+					}
+				],
+				[
+					'Add selected songs to custom tag...', 
+					function () {
+						customTagService.onAddToCustomTag($scope.gridOptions.gridApi.selection.getSelectedRows());
+					},
+					function () { // function to determine whether menu option should be enabled/disabled
+						if ($scope.gridOptions.gridApi.selection.getSelectedRows().length > 0) {
+							return true;
+						}
+						return false;						
 					}
 				]
 			];

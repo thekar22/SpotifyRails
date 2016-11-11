@@ -38,7 +38,7 @@ angular
 				// if row clicked
 			});
 
-			$scope.menuOptions = [
+			$scope.searchMenuOptions = [
 				[
 					'Add selected songs to tag...', 
 					function () {						
@@ -76,6 +76,23 @@ angular
 				name: 'Remove',
 				cellTemplate: '<div ng-click="grid.appScope.onRemoveFromCustomTag(row)"> - </div>'
 			});
+
+
+			$scope.customMenuOptions = [
+				[
+					'Add selected songs to tag...', 
+					function () {						
+						selectedSongsService.onAddSelectedSongs($scope.customTagGridOptions.gridApi.selection.getSelectedRows());
+					},
+					function () { // function to determine whether menu option should be enabled/disabled
+						if ($scope.customTagGridOptions.gridApi.selection.getSelectedRows().length > 0) {
+							return true;
+						}
+						return false;
+					}
+				]
+			];
+
 
 			$scope.customTagGridOptions.data = customTagService.customSongs;
 		}
