@@ -1,19 +1,19 @@
 //Add Songs to Tag Dialog
-#myStaticDialog > md-dialog
+#addToTagDialog > md-dialog
 {	
 	height: 225px;
 	width: 320px;
 	overflow: visible;
 }
 
-#myStaticDialog > md-dialog > md-dialog-content
+#addToTagDialog > md-dialog > md-dialog-content
 {
 	height: 100%;
 	padding: 24px;
 	overflow: visible;
 }
 
-#myStaticDialog > md-dialog > md-dialog-content > tags-input
+#addToTagDialog > md-dialog > md-dialog-content > tags-input
 {
 	height: 60px;
 	width: 50%;
@@ -24,24 +24,24 @@
 	}
 }
 
-#myStaticDialog > md-dialog > md-dialog-content > div tags-input > div > div
+#addToTagDialog > md-dialog > md-dialog-content > div tags-input > div > div
 {
 	border: none;
 	box-shadow: none;
 }
 
-#myStaticDialog > md-dialog md-dialog-actions
+#addToTagDialog > md-dialog md-dialog-actions
 {
 	position: absolute;
 	bottom: 0px;
 	right: 0px;
 }
 
-#myStaticDialog > md-dialog > md-dialog-content tags-input input
+#addToTagDialog > md-dialog > md-dialog-content tags-input input
 {
 	font-size: 25px;
 }
-#myStaticDialog tags-input .tags .tag-item
+#addToTagDialog tags-input .tags .tag-item
 {
 	font-size: 25px;
 }

@@ -13,7 +13,7 @@ angular.module('sharedUtilModule')
 		factory.selectedSongs = rows;
 		var parentEl = angular.element(document.body);
 		$mdDialog.show({
-			contentElement: '#myStaticDialog',
+			contentElement: '#addToTagDialog',
 			parent: parentEl
 		});
 	}

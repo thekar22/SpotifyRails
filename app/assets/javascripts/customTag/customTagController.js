@@ -1,7 +1,7 @@
 angular
 	.module('customTagModule', ['ui.grid', 'ui.grid.selection', 'sharedUtilModule'])
-	.controller('customTagController', ['$scope', '$http', '$rootScope', 'searchService', 'uiGridService', 'sharedUtilService', 'selectedSongsService', 'customTagService', 
-		function customTagController($scope, $http, $rootScope, searchService, uiGridService, sharedUtilService, selectedSongsService, customTagService) {
+	.controller('customTagController', ['$scope', '$http', '$rootScope', 'searchService', 'uiGridService', '$mdDialog', 'mdDialogService', 'sharedUtilService', 'selectedSongsService', 'customTagService', 
+		function customTagController($scope, $http, $rootScope, searchService, uiGridService, $mdDialog, mdDialogService, sharedUtilService, selectedSongsService, customTagService) {
 		initModule();
 
 		$scope.searchQuery = function($query) {
@@ -14,7 +14,7 @@ angular
 				$rootScope.$broadcast('loading.loaded', {key:"searchQuery"});
 				var result = response.data;
 				result = $scope.parseSongs(result);
-				$scope.searchGridOptions.data = result;				
+				$scope.searchGridOptions.data = result;
 			})
 		}
 
@@ -28,7 +28,7 @@ angular
 			return songs;
 		}
 
-		$scope.onRemoveFromCustomTag = function(row) {			
+		$scope.onRemoveFromCustomTag = function(row) {
 			customTagService.removeFromCustomTag(row);
 		};
 
@@ -41,7 +41,7 @@ angular
 			$scope.searchMenuOptions = [
 				[
 					'Add selected songs to tag...', 
-					function () {						
+					function () {
 						selectedSongsService.onAddSelectedSongs($scope.searchGridOptions.gridApi.selection.getSelectedRows());
 					},
 					function () { // function to determine whether menu option should be enabled/disabled
@@ -64,6 +64,19 @@ angular
 					}
 				]
 			];
+		}
+
+		$scope.generateRecommendations = function(ev) {			
+			var parentEl = angular.element(document.body);
+			$mdDialog.show({
+				parent: parentEl,
+				targetEvent: ev,
+				templateUrl: 'customTag/recommendationsDialogView.html',
+				locals: {
+					items: [1,2,3]
+				},
+				controller: 'recommendationsDialogController'
+			});
 		}
 
 		function setupCustomTagGrid()
@@ -99,14 +112,14 @@ angular
 
 		function initWatchVars()
 		{
-			$scope.$watch('customTagGridOptions.data', function (newVal, oldVal) {				
+			$scope.$watch('customTagGridOptions.data', function (newVal, oldVal) {
 				if (customTagService.customSongs.length > 0)
 				{
 					$scope.customView = "custom-results";
 				}
 				else
 				{
-					$scope.customView = "";					
+					$scope.customView = "";
 				}
 			}, true);
 		}
