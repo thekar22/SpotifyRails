@@ -1,4 +1,4 @@
-app.directive('splitScreen', function($animate) {
+app.directive('splitScreen', ['$animate', function($animate) {
   return {
     scope: {
       'splitScreen': '=',
@@ -20,4 +20,4 @@ app.directive('splitScreen', function($animate) {
       });
     }
   }
-})
+}]);
