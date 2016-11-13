@@ -10,8 +10,8 @@
 				</div>
 				<md-sidenav ng-cloak md-component-id="left" class="md-sidenav-left">
 					<div>
-						Logged in as <strong><%= current_user.email %></strong>.
-						<%= link_to 'Edit profile', edit_user_registration_path %> |
+						Logged in as <strong><%= current_user.email %></strong>. <br>
+						<%= link_to 'Edit profile', edit_user_registration_path %> | <br>
 						<%= link_to "Logout", destroy_user_session_path, method: :delete %>
 					</div>
 				</md-sidenav>

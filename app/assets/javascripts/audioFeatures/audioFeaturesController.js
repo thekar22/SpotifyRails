@@ -21,7 +21,7 @@ angular
 					var tempFeature = {};
 					for(var feature in features)
 					{
-						tempFeature = features[feature];						
+						tempFeature = features[feature];
 						filteredSongsService.filteredSongsDictionary[tempFeature.id].audio_features = tempFeature;
 					}
 					$scope.features = features;
@@ -59,3 +59,6 @@ angular
 			$scope.message = 'No Songs selected';
 		}
 }]);
+
+
+

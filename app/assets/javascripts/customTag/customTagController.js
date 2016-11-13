@@ -66,21 +66,21 @@ angular
 			];
 		}
 
-		$scope.generateRecommendations = function(ev) {			
+		$scope.generateRecommendations = function(ev) {
 			var parentEl = angular.element(document.body);
 			$mdDialog.show({
 				parent: parentEl,
 				targetEvent: ev,
 				templateUrl: 'customTag/recommendationsDialogView.html',
 				locals: {
-					items: [1,2,3]
+					customSongs: customTagService.customSongs
 				},
 				controller: 'recommendationsDialogController'
 			});
 		}
 
 		function setupCustomTagGrid()
-		{			
+		{
 			$scope.customTagGridOptions = uiGridService.createGridOptions($scope, function(row){
 				// if row clicked
 			});
@@ -94,7 +94,7 @@ angular
 			$scope.customMenuOptions = [
 				[
 					'Add selected songs to tag...', 
-					function () {						
+					function () {
 						selectedSongsService.onAddSelectedSongs($scope.customTagGridOptions.gridApi.selection.getSelectedRows());
 					},
 					function () { // function to determine whether menu option should be enabled/disabled
