@@ -86,8 +86,11 @@ angular
 			});
 
 			$scope.sandboxGridOptions.columnDefs.push({ 
-				name: 'Remove',
-				cellTemplate: '<div ng-click="grid.appScope.onRemoveFromSandbox(row)"> - </div>'
+				name: ' ',
+				enableColumnMenu: false,
+				enableSorting: false,
+				width: 35,
+				cellTemplate: '<div class="gridRemoveButton" ng-click="grid.appScope.onRemoveFromSandbox(row)"> &#8722; </div>'
 			});
 
 

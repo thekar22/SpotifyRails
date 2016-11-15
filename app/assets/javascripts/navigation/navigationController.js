@@ -1,7 +1,7 @@
 angular
 	.module('navigationModule', ['sharedUtilModule'])
-	.controller('navigationController', ['$scope', '$mdSidenav', '$location', 'songPlayingService', 'tagCloudService', '$route', 
-	function navigationController($scope, $mdSidenav, $location, songPlayingService, tagCloudService, $route) {
+	.controller('navigationController', ['$scope', '$mdSidenav', '$location', 'songPlayingService', 'tagCloudService', '$route', 'sandboxService', 
+	function navigationController($scope, $mdSidenav, $location, songPlayingService, tagCloudService, $route, sandboxService) {
 		initModule();
 
 		function setupLoading() {
@@ -82,6 +82,8 @@ angular
 		function initWatchVars() {			
 			$scope.splitScreen = false;
 			$scope.firstLoad = true;
+
+			$scope.sandboxSongs = sandboxService.sandboxSongs;
 		}
 
 		function initModule() {

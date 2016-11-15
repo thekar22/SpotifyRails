@@ -44,7 +44,7 @@ class HomeController < ApplicationController
 	def getAudioFeatures
 		userid = current_user.uid
 		songids = params[:songIds]
-		audio_features = GetAudioFeaturesFromSpotify.build.call(songids)						
+		audio_features = GetAudioFeaturesFromSpotify.build.call(songids)
 		render json: audio_features
 	end
 

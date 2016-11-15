@@ -4,6 +4,8 @@ class GetAudioFeaturesFromSpotify
 	end
 
 	def call(ids)
-		RSpotify::AudioFeatures.find(ids)	
+		RSpotify::AudioFeatures.find(ids)
+		rescue => e
+			[]
 	end
 end

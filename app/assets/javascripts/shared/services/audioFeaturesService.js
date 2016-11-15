@@ -2,7 +2,8 @@ angular.module('sharedUtilModule')
 .service('audioFeaturesService', ['$http', 'sharedUtilService', function ($http, sharedUtilService) {
   var service = {
     getAudioFeaturesFromSongIds: function (ids) {
-    	return $http({
+    	console.log(ids);
+      return $http({
 		    method: 'POST',
         data: $.param({songIds: ids}),
 		    url: '/getAudioFeatures?',

@@ -36,5 +36,13 @@ div.sandboxSongs
 
 .contentContainer .sandboxSongsContainer > .sandboxSongsHeader > label
 {
+	color: black;
+}
+
+.sandboxSymbol {
 	color: #ACACE4;
+}
+
+body > div > div > div.contentContainer > div.secondaryContainer > div.sandboxSongsContainer > div.sandboxSongs > div {
+	height: inherit;
 }

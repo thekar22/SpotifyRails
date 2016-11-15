@@ -107,13 +107,11 @@ div.ui-grid-cell
 	opacity: 1;
 	width: 100%;
 }
-.splitContainer.ng-split
-{
+.splitContainer.ng-split {
 	width: 50%;	
 }
 
-.splitToggleButton
-{
+.splitToggleButton {
 	position:fixed;
 	top: 150px;
 	right: 5px;
@@ -121,4 +119,19 @@ div.ui-grid-cell
 
 	z-index: 1;
 	cursor: pointer;
+}
+
+.gridPlayButton {
+	color:green;
+}
+
+.gridRemoveButton {
+	color:red;
+}
+
+#sandboxCount {
+	font-size: 18px;
+	color: green;
+	position: absolute;
+	left:21px;
 }

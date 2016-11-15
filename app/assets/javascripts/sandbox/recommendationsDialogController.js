@@ -12,20 +12,21 @@ angular
 				return set.data;
 			});
 			var featureArray = Array.prototype.concat.apply([], resultSets);
-			
-			var valence = audioFeaturesService.getAggregate(featureArray, "valence", "Mean");
-			var danceability = audioFeaturesService.getAggregate(featureArray, "danceability", "Mean");
-			var instrumentalness = audioFeaturesService.getAggregate(featureArray, "instrumentalness", "Mean");
-			var energy = audioFeaturesService.getAggregate(featureArray, "energy", "Mean");
-			var acousticness = audioFeaturesService.getAggregate(featureArray, "acousticness", "Mean");
+				if (featureArray.length !== 0) {
+					var valence = audioFeaturesService.getAggregate(featureArray, "valence", "Mean");
+					var danceability = audioFeaturesService.getAggregate(featureArray, "danceability", "Mean");
+					var instrumentalness = audioFeaturesService.getAggregate(featureArray, "instrumentalness", "Mean");
+					var energy = audioFeaturesService.getAggregate(featureArray, "energy", "Mean");
+					var acousticness = audioFeaturesService.getAggregate(featureArray, "acousticness", "Mean");
 
-			$scope.nums = [
-				{name: "Valence", score: valence},
-				{name: "Instrumentalness", score: instrumentalness},
-				{name: "Energy", score: energy},
-				{name: "Acousticness", score: acousticness},
-				{name: "Danceability", score: danceability}
-			];
+				$scope.nums = [
+					{name: "Valence", score: valence},
+					{name: "Instrumentalness", score: instrumentalness},
+					{name: "Energy", score: energy},
+					{name: "Acousticness", score: acousticness},
+					{name: "Danceability", score: danceability}
+				];
+			}
 			
 		}).catch(function(reason) {
 			console.log(reason);

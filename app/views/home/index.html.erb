@@ -19,7 +19,7 @@
 					<div ng-switch="navView">
 						<div ng-switch-when="tag-view">
 							<a ng-if="!splitScreen" ng-click="toggle('right')" href="/#/sandbox">
-								Search Songs
+								Sandbox
 							</a>
 						</div>
 						<div ng-switch-when="other-view">
@@ -36,7 +36,12 @@
 					</md-button>
 					<md-button class="md-raised rightButton" ng-click="openRightMenu()">
 						&#9834;
+						<span ng-cloak ng-if="sandboxSongs.length > 0" id="sandboxCount">
+							{{sandboxSongs.length}}
+						</span>
 					</md-button>
+
+
 				</md-content>
 			</div>
 
