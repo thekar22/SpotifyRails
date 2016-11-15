@@ -26,8 +26,7 @@ module PlaylistMerge
     RSpotify::authenticate(ENV["SPOTIFY_APP_ID"], ENV["SPOTIFY_APP_SECRET"])
     config.angular_templates.ignore_prefix  = '/' # Default is '/templates'
     config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
-
-    config.serve_static_assets = true    
+    
     config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')  
     config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
 
