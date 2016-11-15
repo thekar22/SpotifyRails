@@ -17,14 +17,14 @@ angular.module('sharedUtilModule')
 			window.onresize = function() {
 				scope.$apply();
 			};
-			
+
 			// hard-code data
-			scope.nums = [
-				{name: "Valence", score: 98},
-				{name: 'Instrumentalness', score: 75},
-				{name: "Energy", score: 48},
-				{name: "Acousticness", score: 98},
-				{name: "Popularity", score: 96} 
+			scope.data = [
+				{name: "Valence", score: 1},
+				{name: 'Instrumentalness', score: 1},
+				{name: "Energy", score: 1},
+				{name: "Acousticness", score: 1},
+				{name: "Danceability", score: 1} 
 			];
 
 			var colorDict = {
@@ -32,16 +32,22 @@ angular.module('sharedUtilModule')
 				"Instrumentalness": "#AEC6CF",
 				"Energy": "#77DD77",
 				"Acousticness": "#FFB347",
-				"Popularity": "#B39EB5"
+				"Danceability": "#B39EB5"
 			}
 
 			// Watch for resize event
 			scope.$watch(function() {
 				return angular.element(window)[0].innerWidth;
 			}, function() {
-				scope.render(scope.nums);
+				scope.render(scope.data);
 			});
-			   
+
+			scope.$watch('data', function (newVal, oldVal) { 
+				if (scope.data && scope.data.length !== 0) {					
+					scope.render(scope.data);
+				}
+			}, true);
+
 			scope.render = function(data){
 			// remove all previous items before render
 			svg.selectAll("*").remove();
@@ -51,7 +57,7 @@ angular.module('sharedUtilModule')
 			color = d3.scale.category20(),
 			width = d3.select(element[0])[0][0].offsetWidth - 20;
 				// 20 is for margins and can be changed
-			height = scope.nums.length * 35;
+			height = scope.data.length * 40;
 				// 35 = 30(bar height) + 5(margin between bars)
 			max = 98;
 				// this can also be found dynamically when the data is not static
@@ -66,11 +72,11 @@ angular.module('sharedUtilModule')
 				.enter()
 					.append("rect")
 					.on("click", function(d, i){return scope.onClick({item: d});})
-					.attr("height", 30) // height of each bar
+					.attr("height", 35) // height of each bar
 					.attr("width", 0) // initial width of 0 for transition
 					.attr("x", 10) // half of the 20 side margin specified above
 					.attr("y", function(d, i){
-						return i * 35;
+						return i * 40;
 					}) // height + margin between bars
 					// .attr('fill', function(d) { return color(d.score); })
 					.attr('fill', function(d) {return colorDict[d[scope.label]]; })
@@ -84,8 +90,8 @@ angular.module('sharedUtilModule')
 					.data(data)
 					.enter()
 						.append("text")
-						.attr("fill", "#fff")
-						.attr("y", function(d, i){return i * 35 + 22;})
+						.attr("fill", "#000")
+						.attr("y", function(d, i){return i * 40 + 22;})
 						.attr("x", 15)
 						.text(function(d){return d[scope.label];});
 			};
