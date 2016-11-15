@@ -8,7 +8,7 @@ angular
 			$scope.showSearchResults = true;
 
 			// perform search against query with spotify service
-			$rootScope.$broadcast('loading.loading', {key:"searchQuery", val: "Loading"});
+			$rootScope.$broadcast('loading.loading', {key:"searchQuery", val: "Loading..."});
 			searchService.searchQuery($query).then(function(response){
 				$scope.searchedQuery = $query;
 				$rootScope.$broadcast('loading.loaded', {key:"searchQuery"});

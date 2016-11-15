@@ -1,7 +1,7 @@
 angular
 	.module('recommendationsModule', ['sharedUtilModule'])
-	.controller('recommendationsDialogController', ['$scope', '$mdDialog', 'sandboxSongs', 'audioFeaturesService', 'recommendationService', 'sandboxService',
-		function recommendationsDialogController($scope, $mdDialog, sandboxSongs, audioFeaturesService, recommendationService, sandboxService) {
+	.controller('recommendationsDialogController', ['$scope', '$rootScope', '$mdDialog', 'sandboxSongs', 'audioFeaturesService', 'recommendationService', 'sandboxService',
+		function recommendationsDialogController($scope, $rootScope, $mdDialog, sandboxSongs, audioFeaturesService, recommendationService, sandboxService) {
 	
 		var ids = sandboxSongs.map(function(song) {
 			return song.song_id;
@@ -37,7 +37,9 @@ angular
 
 		$scope.generate = function() {
 			var seedSongs = randomize(sandboxSongs.slice(0,5), 5);
+			$rootScope.$broadcast('loading.loading', {key:"recommendations", val: "Loading..."});
 			recommendationService.getRecommendations(seedSongs, $scope.nums).then(function(response) {
+				$rootScope.$broadcast('loading.loaded', {key:"recommendations"});
 
 				// watch on ui grid only looks for operations that directly add / remove from existing array
 				while (sandboxService.sandboxSongs.length !== 0) {

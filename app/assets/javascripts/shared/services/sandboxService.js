@@ -9,8 +9,7 @@ angular.module('sharedUtilModule')
 		});
 	}
 
-	factory.onAddToSandbox = function(rows) {
-		console.log('here');
+	factory.onAddToSandbox = function(rows) {		
 		for (var i = 0; i < rows.length; i++) {
 			factory.sandboxSongs.push(rows[i]);
 		}
