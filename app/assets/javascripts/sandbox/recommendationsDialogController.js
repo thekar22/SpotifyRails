@@ -1,9 +1,9 @@
 angular
-	.module('customTagModule')
-	.controller('recommendationsDialogController', ['$scope', '$mdDialog', 'customSongs', 'audioFeaturesService', 'recommendationService', 'customTagService',
-		function recommendationsDialogController($scope, $mdDialog, customSongs, audioFeaturesService, recommendationService, customTagService) {
+	.module('sandboxModule')
+	.controller('recommendationsDialogController', ['$scope', '$mdDialog', 'sandboxSongs', 'audioFeaturesService', 'recommendationService', 'sandboxService',
+		function recommendationsDialogController($scope, $mdDialog, sandboxSongs, audioFeaturesService, recommendationService, sandboxService) {
 	
-		var ids = customSongs.map(function(song) {
+		var ids = sandboxSongs.map(function(song) {
 			return song.song_id;
 		})
 
@@ -36,12 +36,12 @@ angular
 		}
 
 		$scope.generate = function() {
-			var seedSongs = randomize(customSongs.slice(0,5), 5);
+			var seedSongs = randomize(sandboxSongs.slice(0,5), 5);
 			recommendationService.getRecommendations(seedSongs, $scope.nums).then(function(response) {
 
 				// watch on ui grid only looks for operations that directly add / remove from existing array
-				while (customTagService.customSongs.length !== 0) {
-					customTagService.customSongs.splice(0,1);
+				while (sandboxService.sandboxSongs.length !== 0) {
+					sandboxService.sandboxSongs.splice(0,1);
 				}
 
 				// add new songs
@@ -52,7 +52,7 @@ angular
 
 				// watch on ui grid only looks for operations that directly add / remove from existing array
 				for (var i = 0; i < songs.length; i++) {
-					customTagService.customSongs.push(songs[i]);
+					sandboxService.sandboxSongs.push(songs[i]);
 				}
 
 				$scope.closeDialog();

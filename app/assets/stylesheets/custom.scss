@@ -1,9 +1,9 @@
-div.customSongsContainer
+div.sandboxSongsContainer
 {
 	height:50%;
 }
 
-div.customSongsContainer .customSongsHeader
+div.sandboxSongsContainer .sandboxSongsHeader
 {
 	height: 50px;
 	position: relative;
@@ -11,30 +11,30 @@ div.customSongsContainer .customSongsHeader
 	border-top: 2px solid grey;
 }
 
-div.customSongsContainer .customSongsHeader label
+div.sandboxSongsContainer .sandboxSongsHeader label
 {	
 	margin: 5px;
 	font-size: 30px;
 	font-weight: normal;
 }
 
-div.customSongs
+div.sandboxSongs
 {	
 	position: relative;
 	overflow: scroll;
 }
 
-.customSongsContainer div.grid.grid-align
+.sandboxSongsContainer div.grid.grid-align
 {
 	overflow: scroll;
 }
 
-.contentContainer .customSongs div.ui-grid-viewport 
+.contentContainer .sandboxSongs div.ui-grid-viewport 
 {
 	height:210px;
 }
 
-.contentContainer .customSongsContainer > .customSongsHeader > label
+.contentContainer .sandboxSongsContainer > .sandboxSongsHeader > label
 {
 	color: #ACACE4;
 }

@@ -18,7 +18,7 @@
 				<md-sidenav ng-cloak md-component-id="right" class="md-sidenav-right">
 					<div ng-switch="navView">
 						<div ng-switch-when="tag-view">
-							<a ng-if="!splitScreen" ng-click="toggle('right')" href="/#/customTag">
+							<a ng-if="!splitScreen" ng-click="toggle('right')" href="/#/sandbox">
 								Search Songs
 							</a>
 						</div>
@@ -50,7 +50,7 @@
 						<!-- view content here -->
 					</div>
 				</div>
-				<div ng-include src="'customTag/customTagView.html'" ng-controller="customTagController" class="secondaryContainer">
+				<div ng-include src="'sandbox/sandboxView.html'" ng-controller="sandboxController" class="secondaryContainer">
 					
 				</div>
 			</div>

@@ -1,7 +1,7 @@
 angular
 	.module('tagModule', ['tagService', 'ngTagsInput', 'angular-jqcloud', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.selection', 'ui.bootstrap.contextMenu', 'tagAddModule', 'sharedUtilModule'])
-	.controller('tagController', ['$scope', 'tagService', 'tagCloudService', 'selectedSongsService', 'customTagService', '$http', 'uiGridService', 'loadingService', '$routeParams', '$mdDialog', 'toastService', 'mdDialogService', 'sharedUtilService', 'filteredSongsService', '$location', 
-	function tagController($scope, tagService, tagCloudService, selectedSongsService, customTagService, $http, uiGridService, loadingService, $routeParams, $mdDialog, toastService, mdDialogService, sharedUtilService, filteredSongsService, $location) {
+	.controller('tagController', ['$scope', 'tagService', 'tagCloudService', 'selectedSongsService', 'sandboxService', '$http', 'uiGridService', 'loadingService', '$routeParams', '$mdDialog', 'toastService', 'mdDialogService', 'sharedUtilService', 'filteredSongsService', '$location', 
+	function tagController($scope, tagService, tagCloudService, selectedSongsService, sandboxService, $http, uiGridService, loadingService, $routeParams, $mdDialog, toastService, mdDialogService, sharedUtilService, filteredSongsService, $location) {
 		initModule();
 
 		$scope.filterTags = function($query) {
@@ -174,9 +174,9 @@ angular
 					}
 				],
 				[
-					'Add selected songs to custom tag...', 
+					'Add selected songs to sandbox...', 
 					function () {
-						customTagService.onAddToCustomTag($scope.gridOptions.gridApi.selection.getSelectedRows());
+						sandboxService.onAddToSandbox($scope.gridOptions.gridApi.selection.getSelectedRows());
 					},
 					function () { // function to determine whether menu option should be enabled/disabled
 						if ($scope.gridOptions.gridApi.selection.getSelectedRows().length > 0) {

@@ -11,14 +11,14 @@
 	<div ui-grid="searchGridOptions" ui-grid-selection class="grid grid-align"></div>
 </div>
 
-<div ng-switch="customView" context-menu="customMenuOptions" class="customSongsContainer">
-	<div ng-if="customView == 'custom-results'" class="customSongsHeader">
+<div ng-switch="sandboxView" context-menu="sandboxMenuOptions" class="sandboxSongsContainer">
+	<div ng-if="sandboxView == 'sandbox-results'" class="sandboxSongsHeader">
 		<label ng-click="generateRecommendations($event)">
-			Custom &#9883;
+			Sandbox &#9883;
 		</label>
 	</div>
 
-	<div ng-switch-when="custom-results" class="customSongs">		
-		<div ui-grid="customTagGridOptions" ui-grid-selection class="grid grid-align"></div>
+	<div ng-switch-when="sandbox-results" class="sandboxSongs">		
+		<div ui-grid="sandboxGridOptions" ui-grid-selection class="grid grid-align"></div>
 	</div>
 </div>

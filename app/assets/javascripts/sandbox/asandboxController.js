@@ -1,7 +1,7 @@
 angular
-	.module('customTagModule', ['ui.grid', 'ui.grid.selection', 'sharedUtilModule'])
-	.controller('customTagController', ['$scope', '$http', '$rootScope', 'searchService', 'uiGridService', '$mdDialog', 'mdDialogService', 'sharedUtilService', 'selectedSongsService', 'customTagService', 
-		function customTagController($scope, $http, $rootScope, searchService, uiGridService, $mdDialog, mdDialogService, sharedUtilService, selectedSongsService, customTagService) {
+	.module('sandboxModule', ['ui.grid', 'ui.grid.selection', 'sharedUtilModule'])
+	.controller('sandboxController', ['$scope', '$http', '$rootScope', 'searchService', 'uiGridService', '$mdDialog', 'mdDialogService', 'sharedUtilService', 'selectedSongsService', 'sandboxService', 
+		function sandboxController($scope, $http, $rootScope, searchService, uiGridService, $mdDialog, mdDialogService, sharedUtilService, selectedSongsService, sandboxService) {
 		initModule();
 
 		$scope.searchQuery = function($query) {
@@ -28,8 +28,8 @@ angular
 			return songs;
 		}
 
-		$scope.onRemoveFromCustomTag = function(row) {
-			customTagService.removeFromCustomTag(row);
+		$scope.onRemoveFromSandbox = function(row) {
+			sandboxService.removeFromSandbox(row);
 		};
 
 		function setupSearchGrid()
@@ -40,7 +40,7 @@ angular
 
 			$scope.searchMenuOptions = [
 				[
-					'Add selected songs to tag...', 
+					'Add selected songs...', 
 					function () {
 						selectedSongsService.onAddSelectedSongs($scope.searchGridOptions.gridApi.selection.getSelectedRows());
 					},
@@ -52,9 +52,9 @@ angular
 					}
 				],
 				[
-					'Add selected songs to custom tag...', 
+					'Add selected songs to sandbox...', 
 					function () {
-						customTagService.onAddToCustomTag($scope.searchGridOptions.gridApi.selection.getSelectedRows());
+						sandboxService.onAddToSandbox($scope.searchGridOptions.gridApi.selection.getSelectedRows());
 					},
 					function () { // function to determine whether menu option should be enabled/disabled
 						if ($scope.searchGridOptions.gridApi.selection.getSelectedRows().length > 0) {
@@ -71,34 +71,34 @@ angular
 			$mdDialog.show({
 				parent: parentEl,
 				targetEvent: ev,
-				templateUrl: 'customTag/recommendationsDialogView.html',
+				templateUrl: 'sandbox/recommendationsDialogView.html',
 				locals: {
-					customSongs: customTagService.customSongs
+					sandboxSongs: sandboxService.sandboxSongs
 				},
 				controller: 'recommendationsDialogController'
 			});
 		}
 
-		function setupCustomTagGrid()
+		function setupSandboxGrid()
 		{
-			$scope.customTagGridOptions = uiGridService.createGridOptions($scope, function(row){
+			$scope.sandboxGridOptions = uiGridService.createGridOptions($scope, function(row){
 				// if row clicked
 			});
 
-			$scope.customTagGridOptions.columnDefs.push({ 
+			$scope.sandboxGridOptions.columnDefs.push({ 
 				name: 'Remove',
-				cellTemplate: '<div ng-click="grid.appScope.onRemoveFromCustomTag(row)"> - </div>'
+				cellTemplate: '<div ng-click="grid.appScope.onRemoveFromSandbox(row)"> - </div>'
 			});
 
 
-			$scope.customMenuOptions = [
+			$scope.sandboxMenuOptions = [
 				[
-					'Add selected songs to tag...', 
+					'Add selected songs...', 
 					function () {
-						selectedSongsService.onAddSelectedSongs($scope.customTagGridOptions.gridApi.selection.getSelectedRows());
+						selectedSongsService.onAddSelectedSongs($scope.sandboxGridOptions.gridApi.selection.getSelectedRows());
 					},
 					function () { // function to determine whether menu option should be enabled/disabled
-						if ($scope.customTagGridOptions.gridApi.selection.getSelectedRows().length > 0) {
+						if ($scope.sandboxGridOptions.gridApi.selection.getSelectedRows().length > 0) {
 							return true;
 						}
 						return false;
@@ -107,19 +107,19 @@ angular
 			];
 
 
-			$scope.customTagGridOptions.data = customTagService.customSongs;
+			$scope.sandboxGridOptions.data = sandboxService.sandboxSongs;
 		}
 
 		function initWatchVars()
 		{
-			$scope.$watch('customTagGridOptions.data', function (newVal, oldVal) {				
-				if (customTagService.customSongs.length > 0)
+			$scope.$watch('sandboxGridOptions.data', function (newVal, oldVal) {				
+				if (sandboxService.sandboxSongs.length > 0)
 				{
-					$scope.customView = "custom-results";
+					$scope.sandboxView = "sandbox-results";
 				}
 				else
 				{
-					$scope.customView = "";
+					$scope.sandboxView = "";
 				}
 			}, true);
 		}
@@ -128,12 +128,12 @@ angular
 		{
 			$scope.searchedQuery = "";
 			$scope.showSearchResults = false;
-			$scope.customView = "";
+			$scope.sandboxView = "";
 		}
 
 		function initModule(){
 			setupSearchGrid();
-			setupCustomTagGrid();
+			setupSandboxGrid();
 			$scope.query = {
 				text: ''
 			};
