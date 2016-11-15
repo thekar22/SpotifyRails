@@ -1,26 +1,23 @@
 angular
 	.module('customTagModule')
-	.controller('recommendationsDialogController', ['$scope', '$mdDialog', 'customSongs', 'audioFeaturesService', 'recommendationService',
-		function recommendationsDialogController($scope, $mdDialog, customSongs, audioFeaturesService, recommendationService) {
-		$scope.customSongs = customSongs;
-
+	.controller('recommendationsDialogController', ['$scope', '$mdDialog', 'customSongs', 'audioFeaturesService', 'recommendationService', 'customTagService',
+		function recommendationsDialogController($scope, $mdDialog, customSongs, audioFeaturesService, recommendationService, customTagService) {
+	
 		var ids = customSongs.map(function(song) {
 			return song.song_id;
 		})
-		
-		var features = [];		
-		audioFeaturesService.getFeatures(ids).then(function(resultSets) {			
+
+		audioFeaturesService.getFeatures(ids).then(function(resultSets) {
 			resultSets = resultSets.map(function(set){
 				return set.data;
 			});
-
-			var featureArray = Array.prototype.concat.apply([], resultSets);			
+			var featureArray = Array.prototype.concat.apply([], resultSets);
 			
-			var valence = audioFeaturesService.getAggregate(featureArray, "valence", "Mean")*100;
-			var danceability = audioFeaturesService.getAggregate(featureArray, "danceability", "Mean")*100;
-			var instrumentalness = audioFeaturesService.getAggregate(featureArray, "instrumentalness", "Mean")*100;
-			var energy = audioFeaturesService.getAggregate(featureArray, "energy", "Mean")*100;
-			var acousticness = audioFeaturesService.getAggregate(featureArray, "acousticness", "Mean")*100;
+			var valence = audioFeaturesService.getAggregate(featureArray, "valence", "Mean");
+			var danceability = audioFeaturesService.getAggregate(featureArray, "danceability", "Mean");
+			var instrumentalness = audioFeaturesService.getAggregate(featureArray, "instrumentalness", "Mean");
+			var energy = audioFeaturesService.getAggregate(featureArray, "energy", "Mean");
+			var acousticness = audioFeaturesService.getAggregate(featureArray, "acousticness", "Mean");
 
 			$scope.nums = [
 				{name: "Valence", score: valence},
@@ -29,10 +26,6 @@ angular
 				{name: "Acousticness", score: acousticness},
 				{name: "Danceability", score: danceability}
 			];
-
-			$scope.nums.forEach(function(num) {
-				console.log(num);
-			});
 			
 		}).catch(function(reason) {
 			console.log(reason);
@@ -43,14 +36,28 @@ angular
 		}
 
 		$scope.generate = function() {
-			var seedSongs = randomize($scope.customSongs, 5);			
-
+			var seedSongs = randomize(customSongs.slice(0,5), 5);
 			recommendationService.getRecommendations(seedSongs, $scope.nums).then(function(response) {
-				console.log(response);
-				$scope.closeDialog();
-			})			
-		}
 
+				// watch on ui grid only looks for operations that directly add / remove from existing array
+				while (customTagService.customSongs.length !== 0) {
+					customTagService.customSongs.splice(0,1);
+				}
+
+				// add new songs
+				var spotifyList = response.data.tracks;
+				var songs = spotifyList.map(function(song) {
+					return {name: song.name, artist: song.artists[0].name, song_id: song.id};
+				});
+
+				// watch on ui grid only looks for operations that directly add / remove from existing array
+				for (var i = 0; i < songs.length; i++) {
+					customTagService.customSongs.push(songs[i]);
+				}
+
+				$scope.closeDialog();
+			})
+		}
 
 		function randomize(list, n) {
 			var size = list.length;
@@ -59,8 +66,8 @@ angular
 				randomIndex = Math.floor(Math.random()*size);
 				swap(list, i, randomIndex);
 			}
+
 			return list.slice(0,5);
-		
 		}
 		
 		function swap(arr, i, j) {

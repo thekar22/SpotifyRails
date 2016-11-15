@@ -152,7 +152,28 @@ class HomeController < ApplicationController
 
 	def getRecommendations
 
-		render json: true
+		audio_feature_dict = {}
+
+		if params[:seedTracks].present?
+			track_ids = params[:seedTracks].values.map do |track| track["song_id"] end
+		else
+			raise ArgumentError.new('no seed tracks provided')  
+		end
+
+		if params[:audioFeatures].present?
+			params[:audioFeatures].values.each do |feature| audio_feature_dict[feature["name"]] = feature["score"] end
+		else
+			raise ArgumentError.new('no audio features provided')  
+		end
+
+		recommendations = RSpotify::Recommendations.generate(seed_tracks: track_ids, 
+			target_valence: audio_feature_dict["Valence"], 
+			target_instrumentalness: audio_feature_dict['Instrumentalness'],
+			target_energy: audio_feature_dict['Energy'], 
+			target_acousticness: audio_feature_dict['Acousticness'], 
+			target_danceability: audio_feature_dict['Danceability'] )
+		
+		render json: recommendations
 	end
 
 	# spotify user created from oauth will be saved in current devise session; will be removed when devise next clears session

@@ -20,11 +20,11 @@ angular.module('sharedUtilModule')
 
 			// hard-code data
 			scope.data = [
-				{name: "Valence", score: 1},
-				{name: 'Instrumentalness', score: 1},
-				{name: "Energy", score: 1},
-				{name: "Acousticness", score: 1},
-				{name: "Danceability", score: 1} 
+				{name: "Valence", score: .01},
+				{name: 'Instrumentalness', score: .01},
+				{name: "Energy", score: .01},
+				{name: "Acousticness", score: .01},
+				{name: "Danceability", score: .01} 
 			];
 
 			var colorDict = {
@@ -78,12 +78,11 @@ angular.module('sharedUtilModule')
 					.attr("y", function(d, i){
 						return i * 40;
 					}) // height + margin between bars
-					// .attr('fill', function(d) { return color(d.score); })
 					.attr('fill', function(d) {return colorDict[d[scope.label]]; })
 					.transition()
 						.duration(1000) // time of duration
 						.attr("width", function(d){
-						  return d.score/(max/width);
+						  return (d.score*100)/(max/width);
 						}); // width based on scale
 
 					svg.selectAll("text")
