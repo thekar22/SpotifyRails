@@ -1,5 +1,5 @@
 angular
-	.module('sandboxModule', ['ui.grid', 'ui.grid.selection', 'sharedUtilModule'])
+	.module('sandboxModule', ['ui.grid', 'ui.grid.selection', 'sharedUtilModule', 'recommendationsModule'])
 	.controller('sandboxController', ['$scope', '$http', '$rootScope', 'searchService', 'uiGridService', '$mdDialog', 'mdDialogService', 'sharedUtilService', 'selectedSongsService', 'sandboxService', 
 		function sandboxController($scope, $http, $rootScope, searchService, uiGridService, $mdDialog, mdDialogService, sharedUtilService, selectedSongsService, sandboxService) {
 		initModule();
@@ -40,7 +40,7 @@ angular
 
 			$scope.searchMenuOptions = [
 				[
-					'Add selected songs...', 
+					'Add selected songs to tag...', 
 					function () {
 						selectedSongsService.onAddSelectedSongs($scope.searchGridOptions.gridApi.selection.getSelectedRows());
 					},
@@ -52,7 +52,7 @@ angular
 					}
 				],
 				[
-					'Add selected songs to sandbox...', 
+					'Add selected songs to sandbox...',
 					function () {
 						sandboxService.onAddToSandbox($scope.searchGridOptions.gridApi.selection.getSelectedRows());
 					},
@@ -93,7 +93,7 @@ angular
 
 			$scope.sandboxMenuOptions = [
 				[
-					'Add selected songs...', 
+					'Add selected songs to tag...', 
 					function () {
 						selectedSongsService.onAddSelectedSongs($scope.sandboxGridOptions.gridApi.selection.getSelectedRows());
 					},

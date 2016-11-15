@@ -1,5 +1,5 @@
 angular
-	.module('sandboxModule')
+	.module('recommendationsModule', ['sharedUtilModule'])
 	.controller('recommendationsDialogController', ['$scope', '$mdDialog', 'sandboxSongs', 'audioFeaturesService', 'recommendationService', 'sandboxService',
 		function recommendationsDialogController($scope, $mdDialog, sandboxSongs, audioFeaturesService, recommendationService, sandboxService) {
 	
