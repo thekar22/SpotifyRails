@@ -1,1 +1,1 @@
-NonStupidDigestAssets.whitelist += ['ui-grid.eot','ui-grid.svg','ui-grid.ttf','ui-grid.woff’]
+NonStupidDigestAssets.whitelist += ['ui-grid.eot','ui-grid.svg','ui-grid.ttf','ui-grid.woff']
