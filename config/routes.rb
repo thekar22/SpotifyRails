@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   get '/song', to: 'home#getSong'
 
 
+  match '/recommendations' => 'home#getRecommendations', via: [:post]
+
+
   match 'getAudioFeatures' => 'home#getAudioFeatures', via: [:post]
   root 'home#index'
   

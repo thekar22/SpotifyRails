@@ -150,6 +150,11 @@ class HomeController < ApplicationController
 		render json: db_playlists
 	end
 
+	def getRecommendations
+
+		render json: true
+	end
+
 	# spotify user created from oauth will be saved in current devise session; will be removed when devise next clears session
 	def set_spotify_user
 		if session["spotify_data"]

@@ -1,7 +1,7 @@
 angular
 	.module('customTagModule')
-	.controller('recommendationsDialogController', ['$scope', '$mdDialog', 'customSongs', 'audioFeaturesService',
-		function recommendationsDialogController($scope, $mdDialog, customSongs, audioFeaturesService) {
+	.controller('recommendationsDialogController', ['$scope', '$mdDialog', 'customSongs', 'audioFeaturesService', 'recommendationService',
+		function recommendationsDialogController($scope, $mdDialog, customSongs, audioFeaturesService, recommendationService) {
 		$scope.customSongs = customSongs;
 
 		var ids = customSongs.map(function(song) {
@@ -43,6 +43,29 @@ angular
 		}
 
 		$scope.generate = function() {
-			$scope.closeDialog();
+			var seedSongs = randomize($scope.customSongs, 5);			
+
+			recommendationService.getRecommendations(seedSongs, $scope.nums).then(function(response) {
+				console.log(response);
+				$scope.closeDialog();
+			})			
+		}
+
+
+		function randomize(list, n) {
+			var size = list.length;
+			var randomIndex;
+			for (var i = 0; i < size; i++) {
+				randomIndex = Math.floor(Math.random()*size);
+				swap(list, i, randomIndex);
+			}
+			return list.slice(0,5);
+		
+		}
+		
+		function swap(arr, i, j) {
+			var temp = arr[i];
+			arr[i] = arr[j];
+			arr[j] = temp;
 		}
 }]);
