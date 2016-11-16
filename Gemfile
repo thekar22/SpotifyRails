@@ -34,6 +34,7 @@ gem 'angular-rails-templates'
 gem 'ng-rails-csrf'
 gem "better_errors"
 gem "pry"
+gem "non-stupid-digest-assets"
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -59,5 +60,4 @@ end
 
 group :production do
   gem 'rails_12factor'
-  gem "non-stupid-digest-assets"
 end

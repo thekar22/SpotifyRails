@@ -25,7 +25,10 @@ module PlaylistMerge
     config.active_record.raise_in_transactional_callbacks = true
     RSpotify::authenticate(ENV["SPOTIFY_APP_ID"], ENV["SPOTIFY_APP_SECRET"])
     config.angular_templates.ignore_prefix  = '/' # Default is '/templates'
-    config.assets.paths << Rails.root.join('vendor', 'assets', 'components')
+    config.assets.paths << Rails.root.join('vendor', 'assets', 'bower_components')
+
+    config.assets.paths << Rails.root.join('public', 'assets', 'angular-ui-grid')
+    config.assets.paths << Rails.root.join('app', 'assets', 'angular-ui-grid')
     
     config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')  
     config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
