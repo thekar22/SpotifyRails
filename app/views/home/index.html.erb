@@ -34,7 +34,7 @@
 					<md-button class="md-raised leftButton" ng-click="openLeftMenu()">
 						&#6624; 
 					</md-button>
-					<md-button class="md-raised rightButton" ng-click="openRightMenu()">
+					<md-button class="md-raised rightButton" ng-click="toggleSplit()">
 						&#9834;
 						<span ng-cloak ng-if="sandboxSongs.length > 0" id="sandboxCount">
 							{{sandboxSongs.length}}
@@ -45,9 +45,9 @@
 				</md-content>
 			</div>
 
-			<div ng-if="navView=='tag-view'" class="splitToggleButton" ng-click="toggleSplit()">
+		<!-- 	<div ng-if="navView=='tag-view'" class="splitToggleButton" ng-click="toggleSplit()">
 				&#9707;
-			</div>
+			</div> -->
 
 			<div class="contentContainer">
 				<div class="splitContainer" split-screen="splitScreen" after-full-screen-animation="afterFullScreenAnimation()" after-split-animation="afterSplitAnimation()">

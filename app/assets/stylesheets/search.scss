@@ -5,6 +5,7 @@ div.searchSong
 {
 	position: relative;
 	height: 80px;
+	padding: 20px;
 }
 
 div.searchSong > form
@@ -33,18 +34,27 @@ div.searchSong > form
 	position: relative;	
 }
 
+.secondaryContainer .ui-grid {
+	border-bottom: none;
+}
+
 div.songSearchResults
 {
 	height: 40%;
 	position: relative;
-	overflow: scroll;
-	border-bottom: 2px solid grey; 
+	margin-top: 15px;
 }
 
-.songSearchResults > div {
-	height:210px;
-}
+// .songSearchResults > div {
+// 	// height:210px;
+// 	height: 
+// }
 
 .contentContainer .songSearchResults div.ui-grid-viewport {
-	height:210px;
+	height:165px;
+}
+
+#songSearch {
+	height: 56px;
+	padding: 10px;
 }

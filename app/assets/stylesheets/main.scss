@@ -2,6 +2,10 @@
 html
 {
     height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: none;
 }
 
 head
@@ -12,6 +16,7 @@ head
 body
 {
 	height: 100%;
+	width: 100%;
 	margin:0;
 	padding:0;
 	overflow:hidden;	
@@ -21,6 +26,7 @@ body
 {
 	position:relative;
 	height: 100%;
+	width: 100%;
 	margin: 0;
 	padding: 0;
 }
@@ -29,6 +35,7 @@ body
 {
 	position: relative;
 	height: 100%;
+	width: 100%;
 	margin: 0;
 	padding: 0;
 }
@@ -77,11 +84,79 @@ body
 .secondaryContainer
 {
 	height: 100%;
-	width: 50%;
+	width: 37%;
 	position: relative;	
 	float: left;
 	
 	margin: 0;
 	padding: 0;
-	border-left: 1px solid grey;
+	border-left: 1px solid rgba(0,0,0,0.5);
+}
+
+
+//
+
+// .tagView {
+// 		height: 2000px !important;
+// 		.tagResultsContainer {
+// 			height: 2000px !important;
+// 			.tagResults{
+// 				height: 2000px !important;
+// 			}
+// 		}
+// 	}
+
+#tag-selector .tagCloudTagInput {
+	position:relative;
+	margin-top: 20px;
+	height: 55px;
+	min-height: 55px;
+
+
+	.host {
+		margin: 0 auto;
+		width: 75%;
+
+		.tags {
+			&::-webkit-scrollbar {
+				display: none;
+			}
+		}
+	}
+
+
+}
+
+
+#song-container{
+	margin: 5px;
+	text-align:center;
+
+	h1, h2 {
+		margin-top: 5px;
+	}
+
+	h2 {
+		font-weight: 300;
+	}
+
+	.host {
+		margin: 0 auto;
+		width: 75%;
+
+		.tags {
+			&::-webkit-scrollbar {
+				display: none;
+			}
+		}
+	}
+}
+
+.ngViewport.ng-scope {
+    height: auto !important;
+    overflow-y: hidden;
+}
+
+.ngTopPanel.ng-scope, .ngHeaderContainer {
+    width: auto !important;
 }

@@ -1,32 +1,36 @@
-<img class=songArt src={{song.album.images[1].url}}> </img>
-<h1> {{song.name}} </h1>
-<h2> {{"by: " + song.artists[0].name}} </h2>
 
-<div class="singleSong">		
-	<tags-input
-		ng-model="songTags" 
-		key-property="id"
-		text="text"
-		placeholder="-"
-		on-tag-added="onTagAdded($tag)"
-		on-tag-adding="onTagAdding($tag)"
-		on-tag-removed="onTagRemoved($tag)"
-		on-tag-removing="onTagRemoving($tag)"
-		on-tag-clicked="onTagClicked($tag)"
-		min-length="1"
-		add-on-blur="false"
-		>
-		<auto-complete source="filterTags($query)"
-			min-length="0"
-			load-on-focus="true"
-			max-results-to-show="64"
-		>
-		</auto-complete>
-	</tags-input>
+<div id="song-container">
+	<img class=songArt src={{song.album.images[1].url}}> </img>
+	<h1> {{song.name}} </h1>
+	<h2> {{"by: " + song.artists[0].name}} </h2>
+
+	<div class="singleSong">		
+		<tags-input
+			ng-model="songTags" 
+			key-property="id"
+			text="text"
+			placeholder=""
+			on-tag-added="onTagAdded($tag)"
+			on-tag-adding="onTagAdding($tag)"
+			on-tag-removed="onTagRemoved($tag)"
+			on-tag-removing="onTagRemoving($tag)"
+			on-tag-clicked="onTagClicked($tag)"
+			replace-spaces-with-dashes="false"
+			min-length="1"
+			add-on-blur="false"
+			>
+			<auto-complete source="filterTags($query)"
+				min-length="0"
+				load-on-focus="true"
+				max-results-to-show="3"
+			>
+			</auto-complete>
+		</tags-input>
+	</div>
+
+	<br>
+
+	<a href="/#/" class="backButton">
+		Return to Tags
+	</a>
 </div>
-
-<br>
-
-<a href="/#/" class="backButton">
-	Return to Tags
-</a>

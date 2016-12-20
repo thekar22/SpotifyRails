@@ -1,10 +1,10 @@
 <div class="searchSong">	
-	<form ng-submit="searchQuery(query.text)">
+	<form autocomplete="off" ng-submit="searchQuery(query.text)">
 		<label>
 			<input id="songSearch" type="text" placeholder="&#9833; Search" name="input" ng-model="query.text">
 		</label>		
 	</form>
-	<div class="searchResultsStatus" ng-if="showSearchResults == true"> showing results for "{{searchedQuery}}" </div>
+	
 </div>
 
 <div ng-if="showSearchResults == true" context-menu="searchMenuOptions" class="songSearchResults">

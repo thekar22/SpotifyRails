@@ -1,21 +1,24 @@
-<tags-input context-menu="tagOptions" class="tagCloudTagInput" 
-	ng-model="tags"
-	key-property="id"
-	placeholder="{{tags.length ? '' : '&#9751; Enter Tag'}}"
-	add-from-autocomplete-only="true"
-	on-tag-clicked="onTagClicked($tag)"
-	on-tag-added="onTagAdded($tag)"
-	on-tag-removed="onTagRemoved($tag)"
-	template="my-custom-template"
-	min-length="1"
-	>
-	<auto-complete source="filterTags($query)"
-		min-length="0"
-		load-on-focus="true"
-		max-results-to-show="64"
-	>
-	</auto-complete>
-</tags-input>
+<div id="tag-selector">
+	<tags-input context-menu="tagOptions" class="tagCloudTagInput" 
+		ng-model="tags"
+		key-property="id"
+		placeholder="{{tags.length ? '' : '&#9751; Enter Tag'}}"
+		add-from-autocomplete-only="true"
+		on-tag-clicked="onTagClicked($tag)"
+		on-tag-added="onTagAdded($tag)"
+		on-tag-removed="onTagRemoved($tag)"
+		replace-spaces-with-dashes="false"
+		template="my-custom-template"
+		min-length="1"
+		>
+		<auto-complete source="filterTags($query)"
+			min-length="0"
+			load-on-focus="true"
+			max-results-to-show="64"
+		>
+		</auto-complete>
+	</tags-input>
+</div>
 
 <div class="tagFilterSection">	 
 	<label>

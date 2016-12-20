@@ -50,6 +50,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
+	overflow: none !important;
 }
 
 .contentContainer .tagResultsContainer div.ui-grid-viewport
@@ -59,12 +60,18 @@
 
 .grid-align
 {
-	text-align: center;
+	// text-align: center;
 }
 
 div.ui-grid-cell
 {
 	position: relative;
+	padding: 9px;
+}
+
+.gridPlayButton 
+{
+	margin-left: 2px;
 }
 
 .songCell
@@ -75,8 +82,8 @@ div.ui-grid-cell
 
 .songArt
 {
-	height: 300px;
-	width: 300px;
+	height: 250px;
+	width: 250px;
 	border: solid black;
 	margin: 5px;
 }
@@ -97,7 +104,7 @@ div.ui-grid-cell
 }
 .splitContainer.ng-split-add.ng-split-add-active {
 	opacity: 1;
-	width: 50%;
+	width: 63%;
 }
 .splitContainer.ng-split-remove {  
 	opacity: 1; 	
@@ -108,7 +115,7 @@ div.ui-grid-cell
 	width: 100%;
 }
 .splitContainer.ng-split {
-	width: 50%;	
+	width: 63%;	
 }
 
 .splitToggleButton {

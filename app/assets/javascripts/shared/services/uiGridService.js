@@ -39,6 +39,8 @@ angular.module('sharedUtilModule')
 			{ name: 'song_id', visible: false}
 		];
 
+		gridOptions.virtualizationThreshold = 200;
+
 		gridOptions.onRegisterApi = function( gridApi ) {
 			gridOptions.gridApi = gridApi;
 			gridOptions.mySelectedRows=gridOptions.gridApi.selection.getSelectedRows();

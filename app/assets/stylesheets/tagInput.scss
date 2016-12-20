@@ -3,9 +3,14 @@ $tag-text-height: 25px;
 
 tags-input .tags .tag-list .tag-item
 {
-	height: 50px;	
+	height: 35px;	
 	margin: 2px;
-	padding: 0 0 5px;
+	// padding: 0 0 5px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	margin-left: 8px;
+
+	// margin: 10px 10px 0px;
 
 	background: #ACACE4;
 	border: 0;
@@ -21,7 +26,10 @@ tags-input .tags .tag-list .tag-item
 
 html tags-input .tags .input
 {
-	height: 50px;
+	height: 31px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	margin-left: 8px;
 	font: $tag-text-height "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -45,5 +53,9 @@ tags-input.tagCloudTagInput
 	{
 		margin-top: 0;
 	}
+}
+
+.tag-template {
+	margin: 1px;
 }
 

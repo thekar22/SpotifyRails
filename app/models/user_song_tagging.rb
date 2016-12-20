@@ -23,7 +23,7 @@ class UserSongTagging < ActiveRecord::Base
 			where("user_id = ? and playlist_id = ?", userid, tagid)
 		else
 			raise arguments_error
-		end  		
+		end
 	end
 
 	def self.add_tag_to_song(userid, spotify_playlist, songid)

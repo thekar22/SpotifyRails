@@ -8,7 +8,8 @@ div.sandboxSongsContainer .sandboxSongsHeader
 	height: 50px;
 	position: relative;
 	width: 100%;
-	border-top: 2px solid grey;
+	border-top: 1px solid rbga(0,0,0,0.5);
+	margin-bottom: 3px;
 }
 
 div.sandboxSongsContainer .sandboxSongsHeader label
@@ -21,12 +22,11 @@ div.sandboxSongsContainer .sandboxSongsHeader label
 div.sandboxSongs
 {	
 	position: relative;
-	overflow: scroll;
 }
 
 .sandboxSongsContainer div.grid.grid-align
 {
-	overflow: scroll;
+	// overflow: scroll;
 }
 
 .contentContainer .sandboxSongs div.ui-grid-viewport 
@@ -36,7 +36,8 @@ div.sandboxSongs
 
 .contentContainer .sandboxSongsContainer > .sandboxSongsHeader > label
 {
-	color: black;
+	color: rgb(132, 132, 188);
+
 }
 
 .sandboxSymbol {
