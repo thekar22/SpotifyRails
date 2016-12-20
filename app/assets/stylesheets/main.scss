@@ -5,7 +5,7 @@ html
     width: 100%;
     margin: 0;
     padding: 0;
-    overflow: none;
+    overflow: hidden;
 }
 
 head
@@ -94,17 +94,9 @@ body
 }
 
 
-//
-
-// .tagView {
-// 		height: 2000px !important;
-// 		.tagResultsContainer {
-// 			height: 2000px !important;
-// 			.tagResults{
-// 				height: 2000px !important;
-// 			}
-// 		}
-// 	}
+html tags-input .tags {
+	overflow: hidden !important;
+}
 
 #tag-selector .tagCloudTagInput {
 	position:relative;

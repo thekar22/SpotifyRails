@@ -94,7 +94,7 @@ class UserSongTagging < ActiveRecord::Base
 		user_playlists.each do |playlist|
 			if playlist.stale == true
 
-				stale_playlists_ids.push playlist.playlist_id				
+				stale_playlists_ids.push playlist.playlist_id
 				spotify_tracks = GetPlaylistSongsFromSpotify.build.call(userid, playlist.playlist_id).uniq { |t| t.id }
 				
 				spotify_tracks.each do |track|
